@@ -1,4 +1,8 @@
-package com.final_project.entities;
+package com.final_project.Entities;
+
+
+
+@Entity
 
 public class Theater {
         private int id;

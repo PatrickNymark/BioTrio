@@ -18,7 +18,7 @@ public class MoviePlayController {
 
     @GetMapping("/movie-plays/{movieId}")
     public String getMoviePlays(@PathVariable (name = "movieId") int movieId, Model model) {
-        List<MoviePlay> moviePlayList = moviePlayRepository.getMoviePlayByMovieId(movieId);
+        List<MoviePlay> moviePlayList = moviePlayRepository.getMoviePlaysByMovieId(movieId);
 
         model.addAttribute("moviePlays", moviePlayList);
 

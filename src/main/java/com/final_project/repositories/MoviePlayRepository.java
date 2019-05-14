@@ -16,7 +16,7 @@ public class MoviePlayRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public List<MoviePlay> getMoviePlayByMovieId(int movieId) {
+    public List<MoviePlay> getMoviePlaysByMovieId(int movieId) {
         String sqlQuery = "SELECT * FROM movie_plays WHERE movie_id =" + movieId;
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
@@ -38,4 +38,25 @@ public class MoviePlayRepository {
 
         return  moviePlayList;
     }
+
+    public MoviePlay getMoviePlayById(int id) {
+        String sqlQuery = "SELECT * FROM movie_plays WHERE play_id =" + id;
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+
+        MoviePlay moviePlay = new MoviePlay();
+
+        while(rs.next()) {
+            moviePlay.setId(rs.getInt("play_id"));
+            moviePlay.setMovieId(rs.getInt("movie_id"));
+            moviePlay.setTheaterId(rs.getInt("theater_id"));
+
+            Timestamp ts = rs.getTimestamp("play_start");
+            moviePlay.setPlayStart(ts.toLocalDateTime());
+        }
+
+        return moviePlay;
+
+    }
+
 }

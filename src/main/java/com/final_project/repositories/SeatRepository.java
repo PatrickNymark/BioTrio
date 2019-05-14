@@ -23,8 +23,8 @@ public class SeatRepository {
         MoviePlay moviePlay = moviePlayRepository.getMoviePlayById(id);
         List<Booking> bookings = bookingRepository.getBookingsByMoviePlayId(moviePlay.getId());
 
-        int rows = 14;
-        int numbers = 21;
+        int rows = 2;
+        int numbers = 5;
 
         List<Seat> theaterSeats = new ArrayList<>();
 

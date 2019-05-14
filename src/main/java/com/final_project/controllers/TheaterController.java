@@ -14,9 +14,9 @@ public class TheaterController {
     @Autowired
     TheaterRepository theaterRepository;
 
-    @GetMapping ("/all-theater")
+    @GetMapping ("/all-theaters")
     public String getAllTheaters(){
-        return "all-theater";
+        return "all-theaters";
     }
     @GetMapping ("/add-theater")
     public String getAddTheater() {

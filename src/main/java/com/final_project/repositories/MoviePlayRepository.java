@@ -44,6 +44,19 @@ public class MoviePlayRepository {
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
 
+        MoviePlay moviePlay = generateMoviePlay(rs);
+
+        return moviePlay;
+
+    }
+
+    public int addMoviePlay(MoviePlay moviePlay) {
+        String sqlQuery = "INSERT INTO movie_plays(movie_id, theater_id, play_start) VALUES(?, ?, ?)";
+
+        return jdbcTemplate.update(sqlQuery, moviePlay.getMovieId(), moviePlay.getTheaterId(), moviePlay.getPlayStart());
+    }
+
+    private MoviePlay generateMoviePlay(SqlRowSet rs) {
         MoviePlay moviePlay = new MoviePlay();
 
         while(rs.next()) {
@@ -56,7 +69,5 @@ public class MoviePlayRepository {
         }
 
         return moviePlay;
-
     }
-
 }

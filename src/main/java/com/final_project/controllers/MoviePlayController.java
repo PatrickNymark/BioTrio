@@ -7,7 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -16,12 +21,26 @@ public class MoviePlayController {
     @Autowired
     MoviePlayRepository moviePlayRepository;
 
-    @GetMapping("/movie-plays/{movieId}")
-    public String getMoviePlays(@PathVariable (name = "movieId") int movieId, Model model) {
-        List<MoviePlay> moviePlayList = moviePlayRepository.getMoviePlaysByMovieId(movieId);
+    @GetMapping ("/add-movie-play")
+    public String getAddMoviePlay() {
+        return "add-movie-play";
+    }
 
-        model.addAttribute("moviePlays", moviePlayList);
+    @PostMapping ("/add-movie-play")
+    public String addMoviePlay(
+            @RequestParam ("theaterId") int theaterId,
+            @RequestParam ("movieId") int movieId,
+            @RequestParam ("playStart") String playStart) {
 
-        return "movie-plays";
+        MoviePlay moviePlay = new MoviePlay();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        moviePlay.setPlayStart(LocalDateTime.parse(playStart, formatter));
+        moviePlay.setTheaterId(theaterId);
+        moviePlay.setMovieId(movieId);
+
+        moviePlayRepository.addMoviePlay(moviePlay);
+        return "redirect:/";
     }
 }

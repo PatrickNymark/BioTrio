@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Add new movie play</h1>
+        <p class="lead">
+
+        <form th:action="@{/add-movie-play}" method="post">
+            <div class="form-group">
+                <label for="movieId">Movie Id</label>
+                <input type="number" class="form-control" name="movieId" id="movieId" placeholder="Enter movie id">
+            </div>
+            <div class="form-group">
+                <label for="theaterId">Theater Id</label>
+                <input type="number" class="form-control" name="theaterId" id="theaterId" placeholder="Enter theater id">
+            </div>
+            <div class="form-group">
+                <label for="playStart">Play Start</label>
+                <input type="text" class="form-control" name="playStart" id="playStart" placeholder="Enter start time: 22/01/2019 20:00">
+            </div>
+            <button type="submit" class="btn btn-primary">Add movie</button>
+            <button type="reset" class="btn btn-primary">Cancel</button>
+        </form>
+
+
+
+        </p>
+    </div>
+
+</body>
+</html>

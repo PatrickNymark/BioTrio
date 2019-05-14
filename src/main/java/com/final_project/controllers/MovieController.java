@@ -1,6 +1,8 @@
 package com.final_project.controllers;
 
 import com.final_project.entities.Movie;
+import com.final_project.entities.MoviePlay;
+import com.final_project.repositories.MoviePlayRepository;
 import com.final_project.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,9 @@ public class MovieController {
 
     @Autowired
     MovieRepository movieRepository;
+
+    @Autowired
+    MoviePlayRepository moviePlayRepository;
 
     @GetMapping ("/all-movies")
     public String getAllMovie(Model model){
@@ -33,8 +38,10 @@ public class MovieController {
     @GetMapping("/movie/{id}")
     public String getMovieById(@PathVariable(name = "id") int id, Model model) {
         Movie movie = movieRepository.getMovieById(id);
+        List<MoviePlay> moviePlayList = moviePlayRepository.getMoviePlaysByMovieId(id);
 
         model.addAttribute("movie", movie);
+        model.addAttribute("plays", moviePlayList);
 
         return "movie-page";
     }

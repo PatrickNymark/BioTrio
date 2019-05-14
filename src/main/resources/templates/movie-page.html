@@ -8,6 +8,29 @@
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<h1 class="text-center mt-5 mb-5">Movie Page</h1>
+    <h1 class="text-center mt-5 mb-5">Movie Page</h1>
+    <div class="container">
+        <table class="table table-hover">
+            <thead>
+            <tr th:each="movie:${movie}">
+                <th th:text="${movie.title}"></th>
+                <th th:text="${movie.genre}"></th>
+                <th>#</th>
+            </tr>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th>#</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="play:${plays}">
+                <th th:text="${play.getPlayStart().toLocalDate()}"></th>
+                <th th:text="${play.getPlayStart().getHour() + ':' + play.playStart.getMinute() + play.getPlayStart().getSecond()}"></th>
+                <th><a th:href="@{'/booking/choose-seat/' + ${play.getId()}}">Buy Tickets</a></th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

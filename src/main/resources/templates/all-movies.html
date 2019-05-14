@@ -16,6 +16,7 @@
         <th scope="col">Release Year</th>
         <th scope="col">Age Limit</th>
         <th scope="col">Rating</th>
+        <th scope="col">#</th>
     </tr>
     </thead>
     <tbody>
@@ -25,6 +26,7 @@
         <td th:text="${movie.releaseYear}"></td>
         <td th:text="${movie.ageLimit}"></td>
         <td th:text="${movie.rating}"></td>
+        <td><a th:href="@{'/movie/' + ${movie.id}}">See Date & Time</a></td>
     </tr>
     </tbody>
 </table>

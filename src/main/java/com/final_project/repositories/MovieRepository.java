@@ -20,12 +20,22 @@ public class MovieRepository {
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
 
-        List<Movie> movieList = generateMovie(rs);
+        List<Movie> movieList = generateMovies(rs);
 
         return movieList;
     }
 
-    private List<Movie> generateMovie(SqlRowSet rs) {
+    public Movie getMovieById(int id) {
+        String sqlQuery = "SELECT * FROM movies WHERE movie_id=" + id;
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+
+        Movie movie = generateMovie(rs);
+
+        return movie;
+    }
+
+    private List<Movie> generateMovies(SqlRowSet rs) {
         List<Movie> movieList = new ArrayList<>();
 
         while(rs.next()) {
@@ -41,5 +51,19 @@ public class MovieRepository {
         }
 
         return movieList;
+    }
+
+    private Movie generateMovie(SqlRowSet rs) {
+        Movie movie = new Movie();
+
+        while(rs.next()) {
+            movie.setId(rs.getInt("movie_id"));
+            movie.setTitle(rs.getString("title"));
+            movie.setGenre(rs.getString("genre"));
+            movie.setRating(rs.getInt("rating"));
+            movie.setAgeLimit(rs.getInt("age_limit"));
+        }
+
+        return movie;
     }
 }

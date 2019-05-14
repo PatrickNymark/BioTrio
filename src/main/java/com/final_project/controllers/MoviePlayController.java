@@ -5,10 +5,7 @@ import com.final_project.repositories.MoviePlayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -20,6 +17,15 @@ public class MoviePlayController {
 
     @Autowired
     MoviePlayRepository moviePlayRepository;
+
+    @GetMapping ("/all-movie-plays")
+    public String  getAllMoviePlays(Model model) {
+        List<MoviePlay> moviePlayList = moviePlayRepository.getMoviePlays();
+
+        model.addAttribute("plays", moviePlayList);
+
+        return "all-movie-plays";
+    }
 
     @GetMapping ("/add-movie-play")
     public String getAddMoviePlay() {
@@ -41,6 +47,17 @@ public class MoviePlayController {
         moviePlay.setMovieId(movieId);
 
         moviePlayRepository.addMoviePlay(moviePlay);
-        return "redirect:/";
+        return "redirect:/all-movie-plays";
+    }
+
+    @GetMapping ("/delete-movie-play")
+    public String getDeleteMoviePlay() {
+        return "delete-movie-play";
+    }
+
+    @PostMapping ("/delete-movie-play")
+    public String deleteMoviePlay(@RequestParam(name ="id") int id) {
+        moviePlayRepository.deleteMoviePlay(id);
+        return "redirect:/all-movie-plays";
     }
 }

@@ -9,7 +9,7 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 
-    <h1>Movie Plays</h1>
+    <h1 class="text-center">Movie Plays</h1>
 
     <div th:each="play:${moviePlays}">
         <p th:text="${play.getId()}"></p>

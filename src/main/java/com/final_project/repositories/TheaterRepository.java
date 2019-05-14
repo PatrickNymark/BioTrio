@@ -12,8 +12,9 @@ public class TheaterRepository {
     JdbcTemplate jdbcTemplate;
 
     public int addTheater(Theater theater) {
+        String sqlQuery = "INSERT INTO theaters(title, seats_pr_row, total_rows) VALUES (?,?,?)";
 
-        return jdbcTemplate.update("INSERT INTO theaters(title, seats_pr_row, total_rows) VALUES (?,?,?)", theater.getTheaterName(), theater.getSeatPerRow(), theater.getRowNumber());
+        return jdbcTemplate.update(sqlQuery, theater.getTheaterName(), theater.getSeatsPerRow(), theater.getNumberOfRows());
     }
 
 }

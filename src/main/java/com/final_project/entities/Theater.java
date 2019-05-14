@@ -1,22 +1,27 @@
 package com.final_project.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-
+@Entity
 public class Theater {
-        private int id;
-        private String theaterName;
-        private int seatPerRow;
-        private int rowNumber;
 
-        public Theater() {
+    @Id @GeneratedValue
+    private int id;
+    private String theaterName;
+    private int seatsPerRow;
+    private int numberOfRows;
 
-        }
+    public Theater() {
 
-    public Theater(int id, String theaterName, int seatPerRow, int rowNumber) {
+    }
+
+    public Theater(int id, String theaterName, int seatsPerRow, int numberOfRows) {
         this.id=id;
         this.theaterName=theaterName;
-        this.seatPerRow=seatPerRow;
-        this.rowNumber=rowNumber;
+        this.seatsPerRow=seatsPerRow;
+        this.numberOfRows=numberOfRows;
     }
 
     public int getId() {
@@ -24,7 +29,7 @@ public class Theater {
     }
 
     public void setId(int id) {
-        this.id=id;
+        this.id = id;
     }
 
     public String getTheaterName() {
@@ -32,22 +37,22 @@ public class Theater {
     }
 
     public void setTheaterName(String theaterName) {
-        this.theaterName=theaterName;
+        this.theaterName = theaterName;
     }
 
-    public int getSeatPerRow() {
-        return seatPerRow;
+    public int getSeatsPerRow() {
+        return seatsPerRow;
     }
 
-    public void setSeatPerRow(int seatPerRow) {
-        this.seatPerRow=seatPerRow;
+    public void setSeatsPerRow(int seatsPerRow) {
+        this.seatsPerRow = seatsPerRow;
     }
 
-    public int getRowNumber() {
-        return rowNumber;
+    public int getNumberOfRows() {
+        return numberOfRows;
     }
 
-    public void setRowNumber(int rowNumber) {
-        this.rowNumber=rowNumber;
+    public void setNumberOfRows(int numberOfRows) {
+        this.numberOfRows = numberOfRows;
     }
 }

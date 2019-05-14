@@ -25,15 +25,15 @@ public class TheaterController {
 
     @PostMapping("/add-theater")
     public String addTheater(@RequestParam("theater") String theater,
-                             @RequestParam("numberOfRows") int numbeOfRows,
-                             @RequestParam("seatsPerRow")int seatsPerRow
+                             @RequestParam("numberOfRows") int numberOfRows,
+                             @RequestParam("seatsPerRow")int seatsPerRow) {
 
-    ) {
         Theater newTheater = new Theater();
+
         newTheater.setTheaterName(theater);
-        newTheater.setRowNumber(numbeOfRows);
-        newTheater.setSeatPerRow(seatsPerRow);
-        System.out.println();
+        newTheater.setNumberOfRows(numberOfRows);
+        newTheater.setSeatsPerRow(seatsPerRow);
+
         theaterRepository.addTheater(newTheater);
         return "redirect:/all-theater";
     }

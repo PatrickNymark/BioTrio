@@ -3,16 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-<h1>Choose Seat</h1>
-<div id="seat" th:each="seat:${seats}">
-    <p id="seatNr" th:style="'display:' + 'inline-block'" th:text="${seat.getNr()}"></p>
-    <p id="seatRow" th:style="'display:' + 'inline-block'" th:text="${seat.getRow()}"></p>
-</div>
-<form action="">
-    <input  type="text" value="" placeholder="nr">
-    <input  type="text" value="" placeholder="row">
-</form>
+<div th:replace="fragments/header :: header"></div>
+
+    <h1 class="text-center mt-5 mb-5">Choose Seat</h1>
+
 </body>
 </html>

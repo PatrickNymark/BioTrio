@@ -56,6 +56,11 @@ public class TheaterRepository {
 
         return theater;
     }
+
+    public void delete(int id) {
+        jdbcTemplate.update("DELETE theaters WHERE theater_id = " + id );
+    }
+    
 }
 
 

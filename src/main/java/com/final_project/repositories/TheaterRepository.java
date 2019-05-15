@@ -41,6 +41,22 @@ public class TheaterRepository {
         return theaterList;
     }
 
+    public Theater findTheaterById(int id){
+        String sqlQuery = "SELECT * FROM theaters WHERE theater_id = " + id;
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+
+        Theater theater = new Theater();
+
+        while (rs.next()) {
+            theater.setId(rs.getInt("theater_id"));
+            theater.setTheaterName(rs.getString("title"));
+            theater.setNumberOfRows(rs.getInt("total_rows"));
+            theater.setSeatsPerRow(rs.getInt("seats_pr_row"));
+        }
+
+        return theater;
+    }
 }
 
 

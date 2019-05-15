@@ -38,10 +38,8 @@ public class BookingController {
     public String getBookingChooseSeat(@PathVariable(name = "moviePlayId") int moviePlayId, Model model) {
         List<Seat> seatsList = seatRepository.getSeatsByMoviePlay(moviePlayId);
         MoviePlay moviePlay = moviePlayRepository.getMoviePlayById(moviePlayId);
-        Theater theater = theaterRepository.getTheaterById(moviePlay.getTheaterId());
 
         model.addAttribute("seats", seatsList);
-        model.addAttribute("theater", theater);
         model.addAttribute("moviePlay", moviePlay);
         return "choose-seat";
     }

@@ -3,11 +3,7 @@ package com.final_project.repositories;
 import com.final_project.entities.Theater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-<<<<<<< HEAD
-=======
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.jdbc.support.xml.Jdbc4SqlXmlHandler;
->>>>>>> Theater
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -20,7 +16,7 @@ public class TheaterRepository {
     JdbcTemplate jdbcTemplate;
 
     public int addTheater(Theater theater) {
-g        String sqlQuery = "INSERT INTO theaters(title, seats_pr_row, total_rows) VALUES (?,?,?)";
+       String sqlQuery = "INSERT INTO theaters(title, seats_pr_row, total_rows) VALUES (?,?,?)";
 
         return jdbcTemplate.update(sqlQuery, theater.getTheaterName(), theater.getSeatsPerRow(), theater.getNumberOfRows());
     }

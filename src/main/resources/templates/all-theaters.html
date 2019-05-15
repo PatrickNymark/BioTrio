@@ -21,28 +21,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <th scope="row">1</th>
-        <td style="color: blue">Blue</td>
-        <td>14</td>
-        <td>20</td>
-        <td>3D and hifi sound</td>
+    <tr th:each="theater : ${theaters}">
+        <td th:text="${theater.getId()}"></td>
+        <td th:text="${theater.getTheaterName()}"></td>
+        <td th:text="${theater.getNumberOfRows()}"></td>
+        <td th:text="${theater.getSeatsPerRow()}"></td>
     </tr>
-    <tr>
-        <th scope="row">2</th>
-        <td style="color: red">Red</td>
-        <td>8</td>
-        <td>12</td>
-        <td>3D viewer and ATMOS sound system</td>
 
-    </tr>
-    <tr>
-        <th scope="row">3</th>
-        <td style="color: orange">Orange</td>
-        <td>8</td>
-        <td>6</td>
-        <td>Dolby sound system</td>
-    </tr>
     </tbody>
 </table>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"

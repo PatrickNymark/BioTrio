@@ -7,6 +7,8 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +59,21 @@ public class MoviePlayRepository {
         String sqlQuery = "DELETE FROM movie_plays WHERE play_id=" + id;
 
         return jdbcTemplate.update(sqlQuery);
+    }
+
+    public int editMoviePlay(MoviePlay moviePlay) {
+        System.out.println(moviePlay.getId());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+
+
+
+        return jdbcTemplate.update("UPDATE movie_plays SET " +
+                "movie_id=" + moviePlay.getId() + ", " +
+                "theater_id=" + moviePlay.getTheaterId() + ", " +
+                "play_start='" + moviePlay.getPlayStart().format(formatter) + "'" +
+                " WHERE play_id=" + moviePlay.getId());
     }
 
     private MoviePlay generateMoviePlay(SqlRowSet rs) {

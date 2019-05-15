@@ -59,4 +59,33 @@ public class MoviePlayController {
         moviePlayRepository.deleteMoviePlay(id);
         return "redirect:/all-movie-plays";
     }
+
+    @GetMapping ("/edit-movie-play/{id}")
+    public String getEditMoviePlay(@PathVariable (name = "id") int id, Model model) {
+        MoviePlay playToEdit = moviePlayRepository.getMoviePlayById(id);
+
+        model.addAttribute("play",playToEdit);
+
+        return "edit-movie-play";
+    }
+
+    @PostMapping ("/edit-movie-play")
+    public String editMoviePlay(
+            @RequestParam("movieId") int movieId,
+            @RequestParam("theaterId") int theaterId,
+            @RequestParam("playStart") String playStart,
+            @RequestParam("playId") int playId) {
+
+        MoviePlay moviePlay = new MoviePlay();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        moviePlay.setPlayStart(LocalDateTime.parse(playStart, formatter));
+        moviePlay.setTheaterId(theaterId);
+        moviePlay.setMovieId(movieId);
+        moviePlay.setId(playId);
+
+        moviePlayRepository.editMoviePlay(moviePlay);
+        return "redirect:/all-movie-plays";
+    }
 }

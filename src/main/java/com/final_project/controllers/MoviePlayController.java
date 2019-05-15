@@ -49,11 +49,6 @@ public class MoviePlayController {
         return "redirect:/all-movie-plays";
     }
 
-    @GetMapping ("/delete-movie-play")
-    public String getDeleteMoviePlay() {
-        return "delete-movie-play";
-    }
-
     @PostMapping ("/delete-movie-play")
     public String deleteMoviePlay(@RequestParam(name ="id") int id) {
         moviePlayRepository.deleteMoviePlay(id);

@@ -4,7 +4,6 @@ import com.final_project.entities.Theater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.jdbc.support.xml.Jdbc4SqlXmlHandler;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -41,6 +40,22 @@ public class TheaterRepository {
         return theaterList;
     }
 
+    public Theater findTheaterById(int id){
+        String sqlQuery = "SELECT * FROM theaters WHERE theater_id = " + id;
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+
+        Theater theater = new Theater();
+
+        while (rs.next()) {
+            theater.setId(rs.getInt("theater_id"));
+            theater.setTheaterName(rs.getString("title"));
+            theater.setNumberOfRows(rs.getInt("total_rows"));
+            theater.setSeatsPerRow(rs.getInt("seats_pr_row"));
+        }
+
+        return theater;
+    }
 }
 
 

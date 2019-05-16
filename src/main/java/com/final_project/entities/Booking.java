@@ -3,23 +3,22 @@ package com.final_project.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.List;
 
-@Entity
 public class Booking {
-
-    @Id @GeneratedValue
     private int id;
     private int moviePlayId;
-    private int seatRow;
-    private int seatNr;
+    private List<Ticket> tickets;
+    private int totalPrice;
 
     public Booking() {
     }
 
-    public Booking(int moviePlayId, int seatRow, int seatNr) {
+    public Booking(int id, int moviePlayId, List<Ticket> tickets, int totalPrice) {
+        this.id = id;
         this.moviePlayId = moviePlayId;
-        this.seatRow = seatRow;
-        this.seatNr = seatNr;
+        this.tickets = tickets;
+        this.totalPrice = totalPrice;
     }
 
     public int getId() {
@@ -38,20 +37,20 @@ public class Booking {
         this.moviePlayId = moviePlayId;
     }
 
-    public int getSeatRow() {
-        return seatRow;
+    public List<Ticket> getTickets() {
+        return tickets;
     }
 
-    public void setSeatRow(int seatRow) {
-        this.seatRow = seatRow;
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
-    public int getSeatNr() {
-        return seatNr;
+    public int getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setSeatNr(int seatNr) {
-        this.seatNr = seatNr;
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
 

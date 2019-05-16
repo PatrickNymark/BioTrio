@@ -62,12 +62,8 @@ public class MoviePlayRepository {
     }
 
     public int editMoviePlay(MoviePlay moviePlay) {
-        System.out.println(moviePlay.getId());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-
-
 
         return jdbcTemplate.update("UPDATE movie_plays SET " +
                 "movie_id=" + moviePlay.getId() + ", " +

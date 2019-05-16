@@ -1,12 +1,15 @@
 package com.final_project.repositories;
 
 import com.final_project.entities.Booking;
+import com.final_project.entities.Seat;
+import com.final_project.entities.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -15,11 +18,27 @@ public class BookingRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public List<Booking> getBookingsByMoviePlayId(int moviePlayId) {
-        String sqlString = "SELECT * FROM bookings WHERE movie_play_id =" + moviePlayId;
+    @Autowired
+    TicketRepository ticketRepository;
 
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlString);
 
+    public List<Booking> getAllBookings() {
+        String sqlQuery = "SELECT * FROM bookings";
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+
+        return generateBookings(rs);
+    }
+
+    public List<Booking> getBookingsByMoviePlayId(int id) {
+        String sqlQuery = "SELECT * FROM bookings WHERE movie_play_id =" + id;
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+
+        return generateBookings(rs);
+    }
+
+    private List<Booking> generateBookings(SqlRowSet rs) {
         List<Booking> bookings = new ArrayList<>();
 
         while(rs.next()) {
@@ -27,21 +46,16 @@ public class BookingRepository {
 
             booking.setId(rs.getInt("booking_id"));
             booking.setMoviePlayId(rs.getInt("movie_play_id"));
-            booking.setSeatRow(rs.getInt("seat_row"));
-            booking.setSeatNr(rs.getInt("seat_nr"));
+            booking.setTotalPrice(rs.getInt("total_price"));
+
+            // Get tickets
+            List<Ticket> tickets = ticketRepository.getTicketsByBookingId(rs.getInt("booking_id"));
+            booking.setTickets(tickets);
 
             bookings.add(booking);
         }
 
         return bookings;
     }
-
-
-    public int addBooking(Booking booking) {
-        String sqlString = "INSERT INTO bookings(movie_play_id, seat_row, seat_nr) VALUES(?, ?, ?)";
-
-        return jdbcTemplate.update(sqlString, booking.getMoviePlayId(), booking.getSeatRow(), booking.getSeatNr());
-    }
-
 }
 

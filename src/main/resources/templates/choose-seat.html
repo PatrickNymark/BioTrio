@@ -10,6 +10,109 @@
 <div th:replace="fragments/header :: header"></div>
 
     <h1 class="text-center mt-5 mb-5">Choose Seat</h1>
+    <div class="container text-center">
+        <table class="table">
+            <thead>
 
+            <tr>
+                <td></td>
+                <td th:each="seat, iterStat : ${seats}" th:remove="tag">
+                    <div th:text="${seat.getNr()}"></div>
+                    <div th:text="${iterStat.last}"></div>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>A</td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+
+            </tr>
+            <tr>
+                <td>D</td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <input type="checkbox">
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

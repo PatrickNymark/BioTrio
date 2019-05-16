@@ -32,6 +32,14 @@ public class TicketRepository {
         return generateTickets(rs);
     }
 
+    public List<Ticket> getTicketsByMoviePlayId(int id) {
+        String sqlQuery = "SELECT * FROM tickets WHERE movie_play_id =" + id;
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+
+        return generateTickets(rs);
+    }
+
     private List<Ticket> generateTickets(SqlRowSet rs) {
         List<Ticket> tickets = new ArrayList<>();
 
@@ -39,8 +47,10 @@ public class TicketRepository {
             Ticket ticket = new Ticket();
 
             ticket.setId(rs.getInt("ticket_id"));
-            ticket.setSeatNumber(rs.getString("seat_number"));
             ticket.setBookingId(rs.getInt("booking_id"));
+            ticket.setSeatNr(rs.getInt("seat_nr"));
+            ticket.setSeatRow(rs.getInt("seat_row"));
+            ticket.setMoviePlayId(rs.getInt("movie_play_id"));
 
             tickets.add(ticket);
         }

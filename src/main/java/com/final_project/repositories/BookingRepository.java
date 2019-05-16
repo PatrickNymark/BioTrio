@@ -1,7 +1,6 @@
 package com.final_project.repositories;
 
 import com.final_project.entities.Booking;
-import com.final_project.entities.Seat;
 import com.final_project.entities.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,7 +8,6 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Repository

@@ -44,7 +44,7 @@ public class MovieRepository {
             movie.setId(rs.getInt("movie_id"));
             movie.setTitle(rs.getString("title"));
             movie.setGenre(rs.getString("genre"));
-            movie.setRating(rs.getInt("rating"));
+            movie.setRating(rs.getDouble("rating"));
             movie.setAgeLimit(rs.getInt("age_limit"));
 
             movieList.add(movie);
@@ -60,7 +60,7 @@ public class MovieRepository {
             movie.setId(rs.getInt("movie_id"));
             movie.setTitle(rs.getString("title"));
             movie.setGenre(rs.getString("genre"));
-            movie.setRating(rs.getInt("rating"));
+            movie.setRating(rs.getDouble("rating"));
             movie.setAgeLimit(rs.getInt("age_limit"));
         }
 

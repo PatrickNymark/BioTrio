@@ -32,7 +32,7 @@ public class TheaterRepository {
             Theater theater = new Theater();
             theater.setId(rs.getInt("theater_id"));
             theater.setTheaterName(rs.getString("title"));
-            theater.setNumberOfRows(rs.getInt("total_rows"));
+            theater.setNumberOfRows(rs.getInt("number_of_rows"));
             theater.setSeatsPerRow(rs.getInt("seats_pr_row"));
 
             theaterList.add(theater);
@@ -51,7 +51,7 @@ public class TheaterRepository {
         while (rs.next()) {
             theater.setId(rs.getInt("theater_id"));
             theater.setTheaterName(rs.getString("title"));
-            theater.setNumberOfRows(rs.getInt("total_rows"));
+            theater.setNumberOfRows(rs.getInt("number_of_rows"));
             theater.setSeatsPerRow(rs.getInt("seats_pr_row"));
         }
 

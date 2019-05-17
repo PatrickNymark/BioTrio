@@ -23,6 +23,7 @@
 
             </tr>
             </thead>
+
             <tbody>
                 <tr th:each="i: ${#numbers.sequence(0, rows - 1)}">
                     <td th:text="${i + 1}"></td>
@@ -31,7 +32,7 @@
                     </td>
                 </tr>
             </tbody>
-            -->
+
         </table>
 
             <button type="submit" class="btn btn-primary mt-5 mb-5">Book Tickets</button>

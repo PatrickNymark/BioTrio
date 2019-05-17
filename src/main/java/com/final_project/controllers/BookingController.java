@@ -67,10 +67,30 @@ public class BookingController {
     }
 
     @PostMapping("/booking/choose-seat")
-    public String addBooking(HttpServletRequest request) {
+    public String addBooking(@RequestBody String seats) {
+        Booking booking = new Booking();
+        String[] seatsArr = seats.split("&");
+        List<Ticket> ticketList = new ArrayList<>();
 
-        System.out.println(request.getQueryString());
-        return "redirect:/";
 
+        for(int i = 0; i < seatsArr.length; i++) {
+            String[] keyValue = seatsArr[0].split("=");
+            for(int j = 0; j < keyValue.length; j++) {
+                String[] numbers = keyValue[j].split("-");
+                for(int t = 0; t < numbers.length; t++) {
+                    System.out.println(numbers[t]);
+                }
+            }
+        }
+
+
+        return "redirect:/booking/confirmation";
+
+    }
+
+    @GetMapping("/booking/confirmation")
+    public String bookingConfirmation() {
+
+        return "booking-confirmation";
     }
 }

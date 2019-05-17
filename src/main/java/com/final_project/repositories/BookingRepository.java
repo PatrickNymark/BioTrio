@@ -36,6 +36,14 @@ public class BookingRepository {
         return generateBookings(rs);
     }
 
+    public Booking getBookingById(int id) {
+        String sqlQuery = "SELECT * FROM bookings WHERE id" + id;
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+
+        return generateBooking(rs);
+    }
+
     private List<Booking> generateBookings(SqlRowSet rs) {
         List<Booking> bookings = new ArrayList<>();
 
@@ -54,6 +62,23 @@ public class BookingRepository {
         }
 
         return bookings;
+    }
+
+    private Booking generateBooking(SqlRowSet rs) {
+        Booking booking = new Booking();
+
+        while(rs.next()) {
+            booking.setId(rs.getInt("booking_id"));
+            booking.setMoviePlayId(rs.getInt("movie_play_id"));
+            booking.setTotalPrice(rs.getInt("total_price"));
+
+            // Get tickets
+            List<Ticket> tickets = ticketRepository.getTicketsByBookingId(rs.getInt("booking_id"));
+            booking.setTickets(tickets);
+
+        }
+
+        return booking;
     }
 }
 

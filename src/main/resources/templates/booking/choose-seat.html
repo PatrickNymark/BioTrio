@@ -28,13 +28,18 @@
                 <tr th:each="i: ${#numbers.sequence(0, rows - 1)}">
                     <td th:text="${i + 1}"></td>
                     <td th:each="j: ${#numbers.sequence(0, seatsPrRow - 1)}">
-                        <input type="checkbox" th:name="${(i+1) + '-' + (j+1)}" />
+                        <span th:each="seat : ${seats}">
+                            <span th:if="${seat.getNr() == (j + 1) && seat.getRow() == (i + 1)}">
+                                <input type="checkbox" th:name="${(i+1) + '-' + (j+1)}" th:disabled="${seat.isReserved()}" th:checked="${seat.isReserved()}" />
+                            </span>
+                        </span>
+
                     </td>
                 </tr>
             </tbody>
-
         </table>
 
+            <input type="hidden" th:name="playId" th:value="${moviePlayId}">
             <button type="submit" class="btn btn-primary mt-5 mb-5">Book Tickets</button>
         </form>
 

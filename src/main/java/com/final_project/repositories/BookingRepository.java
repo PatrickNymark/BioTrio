@@ -1,6 +1,7 @@
 package com.final_project.repositories;
 
 import com.final_project.entities.Booking;
+import com.final_project.entities.MoviePlay;
 import com.final_project.entities.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

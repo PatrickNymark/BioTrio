@@ -7,9 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -63,27 +61,11 @@ public class BookingController {
         model.addAttribute("rows", theater.getNumberOfRows());
         model.addAttribute("seatsPrRow", theater.getSeatsPerRow());
 
-        return "choose-seat";
+        return "booking/choose-seat";
     }
 
     @PostMapping("/booking/choose-seat")
-    public String addBooking(@RequestBody String seats) {
-        Booking booking = new Booking();
-        String[] seatsArr = seats.split("&");
-        List<Ticket> ticketList = new ArrayList<>();
-
-
-        for(int i = 0; i < seatsArr.length; i++) {
-            String[] keyValue = seatsArr[0].split("=");
-            for(int j = 0; j < keyValue.length; j++) {
-                String[] numbers = keyValue[j].split("-");
-                for(int t = 0; t < numbers.length; t++) {
-                    System.out.println(numbers[t]);
-                }
-            }
-        }
-
-
+    public String addBooking(@RequestBody String seats, @RequestParam("playId") int playId, @RequestParam(value = "action") String action) {
         return "redirect:/booking/confirmation";
 
     }
@@ -91,6 +73,6 @@ public class BookingController {
     @GetMapping("/booking/confirmation")
     public String bookingConfirmation() {
 
-        return "booking-confirmation";
+        return "booking/booking-confirmation";
     }
 }

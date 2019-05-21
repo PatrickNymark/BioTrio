@@ -24,21 +24,24 @@ public class AuthController {
         return "auth/login";
     }
 
-    @GetMapping("/register")
+    @GetMapping("/auth/register")
+    public String registerCustomer() {
+        return "auth/register-customer";
+    }
+
+    @GetMapping("/manage/register")
     public String register() {
-        return "auth/register";
+        return "auth/register-staff";
     }
 
     @PostMapping("/register")
     public String addUser(@ModelAttribute User user) {
-
         String encodedPass = securityConfig.passwordEncoder().encode(user.getPassword());
-        user.setRole("ROLE_STAFF");
         user.setPassword(encodedPass);
         user.setActive(true);
 
-        System.out.println(user);
         userRepository.addUser(user);
         return "redirect:/login";
     }
+
 }

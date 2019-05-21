@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<h1>Welcome to BioTrio</h1>
+<div th:replace="fragments/header :: header"></div>
+
+<h1 class="mt-5 mb-5 text-center">Register</h1>
+<form th:action="@{/register}" method="post">
+    <input type="text" name="firstName" placeholder="First Name">
+    <input type="text" name="lastName" placeholder="Last Name">
+    <input type="text" name="email" placeholder="Email">
+    <input type="text" name="password" placeholder="Password">
+    <input type="text" name="phoneNumber" placeholder="Phone Number">
+    <input type="hidden" name="role" placeholder="ROLE_STAFF">
+    <button type="submit">Register</button>
+</form>
+</body>
+</html>

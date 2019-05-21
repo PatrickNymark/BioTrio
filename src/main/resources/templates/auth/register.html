@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-<h1>Register</h1>
-<div  th:if="${param.error}">
-    Invalid email and password.
-</div>
+<h1>Welcome to BioTrio</h1>
+<div th:replace="fragments/header :: header"></div>
+
+<h1 class="mt-5 mb-5 text-center">Register</h1>
 <form th:action="@{/register}" method="post">
     <input type="text" name="firstName" placeholder="First Name">
     <input type="text" name="lastName" placeholder="Last Name">

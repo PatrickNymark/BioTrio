@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+    <h1 class="text-center mt-5 mb-5">Choose Seat</h1>
+    <div class="container text-center">
+        <form th:action="@{/booking/choose-seat}" method="post">
+        <table class="table">
+            <thead>
+
+            <tr>
+                <td>#</td>
+                <td th:each="j: ${#numbers.sequence(1, seatsPrRow)}">
+                    <span th:text="${j}"></span>
+                </td>
+
+            </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="i: ${#numbers.sequence(0, rows - 1)}">
+                    <td th:text="${i + 1}"></td>
+                    <td th:each="j: ${#numbers.sequence(0, seatsPrRow - 1)}">
+                        <span th:each="seat : ${seats}">
+                            <span th:if="${seat.getNr() == (j + 1) && seat.getRow() == (i + 1)}">
+                                <input type="checkbox" th:name="${(i+1) + '-' + (j+1)}" th:disabled="${seat.isReserved()}" th:checked="${seat.isReserved()}" />
+                            </span>
+                        </span>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+            <input type="hidden" th:name="playId" th:value="${moviePlayId}">
+            <button type="submit" th:name="action" th:value="reserve" class="btn btn-primary mt-5 mb-5">Reserve Tickets</button>
+            <button type="submit" th:name="action" th:value="buy" class="btn btn-primary mt-5 mb-5">Buy Tickets</button>
+        </form>
+
+    </div>
+</body>
+</html>

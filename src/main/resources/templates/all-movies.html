@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>This is page shows all availabe movies</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Genre</th>
+        <th scope="col">Release Year</th>
+        <th scope="col">Age Limit</th>
+        <th scope="col">Rating</th>
+        <th scope="col">#</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="movie:${movies}">
+        <th th:text="${movie.title}"></th>
+        <td th:text="${movie.genre}"></td>
+        <td th:text="${movie.releaseYear}"></td>
+        <td th:text="${movie.ageLimit}"></td>
+        <td th:text="${movie.rating}"></td>
+        <td><a th:href="@{'/movie/' + ${movie.id}}">See Date & Time</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

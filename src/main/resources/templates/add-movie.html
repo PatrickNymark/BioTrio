@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<h1>Welcome to BioTrio</h1>
+<div th:replace="fragments/header :: header"></div>
+
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Add new movie</h1>
+        <p class="lead">
+
+        <form action="/saveMovie" method="post">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" placeholder="Enter movie title" maxlength="100">
+            </div>
+            <div class="form-group">
+                <label for="genre">Genre</label>
+                <input type="text" class="form-control" id="genre" placeholder="Genre: example 'horror'">
+            </div>
+            <div class="form-group">
+                <label for="release year">Release year</label>
+                <input type="text" class="form-control" id="release year" placeholder="Enter year of release">
+            </div>
+            <div class="form-group">
+                <label for="rating">Rating</label>
+                <input type="number" class="form-control" id="rating" placeholder="Movie rating" min="0">
+            </div>
+        <div class="form-group">
+            <label for="age limit">Age limit</label>
+            <input type="number" class="form-control" id="age limit" placeholder="Age limit" min="0">
+        </div>
+            <button type="submit" class="btn btn-primary">Add movie</button>
+            <button type="reset" class="btn btn-primary">Cancel</button>
+        </form>
+
+
+
+        </p>
+    </div>
+
+<!--<p>See theaters <a href="/all-theater">here</a></p>-->
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

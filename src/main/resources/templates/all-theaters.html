@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1>Theaters</h1>
+
 <div th:replace="fragments/header :: header"></div>
 
 <table class="table table-hover">
@@ -17,7 +18,9 @@
         <th scope="col">Theater</th>
         <th scope="col">Number of rows</th>
         <th scope="col">Number of seats per row</th>
-        <th scope="col">Additional features</th>
+        <!--<th scope="col">Additional features</th>-->
+        <th scope="col">Delete</th>
+        <th scope="col">Edit</th>
     </tr>
     </thead>
     <tbody>
@@ -26,11 +29,17 @@
         <td th:text="${theater.getTheaterName()}"></td>
         <td th:text="${theater.getNumberOfRows()}"></td>
         <td th:text="${theater.getSeatsPerRow()}"></td>
+        <td><a class="btn btn-danger" th:href="@{'/deletetheater/' + ${theater.id}}">Delete</a></td>
+        <td><a class="btn btn-success" th:href="@{'/edit-theater/' + ${theater.id}}">Edit</a></td>
     </tr>
 
     </tbody>
+
 </table>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 </body>
 </html>
+
+
+

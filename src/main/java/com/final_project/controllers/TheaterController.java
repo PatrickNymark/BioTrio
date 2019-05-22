@@ -53,4 +53,17 @@ public class TheaterController {
         model.addAttribute("theater", theater);
         return "theater-page";
     }
+
+    @GetMapping("/deletetheater/{id}")
+    public String deleteTheater(@PathVariable(name= "id") int id){
+        theaterRepository.delete(id);
+        return "redirect:/all-theaters";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editTheater(Model model, @PathVariable(name="id") int id){
+        Theater theaterToEdit = theaterRepository.findTheaterById(id);
+        model.addAttribute("theater", theaterToEdit);
+        return "edit-theater";
+    }
 }

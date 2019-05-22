@@ -28,7 +28,7 @@ public class MovieController {
         List<Movie> movieList = movieRepository.getAllMovies();
 
         model.addAttribute("movies", movieList);
-
+        System.out.println("database connected");
         return "all-movies";
     }
 

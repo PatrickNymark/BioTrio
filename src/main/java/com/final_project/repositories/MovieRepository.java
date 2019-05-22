@@ -22,6 +22,8 @@ public class MovieRepository {
 
         List<Movie> movieList = generateMovies(rs);
 
+        System.out.println("database connected");
+
         return movieList;
     }
 

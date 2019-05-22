@@ -35,6 +35,29 @@ public class MovieRepository {
         return movie;
     }
 
+    public void addMovie(Movie movie) {
+        String sqlQuery = "INSERT INTO movies(title, genre, rating, release_year, age_limit) VALUES(?, ?, ?, ?, ?)";
+
+        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getAgeLimit());
+    }
+
+    public void editMovie(Movie movie) {
+        String sqlQuery = "UPDATE movies SET " +
+                "title =" + movie.getTitle() +
+                "genre =" + movie.getGenre() +
+                "rating =" + movie.getRating() +
+                "release_year =" + movie.getReleaseYear() +
+                "age_limit =" + movie.getAgeLimit();
+
+        jdbcTemplate.update(sqlQuery);
+    }
+
+    public void deleteMovie(int id) {
+        String sqlQuery = "DELETE FROM movies WHERE movie_id=" + id;
+
+        jdbcTemplate.update(sqlQuery);
+    }
+
     private List<Movie> generateMovies(SqlRowSet rs) {
         List<Movie> movieList = new ArrayList<>();
 

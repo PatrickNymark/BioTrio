@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -18,6 +18,9 @@
         <th scope="col">Theater ID</th>
         <th scope="col">Movie ID</th>
         <th scope="col">Play Start</th>
+        <th scope="col" sec:authorize="hasRole('ROLE_STAFF')">
+            #
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -26,6 +29,11 @@
         <td th:text="${play.getTheaterId()}"></td>
         <td th:text="${play.getMovieId()}"></td>
         <td th:text="${play.getPlayStart()}"></td>
+        <td scope="col" sec:authorize="hasRole('ROLE_STAFF')" >
+            <form th:action="@{/manage/delete-movie-play/{id} (id = ${play.id})}" method="post">
+                <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

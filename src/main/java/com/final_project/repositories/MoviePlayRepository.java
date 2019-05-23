@@ -55,10 +55,10 @@ public class MoviePlayRepository {
         return jdbcTemplate.update(sqlQuery, moviePlay.getMovieId(), moviePlay.getTheaterId(), moviePlay.getPlayStart());
     }
 
-    public int deleteMoviePlay(int id) {
+    public void deleteMoviePlay(int id) {
         String sqlQuery = "DELETE FROM movie_plays WHERE play_id=" + id;
 
-        return jdbcTemplate.update(sqlQuery);
+        jdbcTemplate.update(sqlQuery);
     }
 
     public int editMoviePlay(MoviePlay moviePlay) {

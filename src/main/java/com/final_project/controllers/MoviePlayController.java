@@ -1,7 +1,11 @@
 package com.final_project.controllers;
 
+import com.final_project.entities.Movie;
 import com.final_project.entities.MoviePlay;
+import com.final_project.entities.Theater;
 import com.final_project.repositories.MoviePlayRepository;
+import com.final_project.repositories.MovieRepository;
+import com.final_project.repositories.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,40 +21,44 @@ public class MoviePlayController {
     @Autowired
     MoviePlayRepository moviePlayRepository;
 
+    @Autowired
+    MovieRepository movieRepository;
+
+    @Autowired
+    TheaterRepository theaterRepository;
+
     @GetMapping ("/all-movie-plays")
     public String  getAllMoviePlays(Model model) {
         List<MoviePlay> moviePlayList = moviePlayRepository.getMoviePlays();
 
         model.addAttribute("plays", moviePlayList);
 
-        return "all-movie-plays";
+        return "movie-play/all-movie-plays";
     }
 
-    @GetMapping ("/add-movie-play")
-    public String getAddMoviePlay() {
-        return "add-movie-play";
-    }
-
-    @PostMapping ("/add-movie-play")
-    public String addMoviePlay(
-            @RequestParam ("theaterId") int theaterId,
-            @RequestParam ("movieId") int movieId,
-            @RequestParam ("playStart") String playStart) {
-
+    @GetMapping ("/manage/add-movie-play")
+    public String getAddMoviePlay(Model model) {
+        List<Movie> movieList = movieRepository.findAllMovies();
+        List<Theater> theaterList = theaterRepository.findAllTheaters();
         MoviePlay moviePlay = new MoviePlay();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        model.addAttribute("moviePlay", moviePlay);
+        model.addAttribute("movies", movieList);
+        model.addAttribute("theaters", theaterList);
 
-        moviePlay.setPlayStart(LocalDateTime.parse(playStart, formatter));
-        moviePlay.setTheaterId(theaterId);
-        moviePlay.setMovieId(movieId);
+        return "movie-play/add-movie-play";
+    }
+
+    @PostMapping ("/manage/add-movie-play")
+    public String addMoviePlay(@ModelAttribute MoviePlay moviePlay, @RequestParam(name = "play-start") String playStart) {
+        moviePlay.setPlayStart(LocalDateTime.parse(playStart));
 
         moviePlayRepository.addMoviePlay(moviePlay);
         return "redirect:/all-movie-plays";
     }
 
-    @PostMapping ("/delete-movie-play")
-    public String deleteMoviePlay(@RequestParam(name ="id") int id) {
+    @PostMapping ("/manage/delete-movie-play/{id}")
+    public String deleteMoviePlay(@PathVariable(name ="id") int id) {
         moviePlayRepository.deleteMoviePlay(id);
         return "redirect:/all-movie-plays";
     }

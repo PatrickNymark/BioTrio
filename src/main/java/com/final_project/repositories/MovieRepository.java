@@ -15,19 +15,17 @@ public class MovieRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public List<Movie> getAllMovies() {
+    public List<Movie> findAllMovies() {
         String sqlQuery = "SELECT * FROM movies";
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
 
         List<Movie> movieList = generateMovies(rs);
 
-        System.out.println("database connected");
-
         return movieList;
     }
 
-    public Movie getMovieById(int id) {
+    public Movie findMovieById(int id) {
         String sqlQuery = "SELECT * FROM movies WHERE movie_id=" + id;
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
@@ -38,20 +36,15 @@ public class MovieRepository {
     }
 
     public void addMovie(Movie movie) {
-        String sqlQuery = "INSERT INTO movies(title, genre, rating, release_year, age_limit) VALUES(?, ?, ?, ?, ?)";
+        String sqlQuery = "INSERT INTO movies(title, genre, rating, release_year, age_limit, image_name) VALUES(?, ?, ?, ?, ?, ?)";
 
-        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getAgeLimit());
+        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getAgeLimit(), movie.getImageName());
     }
 
     public void editMovie(Movie movie) {
-        String sqlQuery = "UPDATE movies SET " +
-                "title =" + movie.getTitle() +
-                "genre =" + movie.getGenre() +
-                "rating =" + movie.getRating() +
-                "release_year =" + movie.getReleaseYear() +
-                "age_limit =" + movie.getAgeLimit();
+        String sqlQuery = "UPDATE movies SET title = ?, genre = ?, rating = ?, release_year = ?, age_limit = ?, image_name = ? WHERE movie_id = " + movie.getId();
 
-        jdbcTemplate.update(sqlQuery);
+        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getAgeLimit(), movie.getImageName());
     }
 
     public void deleteMovie(int id) {
@@ -71,6 +64,7 @@ public class MovieRepository {
             movie.setGenre(rs.getString("genre"));
             movie.setRating(rs.getDouble("rating"));
             movie.setAgeLimit(rs.getInt("age_limit"));
+            movie.setImageName(rs.getString("image_name"));
 
             movieList.add(movie);
         }
@@ -87,6 +81,7 @@ public class MovieRepository {
             movie.setGenre(rs.getString("genre"));
             movie.setRating(rs.getDouble("rating"));
             movie.setAgeLimit(rs.getInt("age_limit"));
+            movie.setImageName(rs.getString("image_name"));
         }
 
         return movie;

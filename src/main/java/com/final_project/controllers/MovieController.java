@@ -7,11 +7,10 @@ import com.final_project.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -25,16 +24,15 @@ public class MovieController {
 
     @GetMapping ("/all-movies")
     public String getAllMovie(Model model){
-        List<Movie> movieList = movieRepository.getAllMovies();
+        List<Movie> movieList = movieRepository.findAllMovies();
 
         model.addAttribute("movies", movieList);
-        System.out.println("database connected");
-        return "all-movies";
+        return "movie/all-movies";
     }
 
     @GetMapping ("/manage/add-movie")
     public String getAddMovie() {
-        return "add-movie";
+        return "movie/add-movie";
     }
 
     @PostMapping("/manage/add-movie")
@@ -45,14 +43,18 @@ public class MovieController {
 
     @GetMapping("/manage/edit-movie/{id}")
     public String getEditMovie(@PathVariable(name = "id") int id, Model model) {
-        Movie movieToEdit = movieRepository.getMovieById(id);
+        Movie movieToEdit = movieRepository.findMovieById(id);
 
-        model.addAttribute("movie",movieToEdit);
-        return "edit-movie";
+        model.addAttribute("movie", movieToEdit);
+        return "movie/edit-movie";
     }
 
     @PostMapping("/manage/edit-movie")
-    public String editMovie(@ModelAttribute Movie movie) {
+    public String editMovie(@ModelAttribute Movie movie, @RequestParam(name = "release-year") String releaseYear) {
+       /* DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate formattedDate = LocalDate.parse(releaseYear, formatter);
+
+        movie.setReleaseYear(formattedDate);n*/
         movieRepository.editMovie(movie);
         return "redirect:/movie/" + movie.getId();
     }
@@ -65,21 +67,12 @@ public class MovieController {
 
     @GetMapping("/movie/{id}")
     public String getMovieById(@PathVariable(name = "id") int id, Model model) {
-        Movie movie = movieRepository.getMovieById(id);
+        Movie movie = movieRepository.findMovieById(id);
         List<MoviePlay> moviePlayList = moviePlayRepository.getMoviePlaysByMovieId(id);
 
         model.addAttribute("movie", movie);
         model.addAttribute("plays", moviePlayList);
 
-        return "movie-page";
+        return "movie/movie-page";
     }
-
-
-
-
-    /*add function to all  buttons
-   @GetMapping ("/add-movie")
-   @GetMapping ("/delete-movie")
-   @PostMapping("show-movie")
-   @GetMapping ("/save-movie")*/
 }

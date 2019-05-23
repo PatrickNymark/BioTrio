@@ -18,6 +18,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     DataSource dataSource;
 
+    @Autowired
+    CustomAuthSuccessHandler customAuthSuccessHandler;
+
     public BCryptPasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         System.out.println(bCryptPasswordEncoder.encode("pass"));
@@ -48,7 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/all-theaters",
                 "/movie/**",
                 "/booking/**",
-                "/all-movie-plays"
+                "/all-movie-plays",
+                "/auth/register"
         };
 
         http.csrf().disable();
@@ -62,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/login").successHandler(customAuthSuccessHandler)
                 .permitAll()
                 .and()
                 .logout()

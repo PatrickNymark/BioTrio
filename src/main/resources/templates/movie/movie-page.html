@@ -16,7 +16,7 @@
         <div class="col-6">
             <h1 th:text="${movie.getTitle()}"></h1>
             <p th:text="${movie.getGenre()}"></p>
-            <p th:text="${movie.getReleaseYear()}"></p>
+            <p th:text="${#temporals.format(movie.getReleaseYear(), 'dd/MM/yyyy')}"></p>
             <p th:text="${movie.getAgeLimit()}"></p>
             <table class="table table-hover">
                 <thead>
@@ -28,8 +28,8 @@
                 </thead>
                 <tbody>
                 <tr th:each="play:${plays}">
-                    <td th:text="${play.getPlayStart().toLocalDate()}"></td>
-                    <td th:text="${play.getPlayStart().getHour() + ':' + play.playStart.getMinute() + play.getPlayStart().getSecond()}"></td>
+                    <td th:text="${#temporals.format(play.getPlayStart(), 'dd/MM/yyyy')}"></td>
+                    <td th:text="${#temporals.format(play.getPlayStart(), 'hh:mm')}"></td>
                     <td><a th:href="@{'/booking/choose-seat/' + ${play.getId()}}" class="badge badge-primary">Buy Tickets</a>
                 </tr>
                 </tbody>

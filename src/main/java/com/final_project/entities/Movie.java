@@ -18,17 +18,19 @@ public class Movie {
     private double rating;
     private int ageLimit;
     private String imageName;
+    private int lengthInMinutes;
 
     public Movie() {
     }
 
-    public Movie(String title, String genre, LocalDate releaseYear, double rating, int ageLimit, String imageName) {
+    public Movie(String title, String genre, LocalDate releaseYear, double rating, int ageLimit, String imageName, int lengthInMinutes) {
         this.title = title;
         this.genre = genre;
         this.releaseYear = releaseYear;
         this.rating = rating;
         this.ageLimit = ageLimit;
         this.imageName = imageName;
+        this.lengthInMinutes = lengthInMinutes;
     }
 
     public int getId() {
@@ -85,6 +87,14 @@ public class Movie {
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
+    }
+
+    public int getLengthInMinutes() {
+        return lengthInMinutes;
+    }
+
+    public void setLengthInMinutes(int lengthInMinutes) {
+        this.lengthInMinutes = lengthInMinutes;
     }
 }
 

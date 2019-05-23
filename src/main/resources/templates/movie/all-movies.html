@@ -9,16 +9,16 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 <div class="container">
-    <h1 class="h1 text-center mt-5 mb-5">All Movies</h1>
+    <h1 class="display-4 text-center mt-5">All Movies</h1>
 </div>
 
 <div class="container mb-5">
     <div class="row">
         <div class="col-4" th:each="movie : ${movies}">
-            <div class="card">
+            <div class="card mt-5">
                 <div class="card-image waves-effect waves-block waves-light">
-                    <img class="activator" style="min-width: 100%; max-height: 450px;" th:src="@{/img/{image}(image=${movie.getImageName()})}">
-
+                    <img th:if="${movie.imageName.length() != 0}" class="activator" style="min-width: 100%; max-height: 450px;" th:src="@{/img/{image}(image=${movie.imageName})}">
+                    <img th:if="${movie.imageName.length() == 0}" style="min-width: 100%; max-height: 450px;" src="/img/movie-placeholder.png" alt="">
                 </div>
                 <div class="card-body">
                     <h3 class="card-title" th:text="${movie.title}"></h3>

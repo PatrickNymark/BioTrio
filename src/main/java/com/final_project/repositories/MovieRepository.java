@@ -36,15 +36,15 @@ public class MovieRepository {
     }
 
     public void addMovie(Movie movie) {
-        String sqlQuery = "INSERT INTO movies(title, genre, rating, release_year, age_limit, image_name) VALUES(?, ?, ?, ?, ?, ?)";
+        String sqlQuery = "INSERT INTO movies(title, genre, rating, release_year, length_in_minutes, age_limit, image_name) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getAgeLimit(), movie.getImageName());
+        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getLengthInMinutes(), movie.getAgeLimit(), movie.getImageName());
     }
 
     public void editMovie(Movie movie) {
-        String sqlQuery = "UPDATE movies SET title = ?, genre = ?, rating = ?, release_year = ?, age_limit = ?, image_name = ? WHERE movie_id = " + movie.getId();
+        String sqlQuery = "UPDATE movies SET title = ?, genre = ?, rating = ?, release_year = ?, length_in_minutes = ?, age_limit = ?, image_name = ? WHERE movie_id = " + movie.getId();
 
-        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getAgeLimit(), movie.getImageName());
+        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getLengthInMinutes(), movie.getAgeLimit(), movie.getImageName());
     }
 
     public void deleteMovie(int id) {
@@ -65,6 +65,7 @@ public class MovieRepository {
             movie.setRating(rs.getDouble("rating"));
             movie.setAgeLimit(rs.getInt("age_limit"));
             movie.setImageName(rs.getString("image_name"));
+            movie.setLengthInMinutes(rs.getInt("length_in_minutes"));
 
             movieList.add(movie);
         }
@@ -82,6 +83,8 @@ public class MovieRepository {
             movie.setRating(rs.getDouble("rating"));
             movie.setAgeLimit(rs.getInt("age_limit"));
             movie.setImageName(rs.getString("image_name"));
+            movie.setLengthInMinutes(rs.getInt("length_in_minutes"));
+
         }
 
         return movie;

@@ -36,11 +36,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        String[] staticResources  =  {
+                "/css/**",
+                "/img/**",
+                "/js/**"
+        };
+
+
+        http.csrf().disable();
+
         http
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .antMatchers("/customer/*").access("hasRole('CUSTOMER')")
-                .antMatchers("/manage/test").access("hasRole('STAFF')")
+                .antMatchers("/", "/all-movies", "/all-theaters", "/movie/**", "/booking/**").permitAll()
+                .antMatchers(staticResources).permitAll()
+                .antMatchers("/customer/**").access("hasRole('CUSTOMER')")
+                .antMatchers("/manage/**").access("hasRole('STAFF')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

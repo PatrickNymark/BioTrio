@@ -34,7 +34,7 @@ public class AuthController {
         return "auth/register-staff";
     }
 
-    @PostMapping("/register")
+    @PostMapping("auth/register")
     public String addUser(@ModelAttribute User user) {
         String encodedPass = securityConfig.passwordEncoder().encode(user.getPassword());
         user.setPassword(encodedPass);

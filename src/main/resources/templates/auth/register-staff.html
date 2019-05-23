@@ -11,13 +11,13 @@
 <div th:replace="fragments/header :: header"></div>
 
 <h1 class="mt-5 mb-5 text-center">Register</h1>
-<form th:action="@{/register}" method="post">
+<form th:action="@{/auth/register}" method="post">
     <input type="text" name="firstName" placeholder="First Name">
     <input type="text" name="lastName" placeholder="Last Name">
     <input type="text" name="email" placeholder="Email">
     <input type="text" name="password" placeholder="Password">
     <input type="text" name="phoneNumber" placeholder="Phone Number">
-    <input type="hidden" name="role" placeholder="ROLE_STAFF">
+    <input type="hidden" name="role" value="ROLE_STAFF">
     <button type="submit">Register</button>
 </form>
 </body>

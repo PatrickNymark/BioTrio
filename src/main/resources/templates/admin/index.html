@@ -9,16 +9,18 @@
 <body>
 <h1>Welcome to BioTrio</h1>
 <div th:replace="fragments/header :: header"></div>
-<h1 class="text-center">Admin Area</h1>
+<div class="container">
+    <h1 class="display-4 text-center mt-5 mb-5">Staff Area</h1>
+    <a class="btn btn-primary btn-sm" href="/manage/add-movie">Add Movie</a>
+    <a class="btn btn-primary btn-sm" href="/manage/add-theater">Add Theater</a>
+    <a class="btn btn-primary btn-sm" href="/manage/add-movie-play">Add Movie Play</a>
+    <hr>
+    <a class="btn btn-primary btn-sm" href="/manage/register">Add Staff</a>
+    <a class="btn btn-primary btn-sm" href="/auth/register">Add Customer</a>
+    <hr>
+    <a class="btn btn-primary btn-sm" href="/manage/all-bookings">All bookings</a>
 
-<div sec:authorize="isAuthenticated()">
-    This content is only shown to authenticated users.
-</div>
-<div sec:authorize="hasRole('ROLE_STAFF')">
-    This content is only shown to administrators.
-</div>
-<div sec:authorize="hasRole('ROLE_CUSTOMER')">
-    This content is only shown to users.
+    </li>
 </div>
 
 <!--<p>See theaters <a href="/all-theater">here</a></p>-->

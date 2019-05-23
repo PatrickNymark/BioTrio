@@ -2,7 +2,7 @@ package com.final_project.entities;
 
 public class Ticket {
     private int id;
-    private int bookingId;
+    private String bookingCode;
     private int seatNr;
     private int seatRow;
     private int moviePlayId;
@@ -10,9 +10,9 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(int id, int bookingId, int seatNr, int seatRow, int moviePlayId) {
+    public Ticket(int id, String bookingCode, int seatNr, int seatRow, int moviePlayId) {
         this.id = id;
-        this.bookingId = bookingId;
+        this.bookingCode = bookingCode;
         this.seatNr = seatNr;
         this.seatRow = seatRow;
         this.moviePlayId = moviePlayId;
@@ -26,12 +26,12 @@ public class Ticket {
         this.id = id;
     }
 
-    public int getBookingId() {
-        return bookingId;
+    public String getBookingCode() {
+        return bookingCode;
     }
 
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
+    public void setBookingCode(String bookingCode) {
+        this.bookingCode = bookingCode;
     }
 
     public int getSeatNr() {

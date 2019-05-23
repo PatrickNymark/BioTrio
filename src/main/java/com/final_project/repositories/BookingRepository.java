@@ -21,7 +21,7 @@ public class BookingRepository {
     TicketRepository ticketRepository;
 
 
-    public List<Booking> getAllBookings() {
+    public List<Booking> findAllBookings() {
         String sqlQuery = "SELECT * FROM bookings";
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
@@ -29,20 +29,18 @@ public class BookingRepository {
         return generateBookings(rs);
     }
 
-    public List<Booking> getBookingsByMoviePlayId(int id) {
-        String sqlQuery = "SELECT * FROM bookings WHERE movie_play_id =" + id;
+    public Booking findBookingByBookingCode(String bookingCode) {
+        String sqlQuery = "SELECT * FROM bookings WHERE booking_code = ?";
 
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
-
-        return generateBookings(rs);
-    }
-
-    public Booking getBookingById(int id) {
-        String sqlQuery = "SELECT * FROM bookings WHERE id" + id;
-
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, bookingCode);
 
         return generateBooking(rs);
+    }
+
+    public void addBooking(Booking booking) {
+        String sqlQuery = "INSERT INTO bookings(movie_play_id, staff_id, customer_id, total_price, booking_code) VALUES(?, ?, ?, ?, ?)";
+
+        jdbcTemplate.update(sqlQuery, booking.getMoviePlayId(), null, null, booking.getTotalPrice(), booking.getBookingCode());
     }
 
     private List<Booking> generateBookings(SqlRowSet rs) {
@@ -51,12 +49,12 @@ public class BookingRepository {
         while(rs.next()) {
             Booking booking = new Booking();
 
-            booking.setId(rs.getInt("booking_id"));
             booking.setMoviePlayId(rs.getInt("movie_play_id"));
             booking.setTotalPrice(rs.getInt("total_price"));
+            booking.setBookingCode(rs.getString("booking_code"));
 
             // Get tickets
-            List<Ticket> tickets = ticketRepository.getTicketsByBookingId(rs.getInt("booking_id"));
+            List<Ticket> tickets = ticketRepository.findTicketsByBookingCode(booking.getBookingCode());
             booking.setTickets(tickets);
 
             bookings.add(booking);
@@ -69,16 +67,16 @@ public class BookingRepository {
         Booking booking = new Booking();
 
         while(rs.next()) {
-            booking.setId(rs.getInt("booking_id"));
+            booking.setBookingCode(rs.getString("booking_code"));
             booking.setMoviePlayId(rs.getInt("movie_play_id"));
             booking.setTotalPrice(rs.getInt("total_price"));
 
             // Get tickets
-            List<Ticket> tickets = ticketRepository.getTicketsByBookingId(rs.getInt("booking_id"));
-            booking.setTickets(tickets);
-
+           // List<Ticket> tickets = ticketRepository.getTicketsByBookingId(rs.getInt("booking_id"));
+            //booking.setTickets(tickets);
         }
 
+        System.out.println(booking);
         return booking;
     }
 }

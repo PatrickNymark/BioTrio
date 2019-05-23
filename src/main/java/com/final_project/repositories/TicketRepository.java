@@ -24,10 +24,10 @@ public class TicketRepository {
         return generateTickets(rs);
     }
 
-    public List<Ticket> getTicketsByBookingId(int id) {
-        String sqlQuery = "SELECT * FROM tickets WHERE booking_id =" + id;
+    public List<Ticket> findTicketsByBookingCode(String bookingCode) {
+        String sqlQuery = "SELECT * FROM tickets WHERE booking_code = ?";
 
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, bookingCode);
 
         return generateTickets(rs);
     }
@@ -40,6 +40,12 @@ public class TicketRepository {
         return generateTickets(rs);
     }
 
+    public void addTicket(Ticket ticket) {
+        String sqlQuery = "INSERT INTO tickets(booking_code, seat_nr, seat_row, movie_play_id) VALUES(?, ?, ?, ?)";
+
+        jdbcTemplate.update(sqlQuery, ticket.getBookingCode(), ticket.getSeatNr(), ticket.getSeatRow(), ticket.getMoviePlayId());
+    }
+
     private List<Ticket> generateTickets(SqlRowSet rs) {
         List<Ticket> tickets = new ArrayList<>();
 
@@ -47,7 +53,7 @@ public class TicketRepository {
             Ticket ticket = new Ticket();
 
             ticket.setId(rs.getInt("ticket_id"));
-            ticket.setBookingId(rs.getInt("booking_id"));
+            ticket.setBookingCode(rs.getString("booking_code"));
             ticket.setSeatNr(rs.getInt("seat_nr"));
             ticket.setSeatRow(rs.getInt("seat_row"));
             ticket.setMoviePlayId(rs.getInt("movie_play_id"));

@@ -1,11 +1,17 @@
 package com.final_project.controllers;
 
 import com.final_project.entities.*;
-import com.final_project.repositories.*;
+import com.final_project.repositories.BookingRepository;
+import com.final_project.repositories.MoviePlayRepository;
+import com.final_project.repositories.TheaterRepository;
+import com.final_project.repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +32,17 @@ public class BookingController {
     TheaterRepository theaterRepository;
 
 
-    /*
-        CREATE BOOKING
-     */
+    @GetMapping("/manage/all-bookings")
+    public String getAllBookings(Model model) {
+        List<Booking> bookings = bookingRepository.findAllBookings();
+
+        model.addAttribute("bookings", bookings);
+
+        return "booking/all-bookings";
+    }
 
     @GetMapping("/booking/choose-seat/{id}")
-    public String getBookingChooseSeat(@PathVariable(name = "id") int moviePlayId, Model model) {
+    public String getChooseSeat(@PathVariable(name = "id") int moviePlayId, Model model) {
         MoviePlay moviePlay = moviePlayRepository.getMoviePlayById(moviePlayId);
         Theater theater = theaterRepository.findTheaterById(moviePlay.getTheaterId());
 
@@ -57,6 +68,7 @@ public class BookingController {
             }
         }
 
+        model.addAttribute("moviePlayId", moviePlayId);
         model.addAttribute("seats", theaterSeats);
         model.addAttribute("rows", theater.getNumberOfRows());
         model.addAttribute("seatsPrRow", theater.getSeatsPerRow());
@@ -64,15 +76,49 @@ public class BookingController {
         return "booking/choose-seat";
     }
 
-    @PostMapping("/booking/choose-seat")
-    public String addBooking(@RequestBody String seats, @RequestParam("playId") int playId, @RequestParam(value = "action") String action) {
-        return "redirect:/booking/confirmation";
+    @PostMapping("/booking/choose-seat/{id}")
+    public String addBooking(@RequestBody String seats, @PathVariable(name = "id") int moviePlayId) {
+        List<Ticket> tickets = new ArrayList<>();
+
+        String[] newSeats = seats.split("&");
+
+        for (int i = 0; i < newSeats.length; i++) {
+            Ticket ticket = new Ticket();
+
+            String[] numberAndValue = newSeats[i].split("=");
+            String[] seatNumbers = numberAndValue[0].split("-");
+
+            ticket.setSeatRow(Integer.parseInt(seatNumbers[0]));
+            ticket.setSeatNr(Integer.parseInt(seatNumbers[1]));
+            ticket.setMoviePlayId(moviePlayId);
+            tickets.add(ticket);
+        }
+
+        Booking booking = new Booking();
+
+        booking.setMoviePlayId(moviePlayId);
+        booking.setTickets(tickets);
+        booking.setTotalPrice(150);
+        booking.setBookingCode(Booking.generateBookingCode());
+
+        bookingRepository.addBooking(booking);
+
+        for(Ticket ticket : tickets) {
+            ticket.setBookingCode(booking.getBookingCode());
+            ticketRepository.addTicket(ticket);
+        }
+
+        return "redirect:/booking/confirmation/"  + booking.getBookingCode();
 
     }
 
-    @GetMapping("/booking/confirmation")
-    public String bookingConfirmation() {
+    @GetMapping("/booking/confirmation/{bookingCode}")
+    public String getBookingConfirmation(@PathVariable(name = "bookingCode") String bookingCode, Model model) {
+        Booking booking = bookingRepository.findBookingByBookingCode(bookingCode);
+
+        model.addAttribute(booking);
 
         return "booking/booking-confirmation";
     }
+
 }

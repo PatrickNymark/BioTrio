@@ -10,8 +10,13 @@
 <div th:replace="fragments/header :: header"></div>
 <h1 class="text-center mb-5 mt-5">Booking accepted</h1>
 <div class="container">
-    <div class="jumbotron">
+    <div class="jumbotron" th:object="${booking}">
         <h4 class="text-center">Enjov the movie</h4>
+        <p th:text="${booking.bookingCode}"></p>
+        <div th:each="ticket : ${booking.tickets}">
+            <p th:text="'Row nr: ' + ${ticket.seatRow}"></p>
+            <p th:text="'Seat nr: ' + ${ticket.seatNr}"></p>
+        </div>
     </div>
 </div>
 </body>

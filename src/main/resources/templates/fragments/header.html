@@ -29,13 +29,7 @@
                 <a class="nav-link" href="/all-movie-plays">Movie Plays</a>
             </li>
             <li sec:authorize="hasRole('ROLE_STAFF')">
-                <a class="nav-link" href="/manage/add-movie">Add Movie</a>
-            </li>
-            <li sec:authorize="hasRole('ROLE_STAFF')">
-                <a class="nav-link" href="/manage/add-theater">Add Theater</a>
-            </li>
-            <li sec:authorize="hasRole('ROLE_STAFF')">
-                <a class="nav-link" href="/manage/add-movie-play">Add Movie Play</a>
+                <a class="nav-link" href="/manage/admin">Manage</a>
             </li>
             <li sec:authorize="hasRole('ROLE_CUSTOMER')">
                 <a class="nav-link" href="/customer/profile">Profile</a>

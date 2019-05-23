@@ -42,12 +42,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/js/**"
         };
 
+        String[] noAuthLinks = {
+                "/",
+                "/all-movies",
+                "/all-theaters",
+                "/movie/**",
+                "/booking/**",
+                "/all-movie-plays"
+        };
 
         http.csrf().disable();
 
         http
                 .authorizeRequests()
-                .antMatchers("/", "/all-movies", "/all-theaters", "/movie/**", "/booking/**").permitAll()
+                .antMatchers(noAuthLinks).permitAll()
                 .antMatchers(staticResources).permitAll()
                 .antMatchers("/customer/**").access("hasRole('CUSTOMER')")
                 .antMatchers("/manage/**").access("hasRole('STAFF')")

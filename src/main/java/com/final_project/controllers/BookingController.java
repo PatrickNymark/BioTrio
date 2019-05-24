@@ -1,17 +1,12 @@
 package com.final_project.controllers;
 
 import com.final_project.entities.*;
-import com.final_project.repositories.BookingRepository;
-import com.final_project.repositories.MoviePlayRepository;
-import com.final_project.repositories.TheaterRepository;
-import com.final_project.repositories.TicketRepository;
+import com.final_project.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +25,9 @@ public class BookingController {
 
     @Autowired
     TheaterRepository theaterRepository;
+
+    @Autowired
+    MovieRepository movieRepository;
 
 
     @GetMapping("/manage/all-bookings")
@@ -115,10 +113,15 @@ public class BookingController {
     @GetMapping("/booking/confirmation/{bookingCode}")
     public String getBookingConfirmation(@PathVariable(name = "bookingCode") String bookingCode, Model model) {
         Booking booking = bookingRepository.findBookingByBookingCode(bookingCode);
+        List<Ticket> tickets = ticketRepository.findTicketsByBookingCode(bookingCode);
+        MoviePlay moviePlay = moviePlayRepository.getMoviePlayById(booking.getMoviePlayId());
+        Movie movie = movieRepository.findMovieById(moviePlay.getMovieId());
 
-        model.addAttribute(booking);
+        model.addAttribute("booking",booking);
+        model.addAttribute("tickets", tickets);
+        model.addAttribute("movie", movie);
+        model.addAttribute("moviePlay", moviePlay);
 
         return "booking/booking-confirmation";
     }
-
 }

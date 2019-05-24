@@ -12,8 +12,9 @@
         body {
             font-family: Montserrat;
         }
+
         .bookingCard {
-            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
         }
 
         .logo {
@@ -23,6 +24,15 @@
         .header {
             font-size: 25px;
         }
+
+        .content-contaniner {
+            padding: 20px 100px;
+        }
+
+        .seatsRow {
+            paddding: 50px 200px;
+        }
+
     </style>
 </head>
 <body>
@@ -33,11 +43,32 @@
             <img class="img-fluid mt-5 logo" src="/img/logo.png" alt="">
         </div>
         <h6 class="text-center header mt-4">Booking Accepted</h6>
-        <p th:text="'Booking Code:' + ${booking.bookingCode}"></p>
-        <div th:each="ticket : ${tickets}">
-            <p th:text="'Row nr: ' + ${ticket.seatRow}"></p>
-            <p th:text="'Seat nr: ' + ${ticket.seatNr}"></p>
+
+        <div class="content-contaniner">
+            <div class="list-group mt-4">
+                <a href="#" class="list-group-item list-group-item-action active"
+                   th:text="${tickets.size() + ' Tickets'}">
+
+                </a>
+                <a th:href="@{/movie/{id} (id = ${movie.id})}" class="list-group-item list-group-item-action"
+                   th:text="${movie.title}"></a>
+                <a href="#" class="list-group-item list-group-item-action"
+                   th:text="${#temporals.format(moviePlay.playStart, 'dd/MM/yyyy')}"></a>
+                <a href="#" class="list-group-item list-group-item-action"
+                   th:text="${#temporals.format(moviePlay.playStart, 'HH:mm')}"></a>
+                <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true"
+                   th:text="'Booking Code: ' + ${booking.bookingCode}"></a>
+            </div>
         </div>
+
+        <h4 class="text-center">Seats:</h4>
+        <div class="row text-center seatsRow">
+            <div th:each="ticket : ${tickets}" class="col-6 text-center mb-5">
+                <span class="badge badge-primary" th:text="'Row nr: ' + ${ticket.seatRow}"></span>
+                <span class="badge badge-primary" th:text="'Seat nr: ' + ${ticket.seatNr}"></span>
+            </div>
+        </div>
+
     </div>
 </div>
 </body>

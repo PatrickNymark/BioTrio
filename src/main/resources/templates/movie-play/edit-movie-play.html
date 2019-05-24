@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Montserrat;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
@@ -16,24 +22,32 @@
         <p class="lead">
 
         <form th:action="@{/edit-movie-play}" method="post" th:object="${play}">
-        <input type="number" id="playId" name="playId" th:value="${play.id}">
             <div class="form-group">
-                <label for="movieId">Movie Id</label>
-                <input type="number" class="form-control" th:value="${play.movieId}" name="movieId" id="movieId" placeholder="Enter movie id">
+                <label for="movieControl">Movie</label>
+                <select  class="form-control" id="movieControl"  th:field="${play.movieId}">
+                    <option th:each="movie : ${movies}" th:name="movieId" th:value="${movie.getId()}" th:text="${movie.getTitle()}"
+                    </option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="theaterId">Theater Id</label>
-                <input type="number" class="form-control" th:value="${play.theaterId}" name="theaterId" id="theaterId" placeholder="Enter theater id">
+                <label for="theaterControl">Choose theater</label>
+                <select  class="form-control" id="theaterControl"   th:field="${play.theaterId}">
+                    <option th:each="theater : ${theaters}" th:name="theaterId" th:value="${theater.getId()}" th:text="${theater.getTheaterName()}">
+                    </option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="playStart">Play Start</label>
-                <input type="text" class="form-control" th:value="${play.playStart}" name="playStart" id="playStart" placeholder="Enter start time: 22/01/2019 20:00">
+                <label for="date">Play Start</label>
+                <input type="text" class="form-control" th:name="play-start" id="date" th:value="${play.getPlayStart()}" placeholder="Enter start time: 22/01/2019 20:00">
             </div>
+            <input type="hidden" name="id" th:value="${play.id}">
             <button type="submit" class="btn btn-primary">Submit</button>
             <button type="reset" class="btn btn-primary">Cancel</button>
         </form>
         </p>
     </div>
 </div>
+
+
 </body>
 </html>

@@ -19,9 +19,13 @@
     <a class="btn btn-primary btn-sm" href="/auth/register">Add Customer</a>
     <hr>
     <a class="btn btn-primary btn-sm" href="/manage/all-bookings">All bookings</a>
-
+    <hr>
+    <form th:action="@{/manage/bookings/filter}" method="get">
+        <input type="search" name="value" placeholder="Enter booking code">
+    </form>
     </li>
 </div>
+
 
 <!--<p>See theaters <a href="/all-theater">here</a></p>-->
 

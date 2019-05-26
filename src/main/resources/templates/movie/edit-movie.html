@@ -57,6 +57,10 @@
                 <label for="imageName">Image name</label>
                 <input type="text" class="form-control" id="imageName" th:field="${movie.imageName}">
             </div>
+            <div class="form-group">
+                <label for="trailerUrl">Trailer url</label>
+                <input type="text" class="form-control" id="trailerUrl" th:field="${movie.trailerUrl}">
+            </div>
             <input type="hidden" name="id" th:value="${movie.getId()}">
             <button type="submit" class="btn btn-primary">Save movie</button>
         </form>

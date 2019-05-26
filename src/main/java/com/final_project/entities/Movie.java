@@ -28,18 +28,20 @@ public class Movie {
     @Min(value = 1, message = "Length can not be 0")
     private int lengthInMinutes;
     private String imageName;
+    private String trailerUrl;
 
     public Movie() {
     }
 
-    public Movie(String title, String genre, LocalDate releaseYear, double rating, int ageLimit, String imageName, int lengthInMinutes) {
+    public Movie(@NotEmpty(message = "Title can not be empty") String title, @NotEmpty(message = "Genre can not be empty") String genre, LocalDate releaseYear, double rating, int ageLimit, @Min(value = 1, message = "Length can not be 0") int lengthInMinutes, String imageName, String trailerUrl) {
         this.title = title;
         this.genre = genre;
         this.releaseYear = releaseYear;
         this.rating = rating;
         this.ageLimit = ageLimit;
-        this.imageName = imageName;
         this.lengthInMinutes = lengthInMinutes;
+        this.imageName = imageName;
+        this.trailerUrl = trailerUrl;
     }
 
     public int getId() {
@@ -90,6 +92,14 @@ public class Movie {
         this.ageLimit = ageLimit;
     }
 
+    public int getLengthInMinutes() {
+        return lengthInMinutes;
+    }
+
+    public void setLengthInMinutes(int lengthInMinutes) {
+        this.lengthInMinutes = lengthInMinutes;
+    }
+
     public String getImageName() {
         return imageName;
     }
@@ -98,12 +108,12 @@ public class Movie {
         this.imageName = imageName;
     }
 
-    public int getLengthInMinutes() {
-        return lengthInMinutes;
+    public String getTrailerUrl() {
+        return trailerUrl;
     }
 
-    public void setLengthInMinutes(int lengthInMinutes) {
-        this.lengthInMinutes = lengthInMinutes;
+    public void setTrailerUrl(String trailerUrl) {
+        this.trailerUrl = trailerUrl;
     }
 
     @Override
@@ -117,6 +127,7 @@ public class Movie {
                 ", ageLimit=" + ageLimit +
                 ", lengthInMinutes=" + lengthInMinutes +
                 ", imageName='" + imageName + '\'' +
+                ", trailerUrl='" + trailerUrl + '\'' +
                 '}';
     }
 }

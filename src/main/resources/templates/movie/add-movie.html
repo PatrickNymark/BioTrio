@@ -13,7 +13,6 @@
     </style>
 </head>
 <body>
-<h1>Welcome to BioTrio</h1>
 <div th:replace="fragments/header :: header"></div>
 
 
@@ -21,31 +20,35 @@
     <div class="container">
         <h1 class="display-4">Add new movie</h1>
         <p class="lead">
-
-        <form action="/manage/add-movie" method="post">
+        <form action="/manage/add-movie" method="post" th:object="${movie}">
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="Enter movie title" maxlength="100">
+                <input type="text" th:class="${#fields.hasErrors('title') ? 'form-control is-invalid': 'form-control'}" id="title" th:field="${movie.title}" placeholder="Enter movie title">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="${movie.title}"></div>
             </div>
             <div class="form-group">
                 <label for="genre">Genre</label>
-                <input type="text" class="form-control" id="genre" name="genre" placeholder="Genre: example 'horror'">
+                <input type="text"  th:class="${#fields.hasErrors('genre') ? 'form-control is-invalid' : 'form-control'}" id="genre" th:field="${movie.genre}" placeholder="Genre: example 'horror'">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('genre')}" th:errors="${movie.title}"></div>
             </div>
             <div class="form-group">
                 <label for="releaseYear">Release year</label>
-                <input type="text" class="form-control" id="releaseYear" name="releaseYear" placeholder="Enter year of release">
+                <input type="date" class="form-control" id="releaseYear" th:field="${movie.releaseYear}">
             </div>
             <div class="form-group">
                 <label for="length">Length in minutes</label>
-                <input type="number" class="form-control" id="length" name="lengthInMinutes" placeholder="Enter length in minutes">
+                <input type="number" th:class="${#fields.hasErrors('lengthInMinutes') ? 'form-control is-invalid' : 'form-control'}" id="length" th:field="${movie.lengthInMinutes}" placeholder="Enter length in minutes">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('lengthInMinutes')}" th:errors="${movie.lengthInMinutes}"></div>
             </div>
             <div class="form-group">
                 <label for="rating">Rating</label>
-                <input type="number" class="form-control" id="rating" name="rating" placeholder="Movie rating" min="0">
+                <input type="number" th:class="${#fields.hasErrors('rating') ? 'form-control is-invalid' : 'form-control'}" id="rating" th:field="${movie.rating}" placeholder="Movie rating">
+                <div class="invalid-feedbck" th:if="${#fields.hasErrors('rating')}" th:errors="${movie.rating}"></div>
             </div>
             <div class="form-group">
                 <label for="ageLimit">Age limit</label>
-                <input type="number" class="form-control" id="ageLimit" name="ageLimit" placeholder="Age limit" min="0">
+                <input type="number" th:class="${#fields.hasErrors('ageLimit') ? 'form-control is-invalid' : 'form-control'}" id="ageLimit" th:field="${movie.ageLimit}" placeholder="Age limit">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('ageLimit')}" th:errors="${movie.ageLimit}"></div>
             </div>
             <div class="form-group">
                 <label for="imageName">Image name</label>
@@ -59,8 +62,6 @@
 
         </p>
     </div>
-
-<!--<p>See theaters <a href="/all-theater">here</a></p>-->
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

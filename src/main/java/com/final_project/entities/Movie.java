@@ -1,8 +1,13 @@
 package com.final_project.entities;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 
@@ -12,13 +17,17 @@ public class Movie {
 
     @Id @GeneratedValue
     private int id ;
+    @NotEmpty(message = "Title can not be empty")
     private String title;
+    @NotEmpty(message = "Genre can not be empty")
     private String genre;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseYear;
     private double rating;
     private int ageLimit;
-    private String imageName;
+    @Min(value = 1, message = "Length can not be 0")
     private int lengthInMinutes;
+    private String imageName;
 
     public Movie() {
     }
@@ -95,6 +104,20 @@ public class Movie {
 
     public void setLengthInMinutes(int lengthInMinutes) {
         this.lengthInMinutes = lengthInMinutes;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", genre='" + genre + '\'' +
+                ", releaseYear=" + releaseYear +
+                ", rating=" + rating +
+                ", ageLimit=" + ageLimit +
+                ", lengthInMinutes=" + lengthInMinutes +
+                ", imageName='" + imageName + '\'' +
+                '}';
     }
 }
 

@@ -7,8 +7,11 @@ import com.final_project.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -31,12 +34,17 @@ public class MovieController {
     }
 
     @GetMapping ("/manage/add-movie")
-    public String getAddMovie() {
+    public String getAddMovie(@ModelAttribute Movie movie, Model model) {
+        model.addAttribute(movie);
         return "movie/add-movie";
     }
 
     @PostMapping("/manage/add-movie")
-    public String addMovie(@ModelAttribute Movie movie) {
+    public String addMovie(@ModelAttribute @Valid Movie movie, Errors errors) {
+        if(errors.hasErrors()) {
+            return "movie/add-movie";
+        }
+
         movieRepository.addMovie(movie);
         return "redirect:/all-movies";
     }

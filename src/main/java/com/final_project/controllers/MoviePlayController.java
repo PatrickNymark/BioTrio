@@ -6,17 +6,11 @@ import com.final_project.entities.Theater;
 import com.final_project.repositories.MoviePlayRepository;
 import com.final_project.repositories.MovieRepository;
 import com.final_project.repositories.TheaterRepository;
-import com.final_project.utils.Helper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Controller

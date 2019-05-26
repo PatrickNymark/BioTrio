@@ -37,6 +37,11 @@
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('genre')}" th:errors="${movie.genre}"></div>
             </div>
             <div class="form-group">
+                <label for="description">Description</label>
+                <textarea th:class="${#fields.hasErrors('description') ? 'form-control is-invalid' : 'form-control'}" id="description" th:field="${movie.description}" rows="5"></textarea>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="${movie.description}"></div>
+            </div>
+            <div class="form-group">
                 <label for="release year">Release year</label>
                 <input type="date" class="form-control" id="release year" th:field="${movie.releaseYear}" th:placeholder="${movie.releaseYear}">
             </div>

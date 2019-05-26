@@ -36,15 +36,15 @@ public class MovieRepository {
     }
 
     public void addMovie(Movie movie) {
-        String sqlQuery = "INSERT INTO movies(title, genre, rating, release_year, length_in_minutes, age_limit, image_name, trailer_url) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlQuery = "INSERT INTO movies(title, genre, rating, release_year, length_in_minutes, age_limit, image_name, trailer_url, description) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getLengthInMinutes(), movie.getAgeLimit(), movie.getImageName(), movie.getTrailerUrl());
+        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getLengthInMinutes(), movie.getAgeLimit(), movie.getImageName(), movie.getTrailerUrl(), movie.getDescription());
     }
 
     public void editMovie(Movie movie) {
-        String sqlQuery = "UPDATE movies SET title = ?, genre = ?, rating = ?, release_year = ?, length_in_minutes = ?, age_limit = ?, image_name = ?, trailer_url = ?, WHERE movie_id = ?";
+        String sqlQuery = "UPDATE movies SET title = ?, genre = ?, rating = ?, release_year = ?, length_in_minutes = ?, age_limit = ?, image_name = ?, trailer_url = ?, description = ? WHERE movie_id = ?";
 
-        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getLengthInMinutes(), movie.getAgeLimit(), movie.getImageName(), movie.getTrailerUrl(), movie.getId());
+        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getLengthInMinutes(), movie.getAgeLimit(), movie.getImageName(), movie.getTrailerUrl(), movie.getDescription(), movie.getId());
     }
 
     public void deleteMovie(int id) {
@@ -68,6 +68,7 @@ public class MovieRepository {
             movie.setImageName(rs.getString("image_name"));
             movie.setLengthInMinutes(rs.getInt("length_in_minutes"));
             movie.setTrailerUrl(rs.getString("trailer_url"));
+            movie.setDescription(rs.getString("description"));
 
             movieList.add(movie);
         }
@@ -88,6 +89,7 @@ public class MovieRepository {
             movie.setImageName(rs.getString("image_name"));
             movie.setLengthInMinutes(rs.getInt("length_in_minutes"));
             movie.setTrailerUrl(rs.getString("trailer_url"));
+            movie.setDescription(rs.getString("description"));
 
         }
 

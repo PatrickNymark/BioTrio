@@ -21,6 +21,8 @@ public class Movie {
     private String title;
     @NotEmpty(message = "Genre can not be empty")
     private String genre;
+    @NotEmpty(message = "Description can not be empty")
+    private String description;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseYear;
     private double rating;
@@ -33,9 +35,10 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(@NotEmpty(message = "Title can not be empty") String title, @NotEmpty(message = "Genre can not be empty") String genre, LocalDate releaseYear, double rating, int ageLimit, @Min(value = 1, message = "Length can not be 0") int lengthInMinutes, String imageName, String trailerUrl) {
+    public Movie(@NotEmpty(message = "Title can not be empty") String title, @NotEmpty(message = "Genre can not be empty") String genre, @NotEmpty(message = "Description can not be empty") String description, LocalDate releaseYear, double rating, int ageLimit, @Min(value = 1, message = "Length can not be 0") int lengthInMinutes, String imageName, String trailerUrl) {
         this.title = title;
         this.genre = genre;
+        this.description = description;
         this.releaseYear = releaseYear;
         this.rating = rating;
         this.ageLimit = ageLimit;
@@ -66,6 +69,14 @@ public class Movie {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDate getReleaseYear() {
@@ -114,21 +125,6 @@ public class Movie {
 
     public void setTrailerUrl(String trailerUrl) {
         this.trailerUrl = trailerUrl;
-    }
-
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", genre='" + genre + '\'' +
-                ", releaseYear=" + releaseYear +
-                ", rating=" + rating +
-                ", ageLimit=" + ageLimit +
-                ", lengthInMinutes=" + lengthInMinutes +
-                ", imageName='" + imageName + '\'' +
-                ", trailerUrl='" + trailerUrl + '\'' +
-                '}';
     }
 }
 

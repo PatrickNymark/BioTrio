@@ -10,18 +10,21 @@
         body {
             font-family: Montserrat;
         }
+
+        .backLink:hover {
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 
 
-<div class="jumbotron jumbotron-fluid">
+<div>
     <div class="container">
-        <h1 class="display-4">Booking</h1>
+        <h1 class="display-4 text-center mt-5 mb-5">Booking</h1>
         <div th:if="${booking.bookingCode == null}">Booking not found</div>
         <div class="jumbotron" th:if="${booking.bookingCode != null}">
-            <p th:text="'Movie Play: ' + ${booking.getMoviePlayId()}"></p>
             <div>
                 <h2 th:text="${#temporals.format(moviePlay.playStart, 'dd/MM/yyyy HH:mm')}" />
                 <h4 th:text="${movie.title}"></h4>
@@ -37,7 +40,7 @@
             <a href="/" class="btn btn-primary">Print Tickets</a>
             <a href="/" class="btn btn-primary">Choose Payment</a>
         </div>
-        <a href="/manage/admin">Go Back</a>
+        <a class="backLink" href="/manage/admin">&larr; Go Back</a>
     </div>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"

@@ -25,6 +25,15 @@ public class MovieRepository {
         return movieList;
     }
 
+    public List<Movie> findTop3Movies() {
+        int limit = 3;
+        String sqlQuery = "SELECT * FROM movies ORDER BY rating LIMIT ?";
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, limit);
+
+        return generateMovies(rs);
+    }
+
     public Movie findMovieById(int id) {
         String sqlQuery = "SELECT * FROM movies WHERE movie_id=" + id;
 

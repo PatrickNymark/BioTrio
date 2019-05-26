@@ -28,6 +28,16 @@ public class MoviePlayRepository {
         return moviePlayList;
     }
 
+    public List<MoviePlay> findNext3MoviePlays() {
+        int limit = 3;
+
+        String sqlQuery = "SELECT * FROM movie_plays ORDER BY play_start LIMIT ?";
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, limit);
+
+        return generateMoviePlays(rs);
+    }
+
     public List<MoviePlay> getMoviePlaysByMovieId(int movieId) {
         String sqlQuery = "SELECT * FROM movie_plays WHERE movie_id =" + movieId + " ORDER BY play_start";
 

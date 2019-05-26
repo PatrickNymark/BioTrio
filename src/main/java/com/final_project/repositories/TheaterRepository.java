@@ -17,7 +17,6 @@ public class TheaterRepository {
 
     public int addTheater(Theater theater) {
         String sqlQuery = "INSERT INTO theaters(title, seats_pr_row, number_of_rows) VALUES (?,?,?)";
-        System.out.println("You have successfully created a new theater");
         return jdbcTemplate.update(sqlQuery, theater.getTheaterName(), theater.getSeatsPerRow(), theater.getNumberOfRows());
     }
 

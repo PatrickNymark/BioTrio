@@ -14,6 +14,10 @@
         .badge {
             padding: 8px 15px;
         }
+
+        .txt {
+            margin: 0px;
+        }
     </style>
 </head>
 <body>
@@ -21,16 +25,12 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-6 text-center">
-            <iframe th:if="${movie.trailerUrl.length() != 0}" class="mt-b" width="100%" height="345" th:src="${movie.trailerUrl}" >
-            </iframe>
-            <img class="img-fluid" style="max-height: 200px" th:src="@{/img/{image}(image=${movie.getImageName()})}" alt="">
-
+            <img class="img-fluid" style="max-height: 500px" th:src="@{/img/{image}(image=${movie.getImageName()})}" alt="">
         </div>
         <div class="col-6">
-            <h1 th:text="${movie.getTitle()}"></h1>
-            <p th:text="${movie.getGenre()}"></p>
-            <p th:text="${#temporals.format(movie.getReleaseYear(), 'dd/MM/yyyy')}"></p>
-            <p th:text="${movie.getAgeLimit()}"></p>
+            <h1 th:text="${movie.title}"></h1>
+            <p th:text="${movie.genre}"></p>
+            <p style="font-size: 18px; line-height: 2" th:text="${movie.description}"></p>
             <table class="table table-hover mb-5">
                 <thead>
                 <tr>
@@ -47,6 +47,30 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="text-center container">
+        <iframe th:if="${movie.trailerUrl.length() != 0}" style="margin-top: 100px" class="mt-5 mb-5" width="700px" height="400px" th:src="${movie.trailerUrl}" >
+        </iframe>
+    </div>
+
+
+    <div class="row text-center mt-5 mb-5">
+        <div class="col-6">
+            <p class="txt">Title</p>
+            <p class="txt" style="font-weight: bolder; font-size: 20px; margin-bottom: 5px" th:text="${movie.title}"></p>
+            <p class="txt">Genre</p>
+            <p class="txt" style="font-weight: bolder; font-size: 20px; margin-bottom: 5px" th:text="${movie.genre}"></p>
+            <p class="txt">Playtime</p>
+            <p class="txt" style="font-weight: bolder; font-size: 20px; margin-bottom: 5px" th:text="${movie.lengthInMinutes} + ' minutes'"></p>
+        </div>
+        <div class="col-6">
+            <p class="txt">Age Limit</p>
+            <p class="txt" style="font-weight: bolder; font-size: 20px; margin-bottom: 5px" th:text="${movie.ageLimit} + '+'"></p>
+            <p class="txt">Release Year</p>
+            <p class="txt" style="font-weight: bolder; font-size: 20px; margin-bottom: 5px" th:text="${#temporals.format(movie.releaseYear, 'dd/MM/yyyy')}"></p>
+            <p class="txt">Rating</p>
+            <p class="txt" style="font-weight: bolder; font-size: 20px; margin-bottom: 5px" th:text="${movie.rating}"></p>
         </div>
     </div>
 </div>

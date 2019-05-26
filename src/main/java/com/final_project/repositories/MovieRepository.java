@@ -62,6 +62,7 @@ public class MovieRepository {
             movie.setId(rs.getInt("movie_id"));
             movie.setTitle(rs.getString("title"));
             movie.setGenre(rs.getString("genre"));
+            movie.setReleaseYear(rs.getDate("release_year").toLocalDate());
             movie.setRating(rs.getDouble("rating"));
             movie.setAgeLimit(rs.getInt("age_limit"));
             movie.setImageName(rs.getString("image_name"));
@@ -80,6 +81,7 @@ public class MovieRepository {
             movie.setId(rs.getInt("movie_id"));
             movie.setTitle(rs.getString("title"));
             movie.setGenre(rs.getString("genre"));
+            movie.setReleaseYear(rs.getDate("release_year").toLocalDate());
             movie.setRating(rs.getDouble("rating"));
             movie.setAgeLimit(rs.getInt("age_limit"));
             movie.setImageName(rs.getString("image_name"));

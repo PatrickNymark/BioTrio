@@ -33,7 +33,7 @@
                 <div class="card-body">
                     <h3 class="card-title" th:text="${movie.title}"></h3>
                     <div class="card-text" th:text="${movie.getGenre()}"></div>
-                    <div class="card-text" th:text="${movie.getReleaseYear()}"></div>
+                    <div class="card-text" th:text="${#temporals.format(movie.getReleaseYear(), 'dd/MM/yyyy')}"></div>
                     <a class="card-link" th:href="@{'/movie/' + ${movie.id}}">See Date & Time</a>
                     <a class="card-link badge badge-primary float-right large" sec:authorize="hasRole('ROLE_STAFF')" th:href="@{'/manage/edit-movie/' + ${movie.id}}">
                         Edit

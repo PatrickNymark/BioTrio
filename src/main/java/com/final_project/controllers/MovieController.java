@@ -58,11 +58,12 @@ public class MovieController {
     }
 
     @PostMapping("/manage/edit-movie")
-    public String editMovie(@ModelAttribute Movie movie, @RequestParam(name = "release-year") String releaseYear) {
-       /* DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate formattedDate = LocalDate.parse(releaseYear, formatter);
+    public String editMovie(@ModelAttribute @Valid Movie movie, Errors errors, Model model) {
+        if(errors.hasErrors()) {
+            model.addAttribute(movie);
+            return "movie/edit-movie";
+        }
 
-        movie.setReleaseYear(formattedDate);n*/
         movieRepository.editMovie(movie);
         return "redirect:/movie/" + movie.getId();
     }

@@ -37,6 +37,14 @@ public class BookingRepository {
         return generateBooking(rs);
     }
 
+    public List<Booking> findBookingsByMoviePlayId(int moviePlayId) {
+        String sqlQuery = "SELECT * FROM bookings WHERE movie_play_id = ?";
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, moviePlayId);
+
+        return generateBookings(rs);
+    }
+
     public void addBooking(Booking booking) {
         String sqlQuery = "INSERT INTO bookings(movie_play_id, staff_id, customer_id, total_price, booking_code) VALUES(?, ?, ?, ?, ?)";
 

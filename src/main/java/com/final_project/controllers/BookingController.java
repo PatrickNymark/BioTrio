@@ -5,6 +5,7 @@ import com.final_project.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -40,7 +41,7 @@ public class BookingController {
     }
 
     @GetMapping("/booking/choose-seat/{id}")
-    public String getChooseSeat(@PathVariable(name = "id") int moviePlayId, Model model) {
+    public String getChooseSeat(@PathVariable(name = "id") int moviePlayId, Model model, @RequestParam(value = "message", required = false) String message) {
         MoviePlay moviePlay = moviePlayRepository.getMoviePlayById(moviePlayId);
         Theater theater = theaterRepository.findTheaterById(moviePlay.getTheaterId());
 
@@ -70,15 +71,21 @@ public class BookingController {
         model.addAttribute("seats", theaterSeats);
         model.addAttribute("rows", theater.getNumberOfRows());
         model.addAttribute("seatsPrRow", theater.getSeatsPerRow());
+        model.addAttribute("message", message);
 
         return "booking/choose-seat";
     }
 
     @PostMapping("/booking/choose-seat/{id}")
-    public String addBooking(@RequestBody String seats, @PathVariable(name = "id") int moviePlayId) {
+    public String addBooking(@RequestBody String seats, @PathVariable(name = "id") int moviePlayId, RedirectAttributes redirectAttributes) {
         List<Ticket> tickets = new ArrayList<>();
 
         String[] newSeats = seats.split("&");
+
+        if(newSeats.length > 4 || newSeats.length == 0) {
+            redirectAttributes.addAttribute("message", "Please choose between 1-4 seats");
+            return "redirect:/booking/choose-seat/" + moviePlayId;
+        }
 
         for (int i = 0; i < newSeats.length; i++) {
             Ticket ticket = new Ticket();
@@ -109,7 +116,6 @@ public class BookingController {
         return "redirect:/booking/confirmation/"  + booking.getBookingCode();
 
     }
-
     @GetMapping("/booking/confirmation/{bookingCode}")
     public String getBookingConfirmation(@PathVariable(name = "bookingCode") String bookingCode, Model model) {
         Booking booking = bookingRepository.findBookingByBookingCode(bookingCode);

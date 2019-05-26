@@ -1,5 +1,6 @@
 package com.final_project.entities;
 
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class Booking {

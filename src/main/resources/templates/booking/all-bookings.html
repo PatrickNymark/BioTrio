@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -27,6 +27,9 @@
             <span class="badge badge-secondary" th:text="'Seat nr:' + ${ticket.seatNr}"></span>
             <span class="badge badge-secondary" th:text="'Seat row:' + ${ticket.seatRow}"></span>
         </div>
+        <form sec:authorize="hasRole('ROLE_STAFF')" th:action="@{/manage/delete-booking/{bookingCode} (bookingCode = ${booking.bookingCode})}" method="post"><button type="submit" class="card-link badge badge-primary float-right" style="padding: 8px 15px">
+            Delete
+        </button></form>
     </div>
 </div>
 </body>

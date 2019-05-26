@@ -130,4 +130,17 @@ public class BookingController {
 
         return "booking/booking-confirmation";
     }
+
+    @PostMapping("/manage/delete-booking/{bookingCode}")
+    public String deleteBooking(@PathVariable(name = "bookingCode") String bookingCode) {
+        Booking bookingToDelete = bookingRepository.findBookingByBookingCode(bookingCode);
+
+       for(Ticket ticket : bookingToDelete.getTickets()) {
+            ticketRepository.deleteTicket(ticket.getId());
+        }
+
+        bookingRepository.deleteBooking(bookingCode);
+
+        return "redirect:/manage/all-bookings";
+    }
 }

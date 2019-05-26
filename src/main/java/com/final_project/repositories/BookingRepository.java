@@ -43,6 +43,12 @@ public class BookingRepository {
         jdbcTemplate.update(sqlQuery, booking.getMoviePlayId(), null, null, booking.getTotalPrice(), booking.getBookingCode());
     }
 
+    public void deleteBooking(String bookingCode) {
+        String sqlQuery = "DELETE FROM bookings WHERE booking_code = ?";
+
+        jdbcTemplate.update(sqlQuery, bookingCode);
+    }
+
     private List<Booking> generateBookings(SqlRowSet rs) {
         List<Booking> bookings = new ArrayList<>();
 
@@ -72,11 +78,10 @@ public class BookingRepository {
             booking.setTotalPrice(rs.getInt("total_price"));
 
             // Get tickets
-           // List<Ticket> tickets = ticketRepository.getTicketsByBookingId(rs.getInt("booking_id"));
-            //booking.setTickets(tickets);
+            List<Ticket> tickets = ticketRepository.findTicketsByBookingCode(booking.getBookingCode());
+            booking.setTickets(tickets);
         }
 
-        System.out.println(booking);
         return booking;
     }
 }

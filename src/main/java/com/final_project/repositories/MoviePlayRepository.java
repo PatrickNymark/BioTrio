@@ -18,8 +18,8 @@ public class MoviePlayRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public List<MoviePlay> getMoviePlays() {
-        String sqlQuery = "SELECT * FROM movie_plays";
+    public List<MoviePlay> findAllMoviePlays() {
+        String sqlQuery = "SELECT * FROM movie_plays ORDER BY play_start";
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
 
@@ -29,7 +29,7 @@ public class MoviePlayRepository {
     }
 
     public List<MoviePlay> getMoviePlaysByMovieId(int movieId) {
-        String sqlQuery = "SELECT * FROM movie_plays WHERE movie_id =" + movieId;
+        String sqlQuery = "SELECT * FROM movie_plays WHERE movie_id =" + movieId + " ORDER BY play_start";
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
 
@@ -38,10 +38,18 @@ public class MoviePlayRepository {
         return  moviePlayList;
     }
 
-    public MoviePlay getMoviePlayById(int id) {
-        String sqlQuery = "SELECT * FROM movie_plays WHERE play_id =" + id;
+    public List<MoviePlay> findMoviePlaysByTheater(int theaterId) {
+        String sqlQuery = "SELECT * FROM movie_plays WHERE theater_id =" + theaterId + " ORDER BY play_start";
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+
+        return generateMoviePlays(rs);
+    }
+
+    public MoviePlay getMoviePlayById(int id) {
+        String sqlQuery = "SELECT * FROM movie_plays WHERE play_id = ?";
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, id);
 
         MoviePlay moviePlay = generateMoviePlay(rs);
 
@@ -56,20 +64,15 @@ public class MoviePlayRepository {
     }
 
     public void deleteMoviePlay(int id) {
-        String sqlQuery = "DELETE FROM movie_plays WHERE play_id=" + id;
+        String sqlQuery = "DELETE FROM movie_plays WHERE play_id = ?";
 
-        jdbcTemplate.update(sqlQuery);
+        jdbcTemplate.update(sqlQuery, id);
     }
 
-    public int editMoviePlay(MoviePlay moviePlay) {
+    public void editMoviePlay(MoviePlay moviePlay) {
+        String sqlQuery = "UPDATE movie_plays SET movie_id = ?, theater_id = ?, play_start = ? WHERE play_id = ?";
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-        return jdbcTemplate.update("UPDATE movie_plays SET " +
-                "movie_id=" + moviePlay.getId() + ", " +
-                "theater_id=" + moviePlay.getTheaterId() + ", " +
-                "play_start='" + moviePlay.getPlayStart().format(formatter) + "'" +
-                " WHERE play_id=" + moviePlay.getId());
+        jdbcTemplate.update(sqlQuery, moviePlay.getMovieId(), moviePlay.getTheaterId(), moviePlay.getPlayStart(), moviePlay.getId());
     }
 
     private MoviePlay generateMoviePlay(SqlRowSet rs) {

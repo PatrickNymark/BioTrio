@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -21,28 +21,33 @@
         <h1 class="display-4">Edit movie play</h1>
         <p class="lead">
 
-        <form th:action="@{/edit-movie-play}" method="post" th:object="${play}">
+        <form th:action="@{/edit-movie-play}" style="display: inline" method="post" th:object="${moviePlay}">
             <div class="form-group">
                 <label for="movieControl">Movie</label>
-                <select  class="form-control" id="movieControl"  th:field="${play.movieId}">
-                    <option th:each="movie : ${movies}" th:name="movieId" th:value="${movie.getId()}" th:text="${movie.getTitle()}"
+                <select class="form-control" id="movieControl" th:field="${moviePlay.movieId}">
+                    <option th:each="movie : ${movies}" th:name="movieId" th:value="${movie.getId()}"
+                            th:text="${movie.getTitle()}"
                     </option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="theaterControl">Choose theater</label>
-                <select  class="form-control" id="theaterControl"   th:field="${play.theaterId}">
-                    <option th:each="theater : ${theaters}" th:name="theaterId" th:value="${theater.getId()}" th:text="${theater.getTheaterName()}">
+                <select class="form-control" id="theaterControl" th:field="${moviePlay.theaterId}">
+                    <option th:each="theater : ${theaters}" th:name="theaterId" th:value="${theater.getId()}"
+                            th:text="${theater.getTheaterName()}">
                     </option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="date">Play Start</label>
-                <input type="text" class="form-control" th:name="play-start" id="date" th:value="${play.getPlayStart()}" placeholder="Enter start time: 22/01/2019 20:00">
+                <input type="datetime-local" class="form-control" id="date" th:field="${moviePlay.playStart}">
             </div>
-            <input type="hidden" name="id" th:value="${play.id}">
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="reset" class="btn btn-primary">Cancel</button>
+            <input type="hidden" name="id" th:value="${moviePlay.id}">
+            <button type="submit" class="btn btn-primary">Save Play</button>
+        </form>
+        <form class="mt-2" style="display: inline" th:action="@{/manage/delete-movie-play/{id}(id=${moviePlay.id})}"
+              method="post">
+            <button type="submit" class="btn btn-primary">Delete Play</button>
         </form>
         </p>
     </div>

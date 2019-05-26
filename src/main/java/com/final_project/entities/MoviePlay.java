@@ -1,5 +1,7 @@
 package com.final_project.entities;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
@@ -10,6 +12,7 @@ public class MoviePlay {
     private int id;
     private int movieId;
     private int theaterId;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime playStart;
 
     public MoviePlay() {
@@ -51,5 +54,15 @@ public class MoviePlay {
 
     public void setPlayStart(LocalDateTime playStart) {
         this.playStart = playStart;
+    }
+
+    @Override
+    public String toString() {
+        return "MoviePlay{" +
+                "id=" + id +
+                ", movieId=" + movieId +
+                ", theaterId=" + theaterId +
+                ", playStart=" + playStart +
+                '}';
     }
 }

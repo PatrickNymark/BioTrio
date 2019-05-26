@@ -46,6 +46,12 @@ public class TicketRepository {
         jdbcTemplate.update(sqlQuery, ticket.getBookingCode(), ticket.getSeatNr(), ticket.getSeatRow(), ticket.getMoviePlayId());
     }
 
+    public void deleteTicket(int id) {
+        String sqlQuery = "DELETE FROM tickets WHERE ticket_id = ?";
+
+        jdbcTemplate.update(sqlQuery, id);
+    }
+
     private List<Ticket> generateTickets(SqlRowSet rs) {
         List<Ticket> tickets = new ArrayList<>();
 

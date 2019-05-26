@@ -1,11 +1,7 @@
 package com.final_project.controllers;
 
-import com.final_project.entities.Movie;
-import com.final_project.entities.MoviePlay;
-import com.final_project.entities.Theater;
-import com.final_project.repositories.MoviePlayRepository;
-import com.final_project.repositories.MovieRepository;
-import com.final_project.repositories.TheaterRepository;
+import com.final_project.entities.*;
+import com.final_project.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +20,12 @@ public class MoviePlayController {
 
     @Autowired
     TheaterRepository theaterRepository;
+
+    @Autowired
+    BookingRepository bookingRepository;
+
+    @Autowired
+    TicketRepository ticketRepository;
 
     @GetMapping ("/all-movie-plays")
     public String  getAllMoviePlays(Model model) {
@@ -61,6 +63,17 @@ public class MoviePlayController {
 
     @PostMapping ("/manage/delete-movie-play/{id}")
     public String deleteMoviePlay(@PathVariable(name ="id") int id) {
+        List<Booking> bookingsToDelete = bookingRepository.findBookingsByMoviePlayId(id);
+        List<Ticket> ticketsToDelete = ticketRepository.getTicketsByMoviePlayId(id);
+
+        for(Ticket ticket : ticketsToDelete) {
+            ticketRepository.deleteTicket(ticket.getId());
+        }
+
+        for(Booking booking : bookingsToDelete) {
+            bookingRepository.deleteBooking(booking.getBookingCode());
+        }
+
         moviePlayRepository.deleteMoviePlay(id);
         return "redirect:/all-movie-plays";
     }

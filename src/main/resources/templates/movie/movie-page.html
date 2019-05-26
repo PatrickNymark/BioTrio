@@ -50,7 +50,7 @@
         </div>
     </div>
     <div class="text-center container">
-        <iframe th:if="${movie.trailerUrl.length() != 0}" style="margin-top: 100px" class="mt-5 mb-5" width="700px" height="400px" th:src="${movie.trailerUrl}" >
+        <iframe th:if="${movie.trailerUrl != null}" style="margin-top: 100px" class="mt-5 mb-5" width="700px" height="400px" th:src="${movie.trailerUrl}" >
         </iframe>
     </div>
 

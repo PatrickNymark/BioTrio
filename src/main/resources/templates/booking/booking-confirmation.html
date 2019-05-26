@@ -33,6 +33,17 @@
             paddding: 50px 200px;
         }
 
+        .seatText {
+            font-size: 15px;
+        }
+
+        .seatBadge {
+            font-size: 15px;
+            width: 50px;
+            padding: 5px 20px;
+            margin-left: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -60,12 +71,11 @@
                    th:text="'Booking Code: ' + ${booking.bookingCode}"></a>
             </div>
         </div>
-
-        <h4 class="text-center">Seats:</h4>
-        <div class="row text-center seatsRow">
-            <div th:each="ticket : ${tickets}" class="col-6 text-center mb-5">
-                <span class="badge badge-primary" th:text="'Row nr: ' + ${ticket.seatRow}"></span>
-                <span class="badge badge-primary" th:text="'Seat nr: ' + ${ticket.seatNr}"></span>
+        <div class="row text-center seatsRow pb-5 mt-3">
+            <div class="col" th:each="ticket, itrNum : ${booking.getTickets()}">
+                <h5 th:text="'Seat ' + ${itrNum.count} + ':'"></h5>
+                <p class="seatText">Row: <span class="seatBadge badge badge-primary" th:text="${ticket.seatRow}"></span></p>
+                <p class="seatText">Nr: <span class="seatBadge badge badge-primary" th:text="${ticket.seatNr}"></span></p>
             </div>
         </div>
 

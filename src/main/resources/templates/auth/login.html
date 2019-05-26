@@ -21,7 +21,6 @@
     <div class="container">
         <h1 class="display-4">Login</h1>
         <p class="lead">
-
         <form th:action="@{/login}" method="post">
             <div class="valid-feedback"  th:if="${param.logout}">
                 You have been logged out
@@ -34,14 +33,11 @@
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password">
             </div>
-            <div class="" th:if="${param.error}">
+            <div class="alert alert-danger" th:if="${param.error}">
                 Invalid email and password.
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
-
-
-
         </p>
     </div>
 </body>

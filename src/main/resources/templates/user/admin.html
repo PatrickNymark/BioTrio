@@ -26,10 +26,14 @@
     <hr>
     <a class="btn btn-primary btn-sm" href="/manage/all-bookings">All bookings</a>
     <hr>
-    <form th:action="@{/manage/bookings/filter}" method="get">
-        <input type="search" name="value" placeholder="Enter booking code">
+    <form class="mt-5" action="/manage/bookings/search" method="post">
+        <div class="form-group">
+            <label for="search">Find Booking</label>
+            <input class="form-control" type="text" id="search" name="search"  placeholder="Enter booking code">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+        <button type="reset" class="btn btn-primary">Cancel</button>
     </form>
-    </li>
 </div>
 
 

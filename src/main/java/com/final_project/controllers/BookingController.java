@@ -143,4 +143,21 @@ public class BookingController {
 
         return "redirect:/manage/all-bookings";
     }
+
+    @GetMapping("/manage/booking/search")
+    public String getSearchBooking() {
+        return "booking/find-booking";
+    }
+
+    @PostMapping("/manage/bookings/search")
+    public String searchBookings(Model model, @RequestParam(name = "search", required = false) String searchValue) {
+        Booking booking = bookingRepository.findBookingByBookingCode(searchValue);
+        MoviePlay moviePlay = moviePlayRepository.getMoviePlayById(booking.getMoviePlayId());
+        Movie movie = movieRepository.findMovieById(moviePlay.getMovieId());
+
+        model.addAttribute("moviePlay", moviePlay);
+        model.addAttribute("booking", booking);
+        model.addAttribute("movie", movie);
+        return "booking/find-booking";
+    }
 }

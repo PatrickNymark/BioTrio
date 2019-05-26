@@ -35,6 +35,16 @@ public class MovieRepository {
         return movie;
     }
 
+    public List<Movie> searchMoviesByTitle(String title) {
+        String sqlQuery = "SELECT * FROM movies WHERE title LIKE ?";
+
+        String likeQuery = "%" + title + "%";
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, likeQuery);
+
+        return generateMovies(rs);
+    }
+
     public void addMovie(Movie movie) {
         String sqlQuery = "INSERT INTO movies(title, genre, rating, release_year, length_in_minutes, age_limit, image_name, trailer_url, description) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 

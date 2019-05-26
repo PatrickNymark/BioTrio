@@ -24,8 +24,13 @@ public class MovieController {
     MoviePlayRepository moviePlayRepository;
 
     @GetMapping ("/all-movies")
-    public String getAllMovie(Model model){
+    public String getAllMovie(Model model, @RequestParam(value = "search", required = false) String searchValue){
         List<Movie> movieList = movieRepository.findAllMovies();
+
+        if(searchValue != null) {
+            List<Movie> searchList = movieRepository.searchMoviesByTitle(searchValue);
+            model.addAttribute("searchList", searchList);
+        }
 
         model.addAttribute("movies", movieList);
         return "movie/all-movies";

@@ -13,12 +13,9 @@ public class UserRepository {
     JdbcTemplate jdbcTemplate;
 
     public User getUserByEmail(String email) {
+        String sqlQuery = "select * from users where email = ?";
 
-        System.out.println(email);
-
-        String sqlQuery = "select * from users where email =" + email;
-
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, email);
 
         return generateUser(rs);
     }
@@ -43,8 +40,6 @@ public class UserRepository {
             user.setActive(rs.getBoolean("active"));
 
         }
-
-        System.out.println(user);
 
         return user;
     }

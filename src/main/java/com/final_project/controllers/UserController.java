@@ -18,11 +18,19 @@ public class UserController {
     @GetMapping("/customer/profile")
     public String getProfile(Model model, Principal principal) {
         String currentUserEmail = principal.getName();
-        /*User user = userRepository.getUserByEmail(currentUserEmail);
+        User user = userRepository.getUserByEmail(currentUserEmail);
 
-        model.addAttribute(user); */
+        model.addAttribute(user);
 
-        System.out.println(currentUserEmail);
         return "user/profile";
+    }
+
+    @GetMapping("/manage/admin")
+    public String getAdminPage(Model model, Principal principal) {
+        String currentUserEmail = principal.getName();
+        User user = userRepository.getUserByEmail(currentUserEmail);
+
+        model.addAttribute(user);
+        return "user/admin";
     }
 }

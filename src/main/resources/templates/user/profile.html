@@ -15,7 +15,9 @@
 <body>
 <h1>Welcome to BioTrio</h1>
 <div th:replace="fragments/header :: header"></div>
-    <h1>User</h1>
+    <div class="container">
+        <h1 class="display-4 text-center" th:text="${user.firstName} + ' ' + ${user.lastName}"></h1>
+    </div>
 <!--    <p th:inline="text">Secured: [[${#httpServletRequest.remoteUser}]]!</p> -->
 
 </body>

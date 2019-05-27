@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Montserrat;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to BioTrio</h1>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Create/Add a new theater</h1>
+        <p class="lead">
+
+        <form action="/add-theater" method="post">
+            <div class="form-group">
+                <label for="theater">theater</label>
+                <input type="text" name="theater" class="form-control" id="theater" placeholder="Enter theater color example: 'Blue'" maxlength="100">
+            </div>
+        <div class="form-group">
+            <label for="number of rows">number of rows</label>
+            <input type="number" class="form-control" id="number of rows" name="numberOfRows" placeholder="Number of rows" min="0">
+        </div>
+        <div class="form-group">
+            <label for="number of seats per row">number of seats per row</label>
+            <input type="number" class="form-control" id="number of seats per row" name="seatsPerRow" placeholder="Number of seats per row" min="0">
+        </div>
+
+            <button type="submit" class="btn btn-primary">Add theater</button>
+            <button type="reset" class="btn btn-primary">Cancel</button>
+        </form>
+
+
+
+        </p>
+    </div>
+
+    <!--<p>See theaters <a href="/all-theater">here</a></p>-->
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

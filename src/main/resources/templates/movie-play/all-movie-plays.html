@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Montserrat;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<h1 class="text-center mt-5 mb-5">All Movie Plays</h1>
+<div class="container">
+    <div class="container">
+        <div class="media mt-5" th:each="play : ${plays}">
+            <span th:each="movie : ${movies}">
+                <img style="max-height: 150px" class="img-fluid mr-5" th:if="${movie.id == play.movieId}"
+                     th:src="@{/img/{image}(image = ${movie.imageName})}" alt="">
+            </span>
+            <div class="media-body">
+                <h5 class="mt-0" th:text="${#temporals.format(play.getPlayStart(), 'dd/MM/yyyy HH:mm')}"></h5>
+                <a style="padding: 8px 15px" class="badge badge-primary large"
+                   th:href="@{/booking/choose-seat/{id} (id = ${play.id})}">Book Tickets</a>
+                <a style="padding: 8px  15px" class="card-link badge badge-primary float-right large" sec:authorize="hasRole('ROLE_STAFF')"
+                   th:href="@{/manage/edit-movie-play/{id} (id = ${play.id})}">
+                    Edit
+                </a>
+                <a style="padding: 8px 15px" class="badge badge-primary large"
+                   th:href="@{/movie/{id} (id = ${play.movieId})}">More info</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Theater ID</th>
+            <th scope="col">Movie ID</th>
+            <th scope="col">Play Start</th>
+            <th scope="col" sec:authorize="hasRole('ROLE_STAFF')">
+                #
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="play:${plays}">
+            <th th:text="${play.getId()}"></th>
+            <td th:text="${play.getTheaterId()}"></td>
+            <td th:text="${play.getMovieId()}"></td>
+            <td th:text="${#temporals.format(play.getPlayStart(), 'dd/MM/yyyy hh:mm')}"></td>
+            <td scope="col" sec:authorize="hasRole('ROLE_STAFF')">
+                <form th:action="@{/manage/delete-movie-play/{id} (id = ${play.id})}" method="post">
+                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

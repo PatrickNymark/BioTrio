@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Index page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Montserrat;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+    <h1 class="display-4 text-center mt-5 mb-5">Staff Area</h1>
+    <p class="text-center" th:text="'Welcome ' + ${user.firstName} + ' ' + ${user.lastName}"></p>
+    <a class="btn btn-primary btn-sm" href="/manage/add-movie">Add Movie</a>
+    <a class="btn btn-primary btn-sm" href="/manage/add-theater">Add Theater</a>
+    <a class="btn btn-primary btn-sm" href="/manage/add-movie-play">Add Movie Play</a>
+    <hr>
+    <a class="btn btn-primary btn-sm" href="/manage/register">Add Staff</a>
+    <a class="btn btn-primary btn-sm" href="/auth/register">Add Customer</a>
+    <hr>
+    <a class="btn btn-primary btn-sm" href="/manage/all-bookings">All bookings</a>
+    <hr>
+    <form class="mt-5" action="/manage/bookings/search" method="post">
+        <div class="form-group">
+            <label for="search">Find Booking</label>
+            <input class="form-control" type="text" id="search" name="search"  placeholder="Enter booking code">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+        <button type="reset" class="btn btn-primary">Cancel</button>
+    </form>
+</div>
+
+
+<!--<p>See theaters <a href="/all-theater">here</a></p>-->
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

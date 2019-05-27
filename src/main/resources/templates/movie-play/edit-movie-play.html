@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Montserrat;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Edit movie play</h1>
+        <p class="lead">
+
+        <form th:action="@{/edit-movie-play}" style="display: inline" method="post" th:object="${moviePlay}">
+            <div class="form-group">
+                <label for="movieControl">Movie</label>
+                <select class="form-control" id="movieControl" th:field="${moviePlay.movieId}">
+                    <option th:each="movie : ${movies}" th:name="movieId" th:value="${movie.getId()}"
+                            th:text="${movie.getTitle()}"
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="theaterControl">Choose theater</label>
+                <select class="form-control" id="theaterControl" th:field="${moviePlay.theaterId}">
+                    <option th:each="theater : ${theaters}" th:name="theaterId" th:value="${theater.getId()}"
+                            th:text="${theater.getTheaterName()}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">Play Start</label>
+                <input type="datetime-local" class="form-control" id="date" th:field="${moviePlay.playStart}">
+            </div>
+            <input type="hidden" name="id" th:value="${moviePlay.id}">
+            <button type="submit" class="btn btn-primary">Save Play</button>
+        </form>
+        <form class="mt-2" style="display: inline" th:action="@{/manage/delete-movie-play/{id}(id=${moviePlay.id})}"
+              method="post">
+            <button type="submit" class="btn btn-primary">Delete Play</button>
+        </form>
+        </p>
+    </div>
+</div>
+
+
+</body>
+</html>

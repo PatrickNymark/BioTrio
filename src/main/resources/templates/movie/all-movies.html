@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>BioTrio - All Movies</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Montserrat;
+        }
+
+        .searchInput:focus{
+            outline:  none !important;
+        }
+
+        *:focus {
+            outline: none !important;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+    <h1 class="display-4 text-center mt-5">All Movies</h1>
+</div>
+
+<div class="container mb-5">
+    <form class="form-inline my-2 my-lg-0" th:action="@{/all-movies}" method="get">
+        <input class="form-control mr-sm-2 searchInput" name="search" type="text" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <a class="btn btn-outline-primary mt-3" th:href="@{/all-movies}">Show all</a>
+
+    <div class="row" th:if="${searchList} != null AND ${searchList.size()} > 0">
+        <div class="col-4" th:each="movie : ${searchList}">
+            <div class="card mt-5">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img th:if="${movie.imageName.length() != 0}" class="activator" style="min-width: 100%; max-height: 450px;" th:src="@{/img/{image} (image = ${movie.imageName})}">
+                    <img th:if="${movie.imageName.length() == 0}" style="min-width: 100%; max-height: 450px;" src="/img/movie-placeholder.png" alt="">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title" th:text="${movie.title}"></h3>
+                    <div class="card-text" th:text="${movie.getGenre()}"></div>
+                    <div class="card-text" th:text="${#temporals.format(movie.getReleaseYear(), 'dd/MM/yyyy')}"></div>
+                    <a class="card-link" th:href="@{'/movie/' + ${movie.id}}">See Date & Time</a>
+                    <a class="card-link badge badge-primary float-right" style="padding: 8px 15px" sec:authorize="hasRole('ROLE_STAFF')" th:href="@{'/manage/edit-movie/' + ${movie.id}}">
+                        Edit
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" th:if="${searchList} == null OR ${searchList.size()} < 1">
+        <div class="col-4" th:each="movie : ${movies}">
+            <div class="card mt-5">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img th:if="${movie.imageName.length() != 0}" class="activator" style="min-width: 100%; max-height: 450px;" th:src="@{/img/{image} (image = ${movie.imageName})}">
+                    <img th:if="${movie.imageName.length() == 0}" style="min-width: 100%; max-height: 450px;" src="/img/movie-placeholder.png" alt="">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title" th:text="${movie.title}"></h3>
+                    <div class="card-text" th:text="${movie.getGenre()}"></div>
+                    <div class="card-text" th:text="${#temporals.format(movie.getReleaseYear(), 'dd/MM/yyyy')}"></div>
+                    <a class="card-link" th:href="@{'/movie/' + ${movie.id}}">See Date & Time</a>
+                    <a class="card-link badge badge-primary float-right" style="padding: 8px 15px" sec:authorize="hasRole('ROLE_STAFF')" th:href="@{'/manage/edit-movie/' + ${movie.id}}">
+                        Edit
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Release Year</th>
+            <th scope="col">Age Limit</th>
+            <th scope="col">Rating</th>
+            <th scope="col">#</th>
+            <th scope="col" sec:authorize="hasRole('ROLE_STAFF')">
+                #
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="movie:${movies}">
+            <th th:text="${movie.title}"></th>
+            <td th:text="${movie.genre}"></td>
+            <td th:text="${movie.releaseYear}"></td>
+            <td th:text="${movie.ageLimit}"></td>
+            <td th:text="${movie.rating}"></td>
+            <td><a th:href="@{'/movie/' + ${movie.id}}">See Date & Time</a></td>
+            <th sec:authorize="hasRole('ROLE_STAFF')">
+                <a th:href="@{'/manage/edit-movie/' + ${movie.id}}">Edit</a>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

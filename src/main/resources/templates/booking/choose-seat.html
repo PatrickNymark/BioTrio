@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Montserrat;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+    <h1 class="text-center mt-5 mb-5">Choose Seat</h1>
+    <div class="container text-center">
+        <form th:action="@{/booking/choose-seat/{id} (id = ${moviePlayId})}" method="post">
+            <div class="alert alert-danger" th:if="${message}" th:text="${message}">
+
+            </div>
+        <table class="table">
+            <thead>
+
+            <tr>
+                <td style="padding: 2px; width: 40px">#</td>
+                <td style="padding: 2px; width: 40px" th:each="j: ${#numbers.sequence(1, seatsPrRow)}">
+                    <span th:text="${j}"></span>
+                </td>
+
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="i: ${#numbers.sequence(0, rows - 1)}">
+                    <td style="padding: 2px 0px" th:text="${i + 1}"></td>
+                    <td style="padding: 5px 0px" th:each="j: ${#numbers.sequence(0, seatsPrRow - 1)}">
+                        <span style="padding: 0px" th:each="seat : ${seats}">
+                            <span style="padding: 0px" th:if="${seat.getNr() == (j + 1) && seat.getRow() == (i + 1)}">
+                                <input style="padding: 0px" type="checkbox" th:name="${(i+1) + '-' + (j+1)}" th:disabled="${seat.isReserved()}" th:checked="${seat.isReserved()}" />
+                            </span>
+                        </span>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+            <button type="submit" class="btn btn-primary mt-5 mb-5">Reserve Tickets</button>
+        </form>
+
+    </div>
+</body>
+</html>

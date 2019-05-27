@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Montserrat;
+        }
+
+        .bookingCard {
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        }
+
+        .logo {
+            max-height: 60px;
+        }
+
+        .header {
+            font-size: 25px;
+        }
+
+        .content-contaniner {
+            padding: 20px 100px;
+        }
+
+        .seatsRow {
+            paddding: 50px 200px;
+        }
+
+        .seatText {
+            font-size: 15px;
+        }
+
+        .seatBadge {
+            font-size: 15px;
+            width: 50px;
+            padding: 5px 20px;
+            margin-left: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+    <div th:object="${booking}" class="bookingCard">
+        <div class="mt-5 text-center">
+            <img class="img-fluid mt-5 logo" src="/img/logo.png" alt="">
+        </div>
+        <h6 class="text-center header mt-4">Booking Accepted</h6>
+
+        <div class="content-contaniner">
+            <div class="list-group mt-4">
+                <a href="#" class="list-group-item list-group-item-action active"
+                   th:text="${tickets.size() + ' Tickets'}">
+
+                </a>
+                <a th:href="@{/movie/{id} (id = ${movie.id})}" class="list-group-item list-group-item-action"
+                   th:text="${movie.title}"></a>
+                <a href="#" class="list-group-item list-group-item-action"
+                   th:text="${#temporals.format(moviePlay.playStart, 'dd/MM/yyyy')}"></a>
+                <a href="#" class="list-group-item list-group-item-action"
+                   th:text="${#temporals.format(moviePlay.playStart, 'HH:mm')}"></a>
+                <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true"
+                   th:text="'Booking Code: ' + ${booking.bookingCode}"></a>
+            </div>
+        </div>
+        <div class="row text-center seatsRow pb-5 mt-3">
+            <div class="col" th:each="ticket, itrNum : ${booking.getTickets()}">
+                <h5 th:text="'Seat ' + ${itrNum.count} + ':'"></h5>
+                <p class="seatText">Row: <span class="seatBadge badge badge-primary" th:text="${ticket.seatRow}"></span></p>
+                <p class="seatText">Nr: <span class="seatBadge badge badge-primary" th:text="${ticket.seatNr}"></span></p>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

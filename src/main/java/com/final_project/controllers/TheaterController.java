@@ -56,7 +56,6 @@ public class TheaterController {
 
     @GetMapping("/deletetheater/{id}")
     public String deleteTheater(@PathVariable(name= "id") int id){
-        theaterRepository.delete(id);
         return "redirect:/all-theaters";
     }
 

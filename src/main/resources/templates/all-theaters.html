@@ -34,7 +34,9 @@
         <td th:text="${theater.getTheaterName()}"></td>
         <td th:text="${theater.getNumberOfRows()}"></td>
         <td th:text="${theater.getSeatsPerRow()}"></td>
-        <td><a class="btn btn-danger" th:href="@{'/deletetheater/' + ${theater.id}}">Delete</a></td>
+        <td>
+            <form class="mt-2" style="display: inline" th:action="@{/manage/delete-theater/{id}(id=${theater.getId()})}" method="post"><button type="submit" class="btn btn-primary">Delete</button></form>
+        </td>
         <td><a class="btn btn-success" th:href="@{'/edit-theater/' + ${theater.id}}">Edit</a></td>
     </tr>
 

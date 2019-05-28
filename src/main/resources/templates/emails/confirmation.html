@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all">Template for HTML email with inline image</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+
+<div class="container">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <div th:object="${booking}">
+        <h6 style="font-size: 25px">Booking Accepted</h6>
+        <div>
+            <div>
+                <p style="font-size: 15px" th:text="${tickets.size() + ' Tickets'}"></p>
+                <p style="font-size: 15px; color: dimgrey" th:text="'Booking Code: ' + ${booking.bookingCode}"></p>
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th>Seat</th>
+                <th>Row</th>
+                <th>Nr</th>
+            </tr>
+            <tr th:each="ticket, itrNum : ${booking.tickets}">
+                <td th:text="${itrNum.count}"></td>
+                <td th:text="${ticket.seatRow}"></td>
+                <td th:text="${ticket.seatNr}"></td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -3,9 +3,13 @@ package com.final_project.repositories;
 import com.final_project.entities.Theater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +21,20 @@ public class TheaterRepository {
 
     public int addTheater(Theater theater) {
         String sqlQuery = "INSERT INTO theaters(title, seats_pr_row, number_of_rows) VALUES (?,?,?)";
-        return jdbcTemplate.update(sqlQuery, theater.getTheaterName(), theater.getSeatsPerRow(), theater.getNumberOfRows());
+
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sqlQuery);
+                ps.setString(1, theater.getTheaterName());
+                ps.setInt(2, theater.getSeatsPerRow());
+                ps.setInt(3, theater.getNumberOfRows());
+
+                return ps;
+            }
+        };
+
+        return jdbcTemplate.update(psc);
     }
 
     public List<Theater> findAllTheaters(){
@@ -25,19 +42,7 @@ public class TheaterRepository {
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
 
-        List<Theater> theaterList= new ArrayList<>();
-
-        while (rs.next()){
-            Theater theater = new Theater();
-            theater.setId(rs.getInt("theater_id"));
-            theater.setTheaterName(rs.getString("title"));
-            theater.setNumberOfRows(rs.getInt("number_of_rows"));
-            theater.setSeatsPerRow(rs.getInt("seats_pr_row"));
-
-            theaterList.add(theater);
-        }
-
-        return theaterList;
+        return generateTheaters(rs);
     }
 
     public Theater findTheaterById(int id){
@@ -45,6 +50,44 @@ public class TheaterRepository {
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
 
+        return generateTheater(rs);
+    }
+
+    public void deleteTheater(int id) {
+        String sqlQuery = "DELETE FROM theaters WHERE theater_id = ?";
+
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sqlQuery);
+                ps.setInt(1, id);
+
+                return ps;
+            }
+        };
+
+
+        jdbcTemplate.update(psc);
+    }
+
+    private List<Theater> generateTheaters(SqlRowSet rs) {
+        List<Theater> theaters = new ArrayList<>();
+
+        while (rs.next()) {
+            Theater theater = new Theater();
+
+            theater.setId(rs.getInt("theater_id"));
+            theater.setTheaterName(rs.getString("title"));
+            theater.setNumberOfRows(rs.getInt("number_of_rows"));
+            theater.setSeatsPerRow(rs.getInt("seats_pr_row"));
+
+            theaters.add(theater);
+        }
+
+        return theaters;
+    }
+
+    private Theater generateTheater(SqlRowSet rs) {
         Theater theater = new Theater();
 
         while (rs.next()) {
@@ -55,12 +98,6 @@ public class TheaterRepository {
         }
 
         return theater;
-    }
-
-    public void deleteTheater(int theater_id) {
-        String sqlQuery = "DELETE FROM theaters WHERE theater_id = ?";
-
-        jdbcTemplate.update(sqlQuery, theater_id);
     }
 }
 

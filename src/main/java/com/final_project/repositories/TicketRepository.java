@@ -28,7 +28,7 @@ public class TicketRepository {
         return generateTickets(rs);
     }
 
-    public List<Ticket> getTicketsByMoviePlayId(int id) {
+    public List<Ticket> findTicketsByMoviePlayId(int id) {
         String sqlQuery = "SELECT * FROM tickets WHERE movie_play_id = ?";
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, id);

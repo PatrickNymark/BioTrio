@@ -17,7 +17,7 @@ public class UserRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public User getUserByEmail(String email) {
+    public User findUserByEmail(String email) {
         String sqlQuery = "select * from users where email = ?";
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, email);

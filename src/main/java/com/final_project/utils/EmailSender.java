@@ -1,9 +1,7 @@
-package com.final_project.services;
+package com.final_project.utils;
 
 import com.final_project.entities.Booking;
 import com.final_project.entities.Ticket;
-import com.final_project.repositories.BookingRepository;
-import com.final_project.repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -16,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.List;
 
 @Service
-public class EmailService {
+public class EmailSender {
 
     @Autowired
     JavaMailSender javaMailSender;

@@ -2,6 +2,8 @@ package com.final_project.services;
 
 import com.final_project.entities.Booking;
 import com.final_project.entities.Ticket;
+import com.final_project.repositories.BookingRepository;
+import com.final_project.repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -22,6 +24,7 @@ public class EmailService {
     @Autowired
     TemplateEngine templateEngine;
 
+
     public void sendConfirmationMail(Booking booking, List<Ticket> tickets, String toEmail)  throws MessagingException {
 
         final Context ctx = new Context();
@@ -36,6 +39,8 @@ public class EmailService {
         message.setFrom("biotrio@booking.com");
         message.setTo(toEmail);
 
+        System.out.println("to == " + toEmail);
+
         // Create the HTML body using Thymeleaf
         final String htmlContent = templateEngine.process("emails/confirmation", ctx);
 
@@ -44,4 +49,5 @@ public class EmailService {
         // Send mail
         javaMailSender.send(mimeMessage);
     }
+
 }

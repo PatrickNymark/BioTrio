@@ -3,12 +3,14 @@ package com.final_project.repositories;
 import com.final_project.entities.MoviePlay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +30,8 @@ public class MoviePlayRepository {
         return moviePlayList;
     }
 
-    public List<MoviePlay> findNext3MoviePlays() {
-        int limit = 3;
+    public List<MoviePlay> findNextMoviePlays() {
+        int limit = 6;
 
         String sqlQuery = "SELECT * FROM movie_plays ORDER BY play_start LIMIT ?";
 
@@ -38,25 +40,17 @@ public class MoviePlayRepository {
         return generateMoviePlays(rs);
     }
 
-    public List<MoviePlay> getMoviePlaysByMovieId(int movieId) {
-        String sqlQuery = "SELECT * FROM movie_plays WHERE movie_id =" + movieId + " ORDER BY play_start";
+    public List<MoviePlay> findMoviePlaysByMovieId(int movieId) {
+        String sqlQuery = "SELECT * FROM movie_plays WHERE movie_id = ? ORDER BY play_start";
 
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, movieId);
 
         List<MoviePlay> moviePlayList = generateMoviePlays(rs);
 
         return  moviePlayList;
     }
 
-    public List<MoviePlay> findMoviePlaysByTheater(int theaterId) {
-        String sqlQuery = "SELECT * FROM movie_plays WHERE theater_id =" + theaterId + " ORDER BY play_start";
-
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
-
-        return generateMoviePlays(rs);
-    }
-
-    public MoviePlay getMoviePlayById(int id) {
+    public MoviePlay findMoviePlayById(int id) {
         String sqlQuery = "SELECT * FROM movie_plays WHERE play_id = ?";
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, id);
@@ -67,20 +61,53 @@ public class MoviePlayRepository {
 
     }
 
-    public int addMoviePlay(MoviePlay moviePlay) {
+    public void addMoviePlay(MoviePlay moviePlay) {
         String sqlQuery = "INSERT INTO movie_plays(movie_id, theater_id, play_start) VALUES(?, ?, ?)";
 
-        return jdbcTemplate.update(sqlQuery, moviePlay.getMovieId(), moviePlay.getTheaterId(), moviePlay.getPlayStart());
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sqlQuery);
+                ps.setInt(1, moviePlay.getMovieId());
+                ps.setInt(2, moviePlay.getTheaterId());
+                ps.setTimestamp(3, Timestamp.valueOf(moviePlay.getPlayStart()));
+
+                return ps;
+            }
+        };
+
+        jdbcTemplate.update(psc);
     }
 
     public void deleteMoviePlay(int id) {
         String sqlQuery = "DELETE FROM movie_plays WHERE play_id = ?";
 
-        jdbcTemplate.update(sqlQuery, id);
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sqlQuery);
+                ps.setInt(1, id);
+                return ps;
+            }
+        };
+
+        jdbcTemplate.update(psc);
     }
 
     public void editMoviePlay(MoviePlay moviePlay) {
         String sqlQuery = "UPDATE movie_plays SET movie_id = ?, theater_id = ?, play_start = ? WHERE play_id = ?";
+
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sqlQuery);
+                ps.setInt(1, moviePlay.getMovieId());
+                ps.setInt(2, moviePlay.getTheaterId());
+                ps.setTimestamp(3, Timestamp.valueOf(moviePlay.getPlayStart()));
+                ps.setInt(4, moviePlay.getId());
+                return ps;
+            }
+        };
 
         jdbcTemplate.update(sqlQuery, moviePlay.getMovieId(), moviePlay.getTheaterId(), moviePlay.getPlayStart(), moviePlay.getId());
     }
@@ -93,8 +120,8 @@ public class MoviePlayRepository {
             moviePlay.setMovieId(rs.getInt("movie_id"));
             moviePlay.setTheaterId(rs.getInt("theater_id"));
 
-            Timestamp ts = rs.getTimestamp("play_start");
-            moviePlay.setPlayStart(ts.toLocalDateTime());
+            Timestamp tsStart = rs.getTimestamp("play_start");
+            moviePlay.setPlayStart(tsStart.toLocalDateTime());
         }
 
         return moviePlay;
@@ -110,8 +137,8 @@ public class MoviePlayRepository {
             moviePlay.setMovieId(rs.getInt("movie_id"));
             moviePlay.setTheaterId(rs.getInt("theater_id"));
 
-            Timestamp ts = rs.getTimestamp("play_start");
-            moviePlay.setPlayStart(ts.toLocalDateTime());
+            Timestamp tsStart = rs.getTimestamp("play_start");
+            moviePlay.setPlayStart(tsStart.toLocalDateTime());
 
             moviePlayList.add(moviePlay);
         }

@@ -37,8 +37,8 @@ public class UserRepository {
                 ps.setString(3, user.getEmail());
                 ps.setString(4, user.getPassword());
                 ps.setString(5, user.getPhoneNumber());
-                ps.setString(5, user.getRole());
-                ps.setBoolean(5, user.isActive());
+                ps.setString(6, user.getRole());
+                ps.setBoolean(7, user.isActive());
 
                 return ps;
             }

@@ -80,7 +80,7 @@ public class MovieController {
     @GetMapping("/movie/{id}")
     public String getMovieById(@PathVariable(name = "id") int id, Model model) {
         Movie movie = movieRepository.findMovieById(id);
-        List<MoviePlay> moviePlayList = moviePlayRepository.getMoviePlaysByMovieId(id);
+        List<MoviePlay> moviePlayList = moviePlayRepository.findMoviePlaysByMovieId(id);
 
         model.addAttribute("movie", movie);
         model.addAttribute("plays", moviePlayList);

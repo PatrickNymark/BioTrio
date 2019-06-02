@@ -48,7 +48,7 @@
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<div class="container">
+<div class="container mb-5">
     <div th:object="${booking}" class="bookingCard">
         <div class="mt-5 text-center">
             <img class="img-fluid mt-5 logo" src="/img/logo.png" alt="">
@@ -78,7 +78,13 @@
                 <p class="seatText">Nr: <span class="seatBadge badge badge-primary" th:text="${ticket.seatNr}"></span></p>
             </div>
         </div>
-
+        <div class="container text-center">
+            <form style="padding: 10px 150px" th:action="@{/booking/send-booking-confirmation}" method="post">
+                <input class="form-control" type="text" name="email" placeholder="Enter email">
+                <input class="form-control"  type="hidden" name="bookingCode" th:value="${booking.bookingCode}">
+                <button class="btn btn-primary mt-5 mb-5">Send booking confirmation</button>
+            </form>
+        </div>
     </div>
 </div>
 </body>

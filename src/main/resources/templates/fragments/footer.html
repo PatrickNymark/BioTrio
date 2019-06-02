@@ -18,9 +18,6 @@
         <div class="col">
             <ul class="list-group">
                 <li class="list-group-item">
-                    <a  href="/all-theaters">Theaters</a>
-                </li>
-                <li class="list-group-item">
                     <a href="/all-movies">Movies</a>
                 </li>
                 <li class="list-group-item">
@@ -35,9 +32,6 @@
         <div class="col">
             <li class="list-group-item" sec:authorize="hasRole('ROLE_STAFF')">
                 <a  href="/manage/admin">Manage</a>
-            </li>
-            <li class="list-group-item" sec:authorize="hasRole('ROLE_CUSTOMER')">
-                <a href="/customer/profile">Profile</a>
             </li>
             <li class="list-group-item" sec:authorize="isAuthenticated()" >
                 <a  href="/logout">Logout</a>

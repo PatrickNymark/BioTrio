@@ -31,6 +31,7 @@ public class EmailController {
         List<Ticket> tickets = ticketRepository.findTicketsByBookingCode(bookingCode);
 
         try {
+            // Sends confirmation email with provided info
             emailSender.sendConfirmationMail(booking, tickets, email);
             return "redirect:/booking/confirmation/"  + bookingCode;
         } catch (MessagingException e) {

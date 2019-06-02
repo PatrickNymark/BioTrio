@@ -56,6 +56,18 @@ public class MoviePlayController {
         return "movie-play/movie-play-page";
     }
 
+    @PostMapping("/movie-play/search")
+    public String getMoviePlaysWithinDates(@RequestParam(name = "playStart") String playStart, @RequestParam(name = "playEnd") String playEnd, Model model) {
+        List<MoviePlay> moviePlays = moviePlayRepository.findMoviePlaysWithinDate(playStart, playEnd);
+        List<Movie> movieList = movieRepository.findAllMovies();
+
+        System.out.println(playStart);
+        System.out.println(playEnd);
+        model.addAttribute("moviePlays", moviePlays);
+        model.addAttribute("movies", movieList);
+        return "movie-play/sorted-movie-plays";
+    }
+
     @GetMapping ("/manage/add-movie-play")
     public String getAddMoviePlay(@ModelAttribute MoviePlay moviePlay, Model model, @RequestParam(value = "message", required = false) String message) {
         List<Movie> movieList = movieRepository.findAllMovies();

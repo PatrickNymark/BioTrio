@@ -48,9 +48,17 @@ public class MoviePlayRepository {
     }
 
     public List<MoviePlay> findPlaysByMovieIdWithinDate(int movieId, LocalDate startLimit, LocalDate endLimit) {
-        String sqlQuery = "SELECT * FROM movie_plays WHERE movie_id = ? AND play_start >= ? AND play_start <= ?";
+        String sqlQuery = "SELECT * FROM movie_plays WHERE movie_id = ? AND play_start >= ? AND play_start <= ? ORDER BY play_start";
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, movieId, startLimit, endLimit);
+
+        return  generateMoviePlays(rs);
+    }
+
+    public List<MoviePlay> findMoviePlaysWithinDate(String startLimit, String endLimit) {
+        String sqlQuery = "SELECT * FROM movie_plays WHERE play_start >= ? AND play_start <= ? ORDER BY play_start";
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, startLimit, endLimit);
 
         return  generateMoviePlays(rs);
     }
@@ -157,7 +165,6 @@ public class MoviePlayRepository {
             moviePlay.setPlayStart(tsStart.toLocalDateTime());
             moviePlay.setPlayEnd(tsEnd.toLocalDateTime());
 
-            System.out.println(moviePlay);
             moviePlayList.add(moviePlay);
         }
 

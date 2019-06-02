@@ -11,43 +11,23 @@
         body {
             font-family: Montserrat;
         }
-
-        .form-g {
-            margin-left: 20px;
-            margin-right: 20px;
-        }
     </style>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 
 <div class="container text-center">
-    <h1 class="mt-5 mb-5">All Movie Plays</h1>
-    <span th:if="${plays.size() == 0}">
-        <h5 class="mt-0">No movie plays added yet.</h5>
-         <a class="btn btn-primary text mt-4" style="padding: 8px 15px" sec:authorize="hasRole('ROLE_STAFF')" th:href="@{'/manage/add-movie'}">
-             Add you first movie!
-         </a>
+    <h1 class="mt-5 mb-5">Search Results</h1>
+    <a class="backLink text-left" href="/all-movie-plays">&larr; Go Back</a>
+    <span th:if="${moviePlays.size() == 0}">
+        <h5 class="mt-0 mb-2">No movie plays found</h5>
     </span>
-</div>
-<div class="container text-center mt-5 mb-5">
-    <form class="form-inline" th:action="@{/movie-play/search}" method="post">
-        <div class="form-group form-g">
-            <label class="form-g" for="playStart">Play Start</label>
-            <input type="date" class="form-control" name="playStart" id="playStart">
-        </div>
-        <div class="form-group form-g">
-            <label class="form-g" for="playEnd">Play End</label>
-            <input type="date" class="form-control" name="playEnd" id="playEnd">
-        </div>
-        <button class="btn btn-primary" type="submit">Find plays</button>
-    </form>
 </div>
 
 <div class="container">
     <div class="container">
         <div class="row">
-            <div class="col-4 media mt-5" th:each="play : ${plays}">
+            <div class="col-4 media mt-5" th:each="play : ${moviePlays}">
                 <span th:each="movie : ${movies}">
                     <img style="max-height: 150px" class="img-fluid mr-5" th:if="${movie.id == play.movieId}"
                          th:src="@{/img/{image}(image = ${movie.imageName})}" alt="">

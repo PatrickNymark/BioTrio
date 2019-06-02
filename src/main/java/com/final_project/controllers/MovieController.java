@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -86,7 +87,11 @@ public class MovieController {
     @GetMapping("/movie/{id}")
     public String getMovieById(@PathVariable(name = "id") int id, Model model) {
         Movie movie = movieRepository.findMovieById(id);
-        List<MoviePlay> moviePlayList = moviePlayRepository.findMoviePlaysByMovieId(id);
+
+        // get current date and add 4 weeks in days
+        LocalDate dateLimit = LocalDate.now().plusDays(30);
+
+        List<MoviePlay> moviePlayList = moviePlayRepository.findPlaysByMovieIdWithinDate(id, LocalDate.now(), dateLimit);
 
         model.addAttribute("movie", movie);
         model.addAttribute("plays", moviePlayList);

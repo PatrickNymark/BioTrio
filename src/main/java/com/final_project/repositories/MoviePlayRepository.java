@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,17 @@ public class MoviePlayRepository {
 
         return  generateMoviePlays(rs);
     }
+
+    public List<MoviePlay> findPlaysByMovieIdWithinDate(int movieId, LocalDate startLimit, LocalDate endLimit) {
+        System.out.println(startLimit);
+        System.out.println(endLimit);
+        String sqlQuery = "SELECT * FROM movie_plays WHERE movie_id = ? AND play_start >= ? AND play_start <= ?";
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, movieId, startLimit, endLimit);
+
+        return  generateMoviePlays(rs);
+    }
+
 
     public MoviePlay findMoviePlayById(int id) {
         String sqlQuery = "SELECT * FROM movie_plays WHERE play_id = ?";
@@ -147,6 +159,7 @@ public class MoviePlayRepository {
             moviePlay.setPlayStart(tsStart.toLocalDateTime());
             moviePlay.setPlayEnd(tsEnd.toLocalDateTime());
 
+            System.out.println(moviePlay);
             moviePlayList.add(moviePlay);
         }
 

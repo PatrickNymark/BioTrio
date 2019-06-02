@@ -40,33 +40,5 @@
     </div>
 </div>
 
-<div class="container mt-5">
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Theater ID</th>
-            <th scope="col">Movie ID</th>
-            <th scope="col">Play Start</th>
-            <th scope="col" sec:authorize="hasRole('ROLE_STAFF')">
-                #
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="play:${plays}">
-            <th th:text="${play.getId()}"></th>
-            <td th:text="${play.getTheaterId()}"></td>
-            <td th:text="${play.getMovieId()}"></td>
-            <td th:text="${#temporals.format(play.getPlayStart(), 'dd/MM/yyyy hh:mm')}"></td>
-            <td scope="col" sec:authorize="hasRole('ROLE_STAFF')">
-                <form th:action="@{/manage/delete-movie-play/{id} (id = ${play.id})}" method="post">
-                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 </body>
 </html>

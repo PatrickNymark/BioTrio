@@ -3,9 +3,11 @@ package com.final_project.repositories;
 import com.final_project.entities.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class MovieRepository {
         return movieList;
     }
 
-    public List<Movie> findTop3Movies() {
+    public List<Movie> findTopMovies() {
         int limit = 3;
         String sqlQuery = "SELECT * FROM movies ORDER BY rating LIMIT ?";
 
@@ -57,19 +59,66 @@ public class MovieRepository {
     public void addMovie(Movie movie) {
         String sqlQuery = "INSERT INTO movies(title, genre, rating, release_year, length_in_minutes, age_limit, image_name, trailer_url, description) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getLengthInMinutes(), movie.getAgeLimit(), movie.getImageName(), movie.getTrailerUrl(), movie.getDescription());
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sqlQuery);
+                ps.setString(1, movie.getTitle());
+                ps.setString(2, movie.getGenre());
+                ps.setDouble(3, movie.getRating());
+                ps.setDate(4, Date.valueOf(movie.getReleaseYear()));
+                ps.setInt(5, movie.getLengthInMinutes());
+                ps.setInt(6, movie.getAgeLimit());
+                ps.setString(7, movie.getImageName());
+                ps.setString(8, movie.getTrailerUrl());
+                ps.setString(9, movie.getDescription());
+
+                return ps;
+            }
+        };
+
+        jdbcTemplate.update(psc);
     }
 
     public void editMovie(Movie movie) {
         String sqlQuery = "UPDATE movies SET title = ?, genre = ?, rating = ?, release_year = ?, length_in_minutes = ?, age_limit = ?, image_name = ?, trailer_url = ?, description = ? WHERE movie_id = ?";
 
-        jdbcTemplate.update(sqlQuery, movie.getTitle(), movie.getGenre(), movie.getRating(), movie.getReleaseYear(), movie.getLengthInMinutes(), movie.getAgeLimit(), movie.getImageName(), movie.getTrailerUrl(), movie.getDescription(), movie.getId());
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sqlQuery);
+                ps.setString(1, movie.getTitle());
+                ps.setString(2, movie.getGenre());
+                ps.setDouble(3, movie.getRating());
+                ps.setDate(4, Date.valueOf(movie.getReleaseYear()));
+                ps.setInt(5, movie.getLengthInMinutes());
+                ps.setInt(6, movie.getAgeLimit());
+                ps.setString(7, movie.getImageName());
+                ps.setString(8, movie.getTrailerUrl());
+                ps.setString(9, movie.getDescription());
+                ps.setInt(10, movie.getId());
+
+                return ps;
+            }
+        };
+
+        jdbcTemplate.update(psc);
     }
 
     public void deleteMovie(int id) {
         String sqlQuery = "DELETE FROM movies WHERE movie_id = ?";
 
-        jdbcTemplate.update(sqlQuery, id);
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sqlQuery);
+                ps.setInt(1, id);
+
+                return ps;
+            }
+        };
+
+        jdbcTemplate.update(psc);
     }
 
     private List<Movie> generateMovies(SqlRowSet rs) {

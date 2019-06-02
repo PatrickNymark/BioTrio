@@ -1,11 +1,16 @@
 package com.final_project.repositories;
 
+import com.final_project.controllers.BookingController;
 import com.final_project.entities.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,15 +20,6 @@ public class TicketRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public List<Ticket> getAllTickets() {
-        // SQL String
-        String sqlQuery = "SELECT * FROM tickets";
-        // Get row set
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
-        // Return generated ticket list
-        return generateTickets(rs);
-    }
-
     public List<Ticket> findTicketsByBookingCode(String bookingCode) {
         String sqlQuery = "SELECT * FROM tickets WHERE booking_code = ?";
 
@@ -32,10 +28,10 @@ public class TicketRepository {
         return generateTickets(rs);
     }
 
-    public List<Ticket> getTicketsByMoviePlayId(int id) {
-        String sqlQuery = "SELECT * FROM tickets WHERE movie_play_id =" + id;
+    public List<Ticket> findTicketsByMoviePlayId(int id) {
+        String sqlQuery = "SELECT * FROM tickets WHERE movie_play_id = ?";
 
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery);
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, id);
 
         return generateTickets(rs);
     }
@@ -43,13 +39,36 @@ public class TicketRepository {
     public void addTicket(Ticket ticket) {
         String sqlQuery = "INSERT INTO tickets(booking_code, seat_nr, seat_row, movie_play_id) VALUES(?, ?, ?, ?)";
 
-        jdbcTemplate.update(sqlQuery, ticket.getBookingCode(), ticket.getSeatNr(), ticket.getSeatRow(), ticket.getMoviePlayId());
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sqlQuery);
+                ps.setString(1, ticket.getBookingCode());
+                ps.setInt(2, ticket.getSeatNr());
+                ps.setInt(3, ticket.getSeatRow());
+                ps.setInt(4, ticket.getMoviePlayId());
+
+                return ps;
+            }
+        };
+
+        jdbcTemplate.update(psc);
     }
 
     public void deleteTicket(int id) {
         String sqlQuery = "DELETE FROM tickets WHERE ticket_id = ?";
 
-        jdbcTemplate.update(sqlQuery, id);
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sqlQuery);
+                ps.setInt(1, id);
+
+                return ps;
+            }
+        };
+
+        jdbcTemplate.update(psc);
     }
 
     private List<Ticket> generateTickets(SqlRowSet rs) {

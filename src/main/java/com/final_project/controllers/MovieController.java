@@ -27,9 +27,11 @@ public class MovieController {
     public String getAllMovie(Model model, @RequestParam(value = "search", required = false) String searchValue){
         List<Movie> movieList = movieRepository.findAllMovies();
 
+        // if search value != null, set the movies to search list.
         if(searchValue != null) {
             List<Movie> searchList = movieRepository.searchMoviesByTitle(searchValue);
-            model.addAttribute("searchList", searchList);
+            model.addAttribute("movies", searchList);
+            return "movie/all-movies";
         }
 
         model.addAttribute("movies", movieList);
@@ -44,6 +46,8 @@ public class MovieController {
 
     @PostMapping("/manage/add-movie")
     public String addMovie(@ModelAttribute @Valid Movie movie, Errors errors) {
+
+        // Check if errors - errors are set with validation constraints.
         if(errors.hasErrors()) {
             return "movie/add-movie";
         }
@@ -62,6 +66,8 @@ public class MovieController {
 
     @PostMapping("/manage/edit-movie")
     public String editMovie(@ModelAttribute @Valid Movie movie, Errors errors, Model model) {
+
+        // Check if errors - errors are set with validation constraints.
         if(errors.hasErrors()) {
             model.addAttribute(movie);
             return "movie/edit-movie";
@@ -80,7 +86,7 @@ public class MovieController {
     @GetMapping("/movie/{id}")
     public String getMovieById(@PathVariable(name = "id") int id, Model model) {
         Movie movie = movieRepository.findMovieById(id);
-        List<MoviePlay> moviePlayList = moviePlayRepository.getMoviePlaysByMovieId(id);
+        List<MoviePlay> moviePlayList = moviePlayRepository.findMoviePlaysByMovieId(id);
 
         model.addAttribute("movie", movie);
         model.addAttribute("plays", moviePlayList);

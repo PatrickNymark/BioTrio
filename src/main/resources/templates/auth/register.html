@@ -17,10 +17,10 @@
 
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
-        <h1 class="display-4">Add new customer</h1>
+        <h1 class="display-4">Add new staff</h1>
         <p class="lead">
 
-        <form action="/auth/register" method="post">
+        <form action="/manage/register" method="post">
             <div class="form-group">
                 <label for="firstName">First Name</label>
                 <input class="form-control" type="text" id="firstName" name="firstName" placeholder="First Name">
@@ -35,15 +35,15 @@
 
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
+                <label  for="password">Password</label>
                 <input class="form-control" type="password" id="password" name="password" placeholder="Password">
             </div>
             <div class="form-group">
                 <label for="phoneNumber">Phone Number</label>
                 <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone Number">
             </div>
-            <input type="hidden" name="role" value="ROLE_CUSTOMER">
-            <button type="submit" class="btn btn-primary">Add Customer</button>
+            <input type="hidden" name="role" value="ROLE_STAFF">
+            <button type="submit" class="btn btn-primary">Add Staff</button>
             <button type="reset" class="btn btn-primary">Cancel</button>
         </form>
 

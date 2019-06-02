@@ -54,8 +54,9 @@ public class TheaterController {
         return "theater-page";
     }
 
-    @GetMapping("/deletetheater/{id}")
-    public String deleteTheater(@PathVariable(name= "id") int id){
+    @PostMapping("/manage/delete-theater/{theater_id}")
+    public String deleteTheater(@PathVariable(name= "theater_id") int theater_id){
+        theaterRepository.deleteTheater(theater_id);
         return "redirect:/all-theaters";
     }
 

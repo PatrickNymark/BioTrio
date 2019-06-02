@@ -15,12 +15,12 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 
-    <h1 class="text-center mt-5 mb-5">Choose Seat</h1>
-    <div class="container text-center">
-        <form th:action="@{/booking/choose-seat/{id} (id = ${moviePlayId})}" method="post">
-            <div class="alert alert-danger" th:if="${message}" th:text="${message}">
+<h1 class="text-center mt-5 mb-5">Choose Seat</h1>
+<div class="container text-center">
+    <form th:action="@{/booking/choose-seat/{id} (id = ${moviePlayId})}" method="post">
+        <div class="alert alert-danger" th:if="${message}" th:text="${message}">
 
-            </div>
+        </div>
         <table class="table">
             <thead>
 
@@ -33,23 +33,22 @@
             </tr>
             </thead>
             <tbody>
-                <tr th:each="i: ${#numbers.sequence(0, rows - 1)}">
-                    <td style="padding: 2px 0px" th:text="${i + 1}"></td>
-                    <td style="padding: 5px 0px" th:each="j: ${#numbers.sequence(0, seatsPrRow - 1)}">
+            <tr th:each="i: ${#numbers.sequence(0, rows - 1)}">
+                <td style="padding: 2px 0px" th:text="${i + 1}"></td>
+                <td style="padding: 5px 0px" th:each="j: ${#numbers.sequence(0, seatsPrRow - 1)}">
                         <span style="padding: 0px" th:each="seat : ${seats}">
                             <span style="padding: 0px" th:if="${seat.getNr() == (j + 1) && seat.getRow() == (i + 1)}">
                                 <input style="padding: 0px" type="checkbox" th:name="${(i+1) + '-' + (j+1)}" th:disabled="${seat.isReserved()}" th:checked="${seat.isReserved()}" />
                             </span>
                         </span>
 
-                    </td>
-                </tr>
+                </td>
+            </tr>
             </tbody>
         </table>
 
-            <button type="submit" class="btn btn-primary mt-5 mb-5">Reserve Tickets</button>
-        </form>
-
-    </div>
+        <button type="submit" class="btn btn-primary mt-5 mb-5">Reserve Tickets</button>
+    </form>
+</div>
 </body>
 </html>

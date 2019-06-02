@@ -1,13 +1,17 @@
 package com.final_project.repositories;
 
 import com.final_project.entities.Booking;
-import com.final_project.entities.MoviePlay;
 import com.final_project.entities.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,15 +50,36 @@ public class BookingRepository {
     }
 
     public void addBooking(Booking booking) {
-        String sqlQuery = "INSERT INTO bookings(movie_play_id, staff_id, customer_id, total_price, booking_code) VALUES(?, ?, ?, ?, ?)";
+        String sqlQuery = "INSERT INTO bookings(movie_play_id, total_price, booking_code) VALUES(?, ?, ?)";
 
-        jdbcTemplate.update(sqlQuery, booking.getMoviePlayId(), null, null, booking.getTotalPrice(), booking.getBookingCode());
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sqlQuery);
+                ps.setInt(1, booking.getMoviePlayId());
+                ps.setDouble(2, booking.getTotalPrice());
+                ps.setString(3, booking.getBookingCode());
+                return ps;
+            }
+        };
+
+
+        jdbcTemplate.update(psc);
     }
 
     public void deleteBooking(String bookingCode) {
         String sqlQuery = "DELETE FROM bookings WHERE booking_code = ?";
 
-        jdbcTemplate.update(sqlQuery, bookingCode);
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sqlQuery);
+                ps.setString(1, bookingCode);
+                return ps;
+            }
+        };
+
+        jdbcTemplate.update(psc);
     }
 
     private List<Booking> generateBookings(SqlRowSet rs) {

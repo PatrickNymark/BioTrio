@@ -23,7 +23,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public BCryptPasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        System.out.println(bCryptPasswordEncoder.encode("pass"));
         return bCryptPasswordEncoder;
     }
 
@@ -52,7 +51,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/movie/**",
                 "/booking/**",
                 "/all-movie-plays",
-                "/auth/register"
         };
 
         http.csrf().disable();
@@ -61,7 +59,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(noAuthLinks).permitAll()
                 .antMatchers(staticResources).permitAll()
-                .antMatchers("/customer/**").access("hasRole('CUSTOMER')")
                 .antMatchers("/manage/**").access("hasRole('STAFF')")
                 .anyRequest().authenticated()
                 .and()

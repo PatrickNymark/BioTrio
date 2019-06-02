@@ -22,12 +22,12 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model) {
-        List<Movie> top3Movies = movieRepository.findTop3Movies();
-        List<MoviePlay> next3MoviePlays = moviePlayRepository.findNext3MoviePlays();
+        List<Movie> topMovies = movieRepository.findAllMovies();
+        List<MoviePlay> nextMoviePlays = moviePlayRepository.findNextMoviePlays();
         List<Movie> movieList = movieRepository.findAllMovies();
 
-        model.addAttribute("movies", top3Movies);
-        model.addAttribute("moviePlays", next3MoviePlays);
+        model.addAttribute("movies", topMovies);
+        model.addAttribute("moviePlays", nextMoviePlays);
         model.addAttribute("movieList", movieList);
 
         return "index";

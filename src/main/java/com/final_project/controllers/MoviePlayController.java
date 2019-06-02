@@ -55,6 +55,10 @@ public class MoviePlayController {
 
     @PostMapping ("/manage/add-movie-play")
     public String addMoviePlay(@ModelAttribute MoviePlay moviePlay, RedirectAttributes redirectAttributes) {
+        if(moviePlay.getPlayStart() == null) {
+            redirectAttributes.addAttribute("message", "Play date cannot be empty");
+            return "redirect:/manage/add-movie-play";
+        }
 
         // Calculate play end
         LocalDateTime endDate = calculateEndTime(moviePlay.getMovieId(), moviePlay.getPlayStart());

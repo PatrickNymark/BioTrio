@@ -11,9 +11,7 @@ import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 
-@Entity
 public class Movie {
-
 
     @Id @GeneratedValue
     private int id ;

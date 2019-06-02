@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -51,10 +53,11 @@ public class MoviePlayController {
     }
 
     @PostMapping ("/manage/add-movie-play")
-    public String addMoviePlay(@ModelAttribute MoviePlay moviePlay, Errors errors) {
+    public String addMoviePlay(@ModelAttribute @Valid MoviePlay moviePlay, Errors errors) {
 
+        // Check if errors - errors are set with validation constraints.
         if(errors.hasErrors()) {
-            return "movie-play/add-movie-play";
+            return "redirect:/manage/add-movie-play";
         }
 
         moviePlayRepository.addMoviePlay(moviePlay);
@@ -64,12 +67,15 @@ public class MoviePlayController {
     @PostMapping ("/manage/delete-movie-play/{id}")
     public String deleteMoviePlay(@PathVariable(name ="id") int id) {
         List<Booking> bookingsToDelete = bookingRepository.findBookingsByMoviePlayId(id);
-        List<Ticket> ticketsToDelete = ticketRepository.getTicketsByMoviePlayId(id);
+        List<Ticket> ticketsToDelete = ticketRepository.findTicketsByMoviePlayId(id);
 
+        // When deleting a movie_play you also have to delete all the bookings
+        // and tickets associated to the movie play
         for(Ticket ticket : ticketsToDelete) {
             ticketRepository.deleteTicket(ticket.getId());
         }
 
+        // Same goes for bookings
         for(Booking booking : bookingsToDelete) {
             bookingRepository.deleteBooking(booking.getBookingCode());
         }
@@ -80,7 +86,7 @@ public class MoviePlayController {
 
     @GetMapping ("/manage/edit-movie-play/{id}")
     public String getEditMoviePlay(@PathVariable (name = "id") int id, Model model) {
-        MoviePlay playToEdit = moviePlayRepository.getMoviePlayById(id);
+        MoviePlay playToEdit = moviePlayRepository.findMoviePlayById(id);
 
         List<Movie> movieList = movieRepository.findAllMovies();
         List<Theater> theaterList = theaterRepository.findAllTheaters();

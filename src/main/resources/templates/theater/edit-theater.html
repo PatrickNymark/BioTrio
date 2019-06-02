@@ -13,5 +13,29 @@
     </style>
 </head>
 <body>
-<h1>Edit Theater</h1>
 <div th:replace="fragments/header :: header"></div>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Edit theater</h1>
+        <p class="lead">
+
+        <form style="display: inline" th:action="@{/manage/edit-theater/{id}  (id = ${theater.id})}" method="post" th:object="${theater}">
+            <div class="form-group">
+                <label for="theater">theater</label>
+                <input type="text" class="form-control" id="theater" placeholder="Enter theater title example: 'Blue'" th:field="${theater.theaterName}">
+            </div>
+            <div class="form-group">
+                <label for="number of rows">number of rows</label>
+                <input type="number" class="form-control" id="number of rows" placeholder="Number of rows" th:field="${theater.numberOfRows}">
+            </div>
+            <div class="form-group">
+                <label for="number of seats per row">number of seats per row</label>
+                <input type="number" class="form-control" id="number of seats per row" placeholder="Number of seats per row" th:field="${theater.seatsPerRow}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save theater</button>
+        </form>
+        <form class="mt-2" style="display: inline" th:action="@{/manage/delete-theater/{id}(id=${theater.getId()})}" method="post"><button type="submit" class="btn btn-primary">Delete theater</button></form>
+        </p>
+    </div>
+</div>

@@ -21,29 +21,26 @@
         <h1 class="display-4">Create/Add a new theater</h1>
         <p class="lead">
 
-        <form action="/add-theater" method="post">
+        <form th:action="@{/manage/add-theater}" method="post" th:object="${theater}">
             <div class="form-group">
                 <label for="theater">theater</label>
-                <input type="text" name="theater" class="form-control" id="theater" placeholder="Enter theater color example: 'Blue'" maxlength="100">
+                <input type="text" class="form-control" id="theater" placeholder="Enter theater title example: 'Blue'" th:field="${theater.theaterName}">
             </div>
         <div class="form-group">
             <label for="number of rows">number of rows</label>
-            <input type="number" class="form-control" id="number of rows" name="numberOfRows" placeholder="Number of rows" min="0">
+            <input type="number" class="form-control" id="number of rows" placeholder="Number of rows" th:field="${theater.numberOfRows}">
         </div>
         <div class="form-group">
             <label for="number of seats per row">number of seats per row</label>
-            <input type="number" class="form-control" id="number of seats per row" name="seatsPerRow" placeholder="Number of seats per row" min="0">
+            <input type="number" class="form-control" id="number of seats per row" placeholder="Number of seats per row" th:field="${theater.seatsPerRow}">
         </div>
 
             <button type="submit" class="btn btn-primary">Add theater</button>
             <button type="reset" class="btn btn-primary">Cancel</button>
         </form>
-
-
-
         </p>
     </div>
-
+</div>
     <!--<p>See theaters <a href="/all-theater">here</a></p>-->
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"

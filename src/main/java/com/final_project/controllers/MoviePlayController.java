@@ -55,32 +55,16 @@ public class MoviePlayController {
 
     @PostMapping ("/manage/add-movie-play")
     public String addMoviePlay(@ModelAttribute MoviePlay moviePlay, RedirectAttributes redirectAttributes) {
-        Movie movie = movieRepository.findMovieById(moviePlay.getMovieId());
-
-        // Get movie length + 15 min margin for preparation
-        int minutes = movie.getLengthInMinutes() + 15;
 
         // Calculate play end
-        LocalDateTime endDate = moviePlay.getPlayStart().plusMinutes(minutes);
+        LocalDateTime endDate = calculateEndTime(moviePlay.getMovieId(), moviePlay.getPlayStart());
 
         // Set play end
         moviePlay.setPlayEnd(endDate);
 
-        // Get movie plays by the theater id
-        List<MoviePlay> moviePlayList = moviePlayRepository.findMoviePlaysByTheaterId(moviePlay.getTheaterId());
-
-        // Iterate each movie play
-        for(MoviePlay play : moviePlayList) {
-            // Check if dates overlap
-            if((play.getPlayStart().isBefore(moviePlay.getPlayEnd())) && (play.getPlayEnd().isAfter(moviePlay.getPlayEnd()))) {
-                // Add redirect attribute to show error message
-                redirectAttributes.addAttribute("message", "Theater is occupied at this time");
-                return "redirect:/manage/add-movie-play";
-            } else if (play.getPlayStart().isEqual(moviePlay.getPlayStart())) {
-                // Add redirect attribute to show error message
-                redirectAttributes.addAttribute("message", "A movie play already starts at the given time");
-                return "redirect:/manage/add-movie-play";
-            }
+        if(!checkAvailability(moviePlay.getTheaterId(), moviePlay)) {
+            redirectAttributes.addAttribute("message", "Theater is occupied at given time");
+            return "redirect:/manage/add-movie-play";
         }
 
         moviePlayRepository.addMoviePlay(moviePlay);
@@ -108,7 +92,7 @@ public class MoviePlayController {
     }
 
     @GetMapping ("/manage/edit-movie-play/{id}")
-    public String getEditMoviePlay(@PathVariable (name = "id") int id, Model model) {
+    public String getEditMoviePlay(@PathVariable (name = "id") int id, @RequestParam(name = "message", required = false) String message, Model model) {
         MoviePlay playToEdit = moviePlayRepository.findMoviePlayById(id);
 
         List<Movie> movieList = movieRepository.findAllMovies();
@@ -117,15 +101,53 @@ public class MoviePlayController {
         model.addAttribute("movies", movieList);
         model.addAttribute("theaters", theaterList);
         model.addAttribute("moviePlay",playToEdit);
+        model.addAttribute("message", message);
 
         return "movie-play/edit-movie-play";
     }
 
-    @PostMapping ("/edit-movie-play")
-    public String editMoviePlay(@ModelAttribute MoviePlay moviePlay) {
+    @PostMapping ("/manage/edit-movie-play")
+    public String editMoviePlay(@ModelAttribute MoviePlay moviePlay, RedirectAttributes redirectAttributes) {
+
+        // Set play end
+        moviePlay.setPlayEnd(calculateEndTime(moviePlay.getMovieId(), moviePlay.getPlayStart()));
+
+        // Get movie plays by the theater id
+        if(!checkAvailability(moviePlay.getTheaterId(), moviePlay)) {
+            redirectAttributes.addAttribute("message", "Theater is occupied at given time");
+            return "redirect:/manage/edit-movie-play/" + moviePlay.getId();
+        }
+
         moviePlayRepository.editMoviePlay(moviePlay);
         return "redirect:/all-movie-plays";
     }
 
 
+    private LocalDateTime calculateEndTime(int movieId, LocalDateTime dateStart) {
+        Movie movie = movieRepository.findMovieById(movieId);
+
+        // Get movie length + 15 min margin for preparation
+        int minutes = movie.getLengthInMinutes() + 15;
+
+        // Calculate play end
+        LocalDateTime endDate = dateStart.plusMinutes(minutes);
+
+        return endDate;
+    }
+
+    private boolean checkAvailability(int theaterId, MoviePlay moviePlay) {
+        List<MoviePlay> moviePlayList = moviePlayRepository.findMoviePlaysByTheaterId(theaterId);
+
+        // Iterate each movie play
+        for(MoviePlay play : moviePlayList) {
+            // Check if dates overlap
+            if((play.getPlayStart().isBefore(moviePlay.getPlayEnd())) && (play.getPlayEnd().isAfter(moviePlay.getPlayEnd()))) {
+                return false;
+            } else if (play.getPlayStart().isEqual(moviePlay.getPlayStart())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

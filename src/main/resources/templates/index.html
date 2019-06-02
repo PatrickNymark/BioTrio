@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>Index page</title>
@@ -14,22 +15,29 @@
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
+<div class="wrapper"
+     style="clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%); height: 500px; width: 100%; background-color: black; position: absolute; z-index: -100; opacity: 0.7"></div>
 <div class="container">
-    <hr>
-    <h1 class="display-5 text-center mt-5 mb-5">Top 3 Movies</h1>
+    <div class="mt-3 mb-2" style="clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%); border: 2px solid white">
+        <h1 style="color: white" class="display-5 text-center mt-5 mb-5">Top Rated Movies</h1>
+    </div>
     <div class="row">
         <div class="col-4" th:each="movie : ${movies}">
             <div class="card mt-2">
                 <div class="card-image waves-effect waves-block waves-light">
-                    <img th:if="${movie.imageName.length() != 0}" class="activator" style="min-width: 100%; max-height: 450px;" th:src="@{/img/{image} (image = ${movie.imageName})}">
-                    <img th:if="${movie.imageName.length() == 0}" style="min-width: 100%; max-height: 450px;" src="/img/movie-placeholder.png" alt="">
+                    <img th:if="${movie.imageName}" class="activator"
+                         style="min-width: 100%; max-height: 450px;"
+                         th:src="@{/img/{image} (image = ${movie.imageName})}">
+                    <img th:if="${movie.imageName == null}" style="min-width: 100%; max-height: 450px;"
+                         src="/img/movie-placeholder.png" alt="">
                 </div>
                 <div class="card-body">
                     <h3 class="card-title" th:text="${movie.title}"></h3>
                     <div class="card-text" th:text="${movie.getGenre()}"></div>
                     <div class="card-text" th:text="${#temporals.format(movie.getReleaseYear(), 'dd/MM/yyyy')}"></div>
                     <a class="card-link" th:href="@{'/movie/' + ${movie.id}}">See Date & Time</a>
-                    <a class="card-link badge badge-primary float-right" style="padding: 8px 15px" sec:authorize="hasRole('ROLE_STAFF')" th:href="@{'/manage/edit-movie/' + ${movie.id}}">
+                    <a class="card-link badge badge-primary float-right" style="padding: 8px 15px"
+                       sec:authorize="hasRole('ROLE_STAFF')" th:href="@{'/manage/edit-movie/' + ${movie.id}}">
                         Edit
                     </a>
                 </div>
@@ -40,9 +48,13 @@
         <a class="btn btn-primary mt-5 mb-2" href="/all-movies">See More</a>
     </div>
     <hr>
-    <h1 class="display-5 text-center mt-5 mb-5">Next 3 Movie Plays</h1>
+
+</div>
+<div style="background-color: rgba(0,0,0,0.7); color: white">
+    <h1 class="display-5 text-center pt-5 mb-5">Next Movie Plays</h1>
+    <div class="container text-center">
     <div class="row mb-5">
-        <div class="col-4" th:each="play : ${moviePlays}">
+        <div class="col-6" style="border-left: 2px solid white" th:each="play : ${moviePlays}">
             <div class="media mt-5">
             <span th:each="movie : ${movieList}">
                 <img style="max-height: 150px" class="img-fluid mr-5" th:if="${movie.id == play.movieId}"
@@ -63,16 +75,19 @@
             </div>
         </div>
     </div>
+    </div>
     <div class="text-center">
         <a class="btn btn-primary mt-5 mb-2" href="/all-movie-plays">See More</a>
     </div>
     <hr class="mb-5">
 </div>
+<div th:replace="fragments/footer :: footer"></div>
 
 
 <!--<p>See theaters <a href="/all-theater">here</a></p>-->
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

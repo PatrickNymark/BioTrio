@@ -33,7 +33,7 @@ public class EmailController {
         try {
             // Sends confirmation email with provided info
             emailSender.sendConfirmationMail(booking, tickets, email);
-            return "redirect:/booking/confirmation/"  + bookingCode;
+            return "booking/booking-send";
         } catch (MessagingException e) {
             return "redirect:/all-movies";
         }

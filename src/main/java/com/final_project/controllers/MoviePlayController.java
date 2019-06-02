@@ -40,6 +40,22 @@ public class MoviePlayController {
         return "movie-play/all-movie-plays";
     }
 
+    @GetMapping("/movie-play/{id}")
+    public String getMoviePlay(@PathVariable(name = "id") int id, Model model) {
+        MoviePlay moviePlay = moviePlayRepository.findMoviePlayById(id);
+        Theater theater = theaterRepository.findTheaterById(moviePlay.getTheaterId());
+        Movie movie = movieRepository.findMovieById(moviePlay.getMovieId());
+
+        List<Ticket> tickets = ticketRepository.findTicketsByMoviePlayId(moviePlay.getId());
+
+        model.addAttribute("movie", movie);
+        model.addAttribute("theater", theater);
+        model.addAttribute("moviePlay", moviePlay);
+        model.addAttribute("tickets", tickets);
+
+        return "movie-play/movie-play-page";
+    }
+
     @GetMapping ("/manage/add-movie-play")
     public String getAddMoviePlay(@ModelAttribute MoviePlay moviePlay, Model model, @RequestParam(value = "message", required = false) String message) {
         List<Movie> movieList = movieRepository.findAllMovies();

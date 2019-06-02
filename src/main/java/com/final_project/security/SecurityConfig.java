@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/all-movies",
                 "/all-theaters",
                 "/movie/**",
+                "/movie-play/**",
                 "/booking/**",
                 "/all-movie-plays",
         };

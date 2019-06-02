@@ -21,12 +21,12 @@
         <h1 class="display-4">Edit movie play</h1>
         <p class="lead">
 
-        <form th:action="@{/edit-movie-play}" style="display: inline" method="post" th:object="${moviePlay}">
+        <form th:action="@{/manage/edit-movie-play}" style="display: inline" method="post" th:object="${moviePlay}">
             <div class="form-group">
                 <label for="movieControl">Movie</label>
                 <select class="form-control" id="movieControl" th:field="${moviePlay.movieId}">
                     <option th:each="movie : ${movies}" th:name="movieId" th:value="${movie.getId()}"
-                            th:text="${movie.getTitle()}"
+                            th:text="${movie.getTitle()}">
                     </option>
                 </select>
             </div>
@@ -42,7 +42,8 @@
                 <label for="date">Play Start</label>
                 <input type="datetime-local" class="form-control" id="date" th:field="${moviePlay.playStart}">
             </div>
-            <input type="hidden" name="id" th:value="${moviePlay.id}">
+        <div th:if="${message}" th:text="${message}" class="alert alert-danger" />
+        <input type="hidden" name="id" th:value="${moviePlay.id}">
             <button type="submit" class="btn btn-primary">Save Play</button>
         </form>
         <form class="mt-2" style="display: inline" th:action="@{/manage/delete-movie-play/{id}(id=${moviePlay.id})}"

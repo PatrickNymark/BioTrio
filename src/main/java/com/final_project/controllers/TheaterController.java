@@ -5,10 +5,7 @@ import com.final_project.repositories.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,52 +15,53 @@ public class TheaterController {
     @Autowired
     TheaterRepository theaterRepository;
 
-    @GetMapping ("/all-theaters")
+    @GetMapping ("/manage/all-theaters")
     public String getAllTheaters(Model model){
         List<Theater> theaterList = theaterRepository.findAllTheaters();
 
         model.addAttribute("theaters", theaterList);
 
-        return "all-theaters";
+        return "theater/all-theaters";
     }
 
-    @GetMapping ("/add-theater")
-    public String getAddTheater() {
-        return "add-theater";
-    }
+    @GetMapping ("/manage/add-theater")
+    public String getAddTheater(@ModelAttribute Theater theater, Model model) {
 
-    @PostMapping("/add-theater")
-    public String addTheater(@RequestParam("theater") String theater,
-                             @RequestParam("numberOfRows") int numberOfRows,
-                             @RequestParam("seatsPerRow")int seatsPerRow) {
-
-        Theater newTheater = new Theater();
-
-        newTheater.setTheaterName(theater);
-        newTheater.setNumberOfRows(numberOfRows);
-        newTheater.setSeatsPerRow(seatsPerRow);
-
-        theaterRepository.addTheater(newTheater);
-        return "redirect:/all-theater";
-    }
-    @GetMapping ("/theater/{id}")
-    public String getTheaterById (@PathVariable (name = "id")int id, Model model){
-
-        Theater theater = theaterRepository.findTheaterById(id);
         model.addAttribute("theater", theater);
-        return "theater-page";
+        return "theater/add-theater";
+    }
+
+    @PostMapping("/manage/add-theater")
+    public String addTheater(@ModelAttribute Theater theater) {
+        theaterRepository.addTheater(theater);
+        return "redirect:/manage/all-theaters";
+    }
+
+    @GetMapping ("/manage/theater/{id}")
+    public String getTheaterById (@PathVariable (name = "id") int id, Model model){
+        Theater theater = theaterRepository.findTheaterById(id);
+
+        model.addAttribute("theater", theater);
+        return "theater/theater-page";
     }
 
     @PostMapping("/manage/delete-theater/{theater_id}")
-    public String deleteTheater(@PathVariable(name= "theater_id") int theater_id){
-        theaterRepository.deleteTheater(theater_id);
-        return "redirect:/all-theaters";
+    public String deleteTheater(@PathVariable(name= "theater_id") int id){
+        theaterRepository.deleteTheater(id);
+        return "redirect:/manage/all-theaters";
     }
 
-    @GetMapping("/edit/{id}")
-    public String editTheater(Model model, @PathVariable(name="id") int id){
+    @GetMapping("/manage/edit-theater/{id}")
+    public String getEditTheater(@PathVariable(name="id") int id, Model model){
         Theater theaterToEdit = theaterRepository.findTheaterById(id);
+
         model.addAttribute("theater", theaterToEdit);
-        return "edit-theater";
+        return "theater/edit-theater";
     }
+
+   @PostMapping("/manage/edit-theater/{id}")
+   public String editTheater(@PathVariable(name="id") int id, @ModelAttribute Theater theater, Model model){
+        theaterRepository.editTheater(theater);
+       return "redirect:/manage/all-theaters";
+   }
 }

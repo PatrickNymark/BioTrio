@@ -40,6 +40,8 @@
                 <label for="dateStart">Play Start</label>
                 <input type="datetime-local" th:class="${#fields.hasErrors('playStart') ? 'form-control is-invalid' : 'form-control'}" th:field="${moviePlay.playStart}" id="dateStart">
             </div>
+            <div th:if="${#fields.hasErrors('playStart')}" th:errors="${moviePlay.playStart}"></div>
+            <div th:if="${message}" th:text="${message}" class="alert alert-danger" />
             <button type="submit" class="btn btn-primary">Add movie play</button>
             <button type="reset" class="btn btn-primary">Cancel</button>
         </form>

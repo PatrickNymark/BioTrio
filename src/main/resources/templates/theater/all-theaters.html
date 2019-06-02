@@ -24,7 +24,6 @@
         <th scope="col">Number of rows</th>
         <th scope="col">Number of seats per row</th>
         <!--<th scope="col">Additional features</th>-->
-        <th scope="col">Delete</th>
         <th scope="col">Edit</th>
     </tr>
     </thead>
@@ -34,10 +33,7 @@
         <td th:text="${theater.getTheaterName()}"></td>
         <td th:text="${theater.getNumberOfRows()}"></td>
         <td th:text="${theater.getSeatsPerRow()}"></td>
-        <td>
-            <form class="mt-2" style="display: inline" th:action="@{/manage/delete-theater/{id}(id=${theater.getId()})}" method="post"><button type="submit" class="btn btn-primary">Delete</button></form>
-        </td>
-        <td><a class="btn btn-success" th:href="@{'/edit-theater/' + ${theater.id}}">Edit</a></td>
+        <td><a class="btn btn-primary" th:href="@{'/manage/edit-theater/' + ${theater.id}}">Edit</a></td>
     </tr>
 
     </tbody>

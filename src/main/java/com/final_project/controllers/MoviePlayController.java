@@ -5,10 +5,10 @@ import com.final_project.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -41,23 +41,46 @@ public class MoviePlayController {
     }
 
     @GetMapping ("/manage/add-movie-play")
-    public String getAddMoviePlay(@ModelAttribute MoviePlay moviePlay, Model model) {
+    public String getAddMoviePlay(@ModelAttribute MoviePlay moviePlay, Model model, @RequestParam(value = "message", required = false) String message) {
         List<Movie> movieList = movieRepository.findAllMovies();
         List<Theater> theaterList = theaterRepository.findAllTheaters();
 
         model.addAttribute("moviePlay", moviePlay);
         model.addAttribute("movies", movieList);
         model.addAttribute("theaters", theaterList);
+        model.addAttribute("message", message);
 
         return "movie-play/add-movie-play";
-    }
+    };
 
     @PostMapping ("/manage/add-movie-play")
-    public String addMoviePlay(@ModelAttribute @Valid MoviePlay moviePlay, Errors errors) {
+    public String addMoviePlay(@ModelAttribute MoviePlay moviePlay, RedirectAttributes redirectAttributes) {
+        Movie movie = movieRepository.findMovieById(moviePlay.getMovieId());
 
-        // Check if errors - errors are set with validation constraints.
-        if(errors.hasErrors()) {
-            return "redirect:/manage/add-movie-play";
+        // Get movie length + 15 min margin for preparation
+        int minutes = movie.getLengthInMinutes() + 15;
+
+        // Calculate play end
+        LocalDateTime endDate = moviePlay.getPlayStart().plusMinutes(minutes);
+
+        // Set play end
+        moviePlay.setPlayEnd(endDate);
+
+        // Get movie plays by the theater id
+        List<MoviePlay> moviePlayList = moviePlayRepository.findMoviePlaysByTheaterId(moviePlay.getTheaterId());
+
+        // Iterate each movie play
+        for(MoviePlay play : moviePlayList) {
+            // Check if dates overlap
+            if((play.getPlayStart().isBefore(moviePlay.getPlayEnd())) && (play.getPlayEnd().isAfter(moviePlay.getPlayEnd()))) {
+                // Add redirect attribute to show error message
+                redirectAttributes.addAttribute("message", "Theater is occupied at this time");
+                return "redirect:/manage/add-movie-play";
+            } else if (play.getPlayStart().isEqual(moviePlay.getPlayStart())) {
+                // Add redirect attribute to show error message
+                redirectAttributes.addAttribute("message", "A movie play already starts at the given time");
+                return "redirect:/manage/add-movie-play";
+            }
         }
 
         moviePlayRepository.addMoviePlay(moviePlay);

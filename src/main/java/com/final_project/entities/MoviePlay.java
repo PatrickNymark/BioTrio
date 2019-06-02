@@ -14,16 +14,18 @@ public class MoviePlay {
     private int movieId;
     private int theaterId;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @NotNull
     private LocalDateTime playStart;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime playEnd;
 
     public MoviePlay() {
     }
 
-    public MoviePlay(int movieId, int theaterId, LocalDateTime playStart) {
+    public MoviePlay(int movieId, int theaterId, @NotNull LocalDateTime playStart, LocalDateTime playEnd) {
         this.movieId = movieId;
         this.theaterId = theaterId;
         this.playStart = playStart;
+        this.playEnd = playEnd;
     }
 
     public int getId() {
@@ -58,6 +60,14 @@ public class MoviePlay {
         this.playStart = playStart;
     }
 
+    public LocalDateTime getPlayEnd() {
+        return playEnd;
+    }
+
+    public void setPlayEnd(LocalDateTime playEnd) {
+        this.playEnd = playEnd;
+    }
+
     @Override
     public String toString() {
         return "MoviePlay{" +
@@ -65,6 +75,8 @@ public class MoviePlay {
                 ", movieId=" + movieId +
                 ", theaterId=" + theaterId +
                 ", playStart=" + playStart +
+                ", playEnd=" + playEnd +
                 '}';
     }
 }
+

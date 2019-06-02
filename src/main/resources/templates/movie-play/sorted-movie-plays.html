@@ -35,7 +35,7 @@
                 <div class="media-body">
                     <h5 class="mt-0" th:text="${#temporals.format(play.getPlayStart(), 'dd/MM/yyyy HH:mm')}"></h5>
                     <a style="padding: 8px 15px" class="badge badge-primary large"
-                       th:href="@{/booking/choose-seat/{id} (id = ${play.id})}">Book Tickets</a>
+                       th:href="@{/movie/{id} (id = ${play.movieId})}">See Movie</a>
                     <a style="padding: 8px  15px" class="card-link badge badge-primary float-right large"
                        sec:authorize="hasRole('ROLE_STAFF')"
                        th:href="@{/manage/edit-movie-play/{id} (id = ${play.id})}">

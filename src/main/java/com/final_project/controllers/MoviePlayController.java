@@ -61,8 +61,6 @@ public class MoviePlayController {
         List<MoviePlay> moviePlays = moviePlayRepository.findMoviePlaysWithinDate(playStart, playEnd);
         List<Movie> movieList = movieRepository.findAllMovies();
 
-        System.out.println(playStart);
-        System.out.println(playEnd);
         model.addAttribute("moviePlays", moviePlays);
         model.addAttribute("movies", movieList);
         return "movie-play/sorted-movie-plays";

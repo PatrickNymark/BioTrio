@@ -19,22 +19,24 @@
 <h1 class="text-center mt-5 mb-5">All Movie Plays</h1>
 <div class="container">
     <div class="container">
-        <div class="media mt-5" th:each="play : ${plays}">
+        <div class="row">
+            <div class="col-4 media mt-5" th:each="play : ${plays}">
             <span th:each="movie : ${movies}">
                 <img style="max-height: 150px" class="img-fluid mr-5" th:if="${movie.id == play.movieId}"
                      th:src="@{/img/{image}(image = ${movie.imageName})}" alt="">
             </span>
-            <div class="media-body">
-                <h5 class="mt-0" th:text="${#temporals.format(play.getPlayStart(), 'dd/MM/yyyy HH:mm')}"></h5>
-                <a style="padding: 8px 15px" class="badge badge-primary large"
-                   th:href="@{/booking/choose-seat/{id} (id = ${play.id})}">Book Tickets</a>
-                <a style="padding: 8px  15px" class="card-link badge badge-primary float-right large" sec:authorize="hasRole('ROLE_STAFF')"
-                   th:href="@{/manage/edit-movie-play/{id} (id = ${play.id})}">
-                    Edit
-                </a>
-                <a style="padding: 8px 15px" class="badge badge-primary large"
-                   th:href="@{/movie/{id} (id = ${play.movieId})}">More info</a>
-
+                <div class="media-body">
+                    <h5 class="mt-0" th:text="${#temporals.format(play.getPlayStart(), 'dd/MM/yyyy HH:mm')}"></h5>
+                    <a style="padding: 8px 15px" class="badge badge-primary large"
+                       th:href="@{/booking/choose-seat/{id} (id = ${play.id})}">Book Tickets</a>
+                    <a style="padding: 8px  15px" class="card-link badge badge-primary float-right large"
+                       sec:authorize="hasRole('ROLE_STAFF')"
+                       th:href="@{/manage/edit-movie-play/{id} (id = ${play.id})}">
+                        Edit
+                    </a>
+                    <a style="padding: 8px 15px" class="badge badge-primary large mt-2"
+                       th:href="@{/movie-play/{id} (id = ${play.id})}">More info</a>
+                </div>
             </div>
         </div>
     </div>

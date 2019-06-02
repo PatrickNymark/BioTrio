@@ -16,15 +16,24 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 
-<h1 class="text-center mt-5 mb-5">All Movie Plays</h1>
+<div class="container text-center">
+    <h1 class="mt-5 mb-5">All Movie Plays</h1>
+    <span th:if="${plays.size() == 0}">
+        <h5 class="mt-0">No movie plays added yet.</h5>
+         <a class="btn btn-primary text mt-4" style="padding: 8px 15px" sec:authorize="hasRole('ROLE_STAFF')" th:href="@{'/manage/add-movie'}">
+             Add you first movie!
+         </a>
+    </span>
+</div>
+
 <div class="container">
     <div class="container">
         <div class="row">
             <div class="col-4 media mt-5" th:each="play : ${plays}">
-            <span th:each="movie : ${movies}">
-                <img style="max-height: 150px" class="img-fluid mr-5" th:if="${movie.id == play.movieId}"
-                     th:src="@{/img/{image}(image = ${movie.imageName})}" alt="">
-            </span>
+                <span th:each="movie : ${movies}">
+                    <img style="max-height: 150px" class="img-fluid mr-5" th:if="${movie.id == play.movieId}"
+                         th:src="@{/img/{image}(image = ${movie.imageName})}" alt="">
+                </span>
                 <div class="media-body">
                     <h5 class="mt-0" th:text="${#temporals.format(play.getPlayStart(), 'dd/MM/yyyy HH:mm')}"></h5>
                     <a style="padding: 8px 15px" class="badge badge-primary large"

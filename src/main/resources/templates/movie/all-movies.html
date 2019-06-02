@@ -22,17 +22,17 @@
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<div class="container">
-    <h1 class="display-4 text-center mt-5">All Movies</h1>
+<div class="container text-center">
+    <h1 class="display-4 mt-5">All Movies</h1>
+    <span th:if="${movies.size() == 0}">
+        <h5  class="mt-0">No movies added yet.</h5>
+         <a class="btn btn-primary text mt-4" style="padding: 8px 15px" sec:authorize="hasRole('ROLE_STAFF')" th:href="@{'/manage/add-movie'}">
+             Add you first movie!
+         </a>
+    </span>
 </div>
 
 <div class="container mb-5">
-    <form class="form-inline my-2 my-lg-0" th:action="@{/all-movies}" method="get">
-        <input class="form-control mr-sm-2 searchInput" name="search" type="text" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-    </form>
-    <a class="btn btn-outline-primary mt-3" th:href="@{/all-movies}">Show all</a>
-
     <div class="row" th:if="${searchList} != null AND ${searchList.size()} > 0">
         <div class="col-4" th:each="movie : ${searchList}">
             <div class="card mt-5">
@@ -75,6 +75,7 @@
     </div>
 </div>
 
+<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 </html>

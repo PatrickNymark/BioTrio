@@ -15,20 +15,10 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/customer/profile")
-    public String getProfile(Model model, Principal principal) {
-        String currentUserEmail = principal.getName();
-        User user = userRepository.getUserByEmail(currentUserEmail);
-
-        model.addAttribute(user);
-
-        return "user/profile";
-    }
-
     @GetMapping("/manage/admin")
     public String getAdminPage(Model model, Principal principal) {
         String currentUserEmail = principal.getName();
-        User user = userRepository.getUserByEmail(currentUserEmail);
+        User user = userRepository.findUserByEmail(currentUserEmail);
 
         model.addAttribute(user);
         return "user/admin";

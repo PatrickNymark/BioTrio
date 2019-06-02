@@ -1,6 +1,14 @@
-CREATE DATABASE IF NOT EXISTS BioTrio;
 
-use BioTrio;
+
+DROP DATABASE IF EXISTS biotrio;
+
+CREATE DATABASE IF NOT EXISTS biotrio;
+
+USE biotrio;
+
+
+   # CREATE TABLES
+
 
 CREATE TABLE IF NOT EXISTS movies(
   movie_id int not null auto_increment primary key,
@@ -8,8 +16,8 @@ CREATE TABLE IF NOT EXISTS movies(
   genre varchar(255) not null,
   rating double,
   age_limit int,
-  description varchar(255) not null,
-  length_in_minutes int not null,
+  description varchar(255),
+  length_in_minutes int,
   image_name varchar(255),
   trailer_url varchar(255),
   release_year DATETIME not null
@@ -19,7 +27,7 @@ CREATE TABLE IF NOT EXISTS theaters(
   theater_id int not null auto_increment primary key,
   title varchar(255),
   seats_pr_row int not null,
-  number_of_rows int not null
+  number_of_rows int not null 
 );
 
 CREATE TABLE IF NOT EXISTS users(

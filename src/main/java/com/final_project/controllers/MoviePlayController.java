@@ -145,7 +145,7 @@ public class MoviePlayController {
         // Iterate each movie play
         for(MoviePlay play : moviePlayList) {
             // Check if dates overlap
-            if((play.getPlayStart().isBefore(moviePlay.getPlayEnd())) && (play.getPlayEnd().isAfter(moviePlay.getPlayEnd()))) {
+            if((play.getPlayStart().isBefore(moviePlay.getPlayEnd())) && (moviePlay.getPlayStart().isBefore(play.getPlayEnd()))) {
                 return false;
             } else if (play.getPlayStart().isEqual(moviePlay.getPlayStart())) {
                 return false;

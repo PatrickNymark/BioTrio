@@ -48,8 +48,6 @@ public class MoviePlayRepository {
     }
 
     public List<MoviePlay> findPlaysByMovieIdWithinDate(int movieId, LocalDate startLimit, LocalDate endLimit) {
-        System.out.println(startLimit);
-        System.out.println(endLimit);
         String sqlQuery = "SELECT * FROM movie_plays WHERE movie_id = ? AND play_start >= ? AND play_start <= ?";
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, movieId, startLimit, endLimit);

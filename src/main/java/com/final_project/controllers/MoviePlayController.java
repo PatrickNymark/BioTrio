@@ -159,7 +159,7 @@ public class MoviePlayController {
         Movie movie = movieRepository.findMovieById(movieId);
 
         // Get movie length + 15 min margin for preparation
-        int minutes = movie.getLengthInMinutes() + 15;
+        int minutes = movie.getLengthInMinutes() + 30;
 
         // Calculate play end
         LocalDateTime endDate = dateStart.plusMinutes(minutes);

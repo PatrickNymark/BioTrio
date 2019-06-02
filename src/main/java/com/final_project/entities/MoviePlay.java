@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class MoviePlay {
@@ -13,6 +14,7 @@ public class MoviePlay {
     private int movieId;
     private int theaterId;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @NotNull
     private LocalDateTime playStart;
 
     public MoviePlay() {

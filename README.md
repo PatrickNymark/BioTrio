@@ -8,7 +8,7 @@ KEA - KØBENHAVNS ERHVERVSAKADEMI, Denmark
 3. MySQL workbench(Switch between localhost/online database)
 4. Remote MySQL/myphpadmin for the online database
 5. Clone and run application on localhost:8080 or any other ports of your choise
-6. Remember to change the appliation properties on your IDE to run on a particular port number
+6. Remember to change the application properties on your IDE to run on a particular port number
 # Project status
 Other features will be added to the project in the future to improve the usage and adapt it to other scenerios
 # Authors 

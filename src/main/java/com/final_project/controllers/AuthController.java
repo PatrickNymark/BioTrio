@@ -18,16 +18,32 @@ public class AuthController {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Method retrieves login form
+     *
+     * @return String
+     */
     @GetMapping("/login")
     public String login() {
         return "auth/login";
     }
 
+    /**
+     * Method retrieves register form
+     *
+     * @return String
+     */
     @GetMapping("/manage/register")
     public String register() {
         return "auth/register";
     }
 
+    /**
+     * Method takes a User model and saves it to the database
+     *
+     * @param user
+     * @return String
+     */
     @PostMapping("/manage/register")
     public String addUser(@ModelAttribute User user) {
         // Hash password with bcrypt.

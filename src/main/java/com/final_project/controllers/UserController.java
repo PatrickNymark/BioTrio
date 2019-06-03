@@ -15,6 +15,13 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Method retrieves admin page
+     *
+     * @param model
+     * @param principal
+     * @return
+     */
     @GetMapping("/manage/admin")
     public String getAdminPage(Model model, Principal principal) {
         String currentUserEmail = principal.getName();

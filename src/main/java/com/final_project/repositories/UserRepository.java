@@ -17,6 +17,12 @@ public class UserRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    /**
+     * Find user by email
+     *
+     * @param email
+     * @return User
+     */
     public User findUserByEmail(String email) {
         String sqlQuery = "select * from users where email = ?";
 
@@ -25,6 +31,12 @@ public class UserRepository {
         return generateUser(rs);
     }
 
+    /**
+     * Saves user
+     *
+     * @param user
+     * @return int
+     */
     public int addUser(User user) {
         String sqlQuery = "INSERT INTO users(first_name, last_name, email, password, phone_number, role, active) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
@@ -47,6 +59,12 @@ public class UserRepository {
         return jdbcTemplate.update(psc);
     }
 
+    /**
+     * Generates user from database
+     *
+     * @param rs
+     * @return User
+     */
     private User generateUser(SqlRowSet rs) {
         User user = new User();
 

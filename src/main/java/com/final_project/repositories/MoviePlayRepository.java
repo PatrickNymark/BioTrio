@@ -21,6 +21,11 @@ public class MoviePlayRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    /**
+     * Find all movie plays
+     *
+     * @return List(MoviePlay)
+     */
     public List<MoviePlay> findAllMoviePlays() {
         String sqlQuery = "SELECT * FROM movie_plays ORDER BY play_start";
 
@@ -29,6 +34,11 @@ public class MoviePlayRepository {
         return generateMoviePlays(rs);
     }
 
+    /**
+     * Find next movie plays with a limit. (For now limit is hardcoded - not optimal!)
+     *
+     * @return List(MoviePlay)
+     */
     public List<MoviePlay> findNextMoviePlays() {
         int limit = 6;
 
@@ -39,14 +49,6 @@ public class MoviePlayRepository {
         return generateMoviePlays(rs);
     }
 
-    public List<MoviePlay> findMoviePlaysByMovieId(int movieId) {
-        String sqlQuery = "SELECT * FROM movie_plays WHERE movie_id = ? ORDER BY play_start";
-
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, movieId);
-
-        return  generateMoviePlays(rs);
-    }
-
     public List<MoviePlay> findPlaysByMovieIdWithinDate(int movieId, LocalDate startLimit, LocalDate endLimit) {
         String sqlQuery = "SELECT * FROM movie_plays WHERE movie_id = ? AND play_start >= ? AND play_start <= ? ORDER BY play_start";
 
@@ -55,6 +57,13 @@ public class MoviePlayRepository {
         return  generateMoviePlays(rs);
     }
 
+    /**
+     * Find movie plays within dates
+     *
+     * @param startLimit
+     * @param endLimit
+     * @return List(MoviePlay)
+     */
     public List<MoviePlay> findMoviePlaysWithinDate(String startLimit, String endLimit) {
         String sqlQuery = "SELECT * FROM movie_plays WHERE play_start >= ? AND play_start <= ? ORDER BY play_start";
 
@@ -64,6 +73,12 @@ public class MoviePlayRepository {
     }
 
 
+    /**
+     * Find movie play by id
+     *
+     * @param id
+     * @return MoviePlay
+     */
     public MoviePlay findMoviePlayById(int id) {
         String sqlQuery = "SELECT * FROM movie_plays WHERE play_id = ?";
 
@@ -72,6 +87,12 @@ public class MoviePlayRepository {
         return generateMoviePlay(rs);
     }
 
+    /**
+     * Find movie plays by theater
+     *
+     * @param theaterId
+     * @return List(MoviePlay)
+     */
     public List<MoviePlay> findMoviePlaysByTheaterId(int theaterId) {
         String sqlQuery = "SELECT * FROM movie_plays WHERE theater_id = ?";
 
@@ -80,6 +101,11 @@ public class MoviePlayRepository {
         return generateMoviePlays(rs);
     }
 
+    /**
+     * Saves MoviePlay
+     *
+     * @param moviePlay
+     */
     public void addMoviePlay(MoviePlay moviePlay) {
         String sqlQuery = "INSERT INTO movie_plays(movie_id, theater_id, play_start, play_end) VALUES(?, ?, ?, ?)";
 
@@ -99,6 +125,11 @@ public class MoviePlayRepository {
         jdbcTemplate.update(psc);
     }
 
+    /**
+     * Deletes MoviePlay
+     *
+     * @param id
+     */
     public void deleteMoviePlay(int id) {
         String sqlQuery = "DELETE FROM movie_plays WHERE play_id = ?";
 
@@ -114,6 +145,11 @@ public class MoviePlayRepository {
         jdbcTemplate.update(psc);
     }
 
+    /**
+     * Updates MoviePlay
+     *
+     * @param moviePlay
+     */
     public void editMoviePlay(MoviePlay moviePlay) {
         String sqlQuery = "UPDATE movie_plays SET movie_id = ?, theater_id = ?, play_start = ?, play_end = ? WHERE play_id = ?";
 
@@ -133,6 +169,12 @@ public class MoviePlayRepository {
         jdbcTemplate.update(psc);
     }
 
+    /**
+     * Generates a MoviePlay from database
+     *
+     * @param rs
+     * @return MoviePlay
+     */
     private MoviePlay generateMoviePlay(SqlRowSet rs) {
         MoviePlay moviePlay = new MoviePlay();
 
@@ -150,6 +192,12 @@ public class MoviePlayRepository {
         return moviePlay;
     }
 
+    /**
+     * Generates MoviePlays from database
+     *
+     * @param rs
+     * @return List(MoviePlay)
+     */
     private List<MoviePlay> generateMoviePlays(SqlRowSet rs) {
         List<MoviePlay> moviePlayList = new ArrayList<>();
 

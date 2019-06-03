@@ -32,6 +32,12 @@ public class BookingController {
     MovieRepository movieRepository;
 
 
+    /**
+     * Method retrieves all bookings
+     *
+     * @param model
+     * @return String
+     */
     @GetMapping("/manage/all-bookings")
     public String getAllBookings(Model model) {
         List<Booking> bookings = bookingRepository.findAllBookings();
@@ -41,7 +47,17 @@ public class BookingController {
         return "booking/all-bookings";
     }
 
-
+    /**
+     * Method returns the UI for choosing seats. The method takes a moviePlayId to find to moviePlay to book seats for
+     * it takes a request param of message as well which is not required - the message it used to show errors when
+     * wrong input has been submitted. It calculates and sets the seat info based on booked tickets, rows and number of
+     * seats in a theater.
+     *
+     * @param moviePlayId
+     * @param model
+     * @param message
+     * @return String
+     */
     @GetMapping("/booking/choose-seat/{id}")
     public String getChooseSeat(@PathVariable(name = "id") int moviePlayId, Model model, @RequestParam(value = "message", required = false) String message) {
         MoviePlay moviePlay = moviePlayRepository.findMoviePlayById(moviePlayId);
@@ -80,6 +96,16 @@ public class BookingController {
         return "booking/choose-seat";
     }
 
+    /**
+     * Method takes a string of seats, which comes from checkbox in html.
+     * We therefore have to split it down until we have the exact nr and seat row values.
+     * We then save it to the database.
+     *
+     * @param seats
+     * @param moviePlayId
+     * @param redirectAttributes
+     * @return String
+     */
     @PostMapping("/booking/choose-seat/{id}")
     public String addBooking(@RequestBody(required = false) String seats, @PathVariable(name = "id") int moviePlayId, RedirectAttributes redirectAttributes) {
         // Check of not seats were checked, and then redirects with a message.
@@ -136,6 +162,13 @@ public class BookingController {
         return "redirect:/booking/confirmation/"  + booking.getBookingCode();
     }
 
+    /**
+     * Method retrieves booking confirmation.
+     *
+     * @param bookingCode
+     * @param model
+     * @return String
+     */
     @GetMapping("/booking/confirmation/{bookingCode}")
     public String getBookingConfirmation(@PathVariable(name = "bookingCode") String bookingCode, Model model) {
         Booking booking = bookingRepository.findBookingByBookingCode(bookingCode);
@@ -151,6 +184,12 @@ public class BookingController {
         return "booking/booking-confirmation";
     }
 
+    /**
+     * Method takes a bookingCode, which is uses to delete from database
+     *
+     * @param bookingCode
+     * @return String
+     */
     @PostMapping("/manage/delete-booking/{bookingCode}")
     public String deleteBooking(@PathVariable(name = "bookingCode") String bookingCode) {
         Booking bookingToDelete = bookingRepository.findBookingByBookingCode(bookingCode);
@@ -166,11 +205,24 @@ public class BookingController {
         return "redirect:/manage/all-bookings";
     }
 
+    /**
+     * Method recieves html page for results when searching for booking
+     *
+     * @return
+     */
     @GetMapping("/manage/booking/search")
     public String getSearchBooking() {
         return "booking/find-booking";
     }
 
+    /**
+     * Method takes a search value, which is uses to find records in the database from.
+     * It then returns the path to the html page to be rendered.
+     *
+     * @param model
+     * @param searchValue
+     * @return
+     */
     @PostMapping("/manage/bookings/search")
     public String searchBookings(Model model, @RequestParam(name = "search", required = false) String searchValue) {
         Booking booking = bookingRepository.findBookingByBookingCode(searchValue);

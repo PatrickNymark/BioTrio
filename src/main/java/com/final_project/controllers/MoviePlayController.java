@@ -29,6 +29,12 @@ public class MoviePlayController {
     @Autowired
     TicketRepository ticketRepository;
 
+    /**
+     * Method retrieves all movie plays
+     *
+     * @param model
+     * @return String
+     */
     @GetMapping ("/all-movie-plays")
     public String  getAllMoviePlays(Model model) {
         List<MoviePlay> moviePlayList = moviePlayRepository.findAllMoviePlays();
@@ -40,6 +46,13 @@ public class MoviePlayController {
         return "movie-play/all-movie-plays";
     }
 
+    /**
+     * Method retrieves single movie play
+     *
+     * @param id
+     * @param model
+     * @return String
+     */
     @GetMapping("/movie-play/{id}")
     public String getMoviePlay(@PathVariable(name = "id") int id, Model model) {
         MoviePlay moviePlay = moviePlayRepository.findMoviePlayById(id);
@@ -56,6 +69,14 @@ public class MoviePlayController {
         return "movie-play/movie-play-page";
     }
 
+    /**
+     * Method takes a start and end date, and then retrieves all movie-plays within data range
+     *
+     * @param playStart
+     * @param playEnd
+     * @param model
+     * @return String
+     */
     @PostMapping("/movie-play/search")
     public String getMoviePlaysWithinDates(@RequestParam(name = "playStart") String playStart, @RequestParam(name = "playEnd") String playEnd, Model model) {
         List<MoviePlay> moviePlays = moviePlayRepository.findMoviePlaysWithinDate(playStart, playEnd);
@@ -66,6 +87,14 @@ public class MoviePlayController {
         return "movie-play/sorted-movie-plays";
     }
 
+    /**
+     * Method retrieves add movie form
+     *
+     * @param moviePlay
+     * @param model
+     * @param message
+     * @return String
+     */
     @GetMapping ("/manage/add-movie-play")
     public String getAddMoviePlay(@ModelAttribute MoviePlay moviePlay, Model model, @RequestParam(value = "message", required = false) String message) {
         List<Movie> movieList = movieRepository.findAllMovies();
@@ -79,6 +108,13 @@ public class MoviePlayController {
         return "movie-play/add-movie-play";
     };
 
+    /**
+     * Method takes a movie play and saves it to the database
+     *
+     * @param moviePlay
+     * @param redirectAttributes
+     * @return
+     */
     @PostMapping ("/manage/add-movie-play")
     public String addMoviePlay(@ModelAttribute MoviePlay moviePlay, RedirectAttributes redirectAttributes) {
         if(moviePlay.getPlayStart() == null) {
@@ -101,6 +137,12 @@ public class MoviePlayController {
         return "redirect:/all-movie-plays";
     }
 
+    /**
+     * Method takes a path variable and then deletes record from database
+     *
+     * @param id
+     * @return
+     */
     @PostMapping ("/manage/delete-movie-play/{id}")
     public String deleteMoviePlay(@PathVariable(name ="id") int id) {
         List<Booking> bookingsToDelete = bookingRepository.findBookingsByMoviePlayId(id);
@@ -121,6 +163,14 @@ public class MoviePlayController {
         return "redirect:/all-movie-plays";
     }
 
+    /**
+     * Method retrieves edit movie form
+     *
+     * @param id
+     * @param message
+     * @param model
+     * @return
+     */
     @GetMapping ("/manage/edit-movie-play/{id}")
     public String getEditMoviePlay(@PathVariable (name = "id") int id, @RequestParam(name = "message", required = false) String message, Model model) {
         MoviePlay playToEdit = moviePlayRepository.findMoviePlayById(id);
@@ -136,6 +186,13 @@ public class MoviePlayController {
         return "movie-play/edit-movie-play";
     }
 
+    /**
+     * Methods takes a movie play and then updates database record
+     *
+     * @param moviePlay
+     * @param redirectAttributes
+     * @return
+     */
     @PostMapping ("/manage/edit-movie-play")
     public String editMoviePlay(@ModelAttribute MoviePlay moviePlay, RedirectAttributes redirectAttributes) {
 
@@ -153,6 +210,13 @@ public class MoviePlayController {
     }
 
 
+    /**
+     * Private method to calculate play end time
+     *
+     * @param movieId
+     * @param dateStart
+     * @return LocalDateTime
+     */
     private LocalDateTime calculateEndTime(int movieId, LocalDateTime dateStart) {
         Movie movie = movieRepository.findMovieById(movieId);
 
@@ -165,6 +229,14 @@ public class MoviePlayController {
         return endDate;
     }
 
+    /**
+     * Private method to check if movie play to create overlap
+     * any plays in the particular theater
+     *
+     * @param theaterId
+     * @param moviePlay
+     * @return boolean
+     */
     private boolean checkAvailability(int theaterId, MoviePlay moviePlay) {
         List<MoviePlay> moviePlayList = moviePlayRepository.findMoviePlaysByTheaterId(theaterId);
 

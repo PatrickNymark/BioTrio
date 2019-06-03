@@ -17,6 +17,11 @@ public class MovieRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    /**
+     * Find all movies
+     *
+     * @return List(Movie)
+     */
     public List<Movie> findAllMovies() {
         String sqlQuery = "SELECT * FROM movies";
 
@@ -27,6 +32,11 @@ public class MovieRepository {
         return movieList;
     }
 
+    /**
+     * Find movies with a limit (hardcoded for now - not optimal)
+     *
+     * @return List(Movie)
+     */
     public List<Movie> findTopMovies() {
         int limit = 3;
         String sqlQuery = "SELECT * FROM movies ORDER BY rating LIMIT ?";
@@ -36,6 +46,12 @@ public class MovieRepository {
         return generateMovies(rs);
     }
 
+    /**
+     * Find movie by id
+     *
+     * @param id
+     * @return Movie
+     */
     public Movie findMovieById(int id) {
         String sqlQuery = "SELECT * FROM movies WHERE movie_id=" + id;
 
@@ -46,6 +62,12 @@ public class MovieRepository {
         return movie;
     }
 
+    /**
+     * Find movies similar to title
+     *
+     * @param title
+     * @return List(Movie)
+     */
     public List<Movie> searchMoviesByTitle(String title) {
         String sqlQuery = "SELECT * FROM movies WHERE title LIKE ?";
 
@@ -56,6 +78,11 @@ public class MovieRepository {
         return generateMovies(rs);
     }
 
+    /**
+     * Saves movie
+     *
+     * @param movie
+     */
     public void addMovie(Movie movie) {
         String sqlQuery = "INSERT INTO movies(title, genre, rating, release_year, length_in_minutes, age_limit, image_name, trailer_url, description) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -80,6 +107,11 @@ public class MovieRepository {
         jdbcTemplate.update(psc);
     }
 
+    /**
+     * Updates movie
+     *
+     * @param movie
+     */
     public void editMovie(Movie movie) {
         String sqlQuery = "UPDATE movies SET title = ?, genre = ?, rating = ?, release_year = ?, length_in_minutes = ?, age_limit = ?, image_name = ?, trailer_url = ?, description = ? WHERE movie_id = ?";
 
@@ -105,6 +137,11 @@ public class MovieRepository {
         jdbcTemplate.update(psc);
     }
 
+    /**
+     * Deletes movie
+     *
+     * @param id
+     */
     public void deleteMovie(int id) {
         String sqlQuery = "DELETE FROM movies WHERE movie_id = ?";
 
@@ -121,6 +158,12 @@ public class MovieRepository {
         jdbcTemplate.update(psc);
     }
 
+    /**
+     * Generates movies from database
+     *
+     * @param rs
+     * @return List(Movie)
+     */
     private List<Movie> generateMovies(SqlRowSet rs) {
         List<Movie> movieList = new ArrayList<>();
 
@@ -144,6 +187,12 @@ public class MovieRepository {
         return movieList;
     }
 
+    /**
+     * Generates movie from database
+     *
+     * @param rs
+     * @return Movie
+     */
     private Movie generateMovie(SqlRowSet rs) {
         Movie movie = new Movie();
 

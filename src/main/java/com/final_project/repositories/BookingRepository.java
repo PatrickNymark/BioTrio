@@ -25,6 +25,11 @@ public class BookingRepository {
     TicketRepository ticketRepository;
 
 
+    /**
+     * Find all bookings
+     *
+     * @return List(Booking)
+     */
     public List<Booking> findAllBookings() {
         String sqlQuery = "SELECT * FROM bookings";
 
@@ -33,6 +38,12 @@ public class BookingRepository {
         return generateBookings(rs);
     }
 
+    /**
+     * Find booking by code
+     *
+     * @param bookingCode
+     * @return Booking
+     */
     public Booking findBookingByBookingCode(String bookingCode) {
         String sqlQuery = "SELECT * FROM bookings WHERE booking_code = ?";
 
@@ -41,6 +52,12 @@ public class BookingRepository {
         return generateBooking(rs);
     }
 
+    /**
+     * Find bookings by movie play
+     *
+     * @param moviePlayId
+     * @return List(Booking)
+     */
     public List<Booking> findBookingsByMoviePlayId(int moviePlayId) {
         String sqlQuery = "SELECT * FROM bookings WHERE movie_play_id = ?";
 
@@ -49,6 +66,11 @@ public class BookingRepository {
         return generateBookings(rs);
     }
 
+    /**
+     * Saves booking
+     *
+     * @param booking
+     */
     public void addBooking(Booking booking) {
         String sqlQuery = "INSERT INTO bookings(movie_play_id, total_price, booking_code) VALUES(?, ?, ?)";
 
@@ -67,6 +89,11 @@ public class BookingRepository {
         jdbcTemplate.update(psc);
     }
 
+    /**
+     * Deletes booking
+     *
+     * @param bookingCode
+     */
     public void deleteBooking(String bookingCode) {
         String sqlQuery = "DELETE FROM bookings WHERE booking_code = ?";
 
@@ -82,6 +109,12 @@ public class BookingRepository {
         jdbcTemplate.update(psc);
     }
 
+    /**
+     * Generates a list of Bookings from database
+     *
+     * @param rs
+     * @return List(Booking)
+     */
     private List<Booking> generateBookings(SqlRowSet rs) {
         List<Booking> bookings = new ArrayList<>();
 
@@ -102,6 +135,12 @@ public class BookingRepository {
         return bookings;
     }
 
+    /**
+     * Generates a Booking from database
+     *
+     * @param rs
+     * @return
+     */
     private Booking generateBooking(SqlRowSet rs) {
         Booking booking = new Booking();
 

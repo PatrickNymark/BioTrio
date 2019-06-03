@@ -20,6 +20,12 @@ public class TheaterRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    /**
+     * Saves theater
+     *
+     * @param theater
+     * @return int
+     */
     public int addTheater(Theater theater) {
         String sqlQuery = "INSERT INTO theaters(title, seats_pr_row, number_of_rows) VALUES (?,?,?)";
 
@@ -38,6 +44,11 @@ public class TheaterRepository {
         return jdbcTemplate.update(psc);
     }
 
+    /**
+     * Find all theaters
+     *
+     * @return List(Theater)
+     */
     public List<Theater> findAllTheaters(){
         String sqlQuery = "SELECT * FROM theaters";
 
@@ -46,6 +57,12 @@ public class TheaterRepository {
         return generateTheaters(rs);
     }
 
+    /**
+     * Find theater by id
+     *
+     * @param id
+     * @return Theater
+     */
     public Theater findTheaterById(int id){
         String sqlQuery = "SELECT * FROM theaters WHERE theater_id = " + id;
 
@@ -54,6 +71,11 @@ public class TheaterRepository {
         return generateTheater(rs);
     }
 
+    /**
+     * Deletes theater
+     *
+     * @param id
+     */
     public void deleteTheater(int id) {
         String sqlQuery = "DELETE FROM theaters WHERE theater_id = ?";
 
@@ -71,6 +93,11 @@ public class TheaterRepository {
         jdbcTemplate.update(psc);
     }
 
+    /**
+     * Updates theater
+     *
+     * @param theater
+     */
     public void editTheater(Theater theater) {
         String sqlQuery = "UPDATE theaters SET title = ?, seats_pr_row = ?, number_of_rows = ? WHERE theater_id = ?";
 
@@ -91,6 +118,12 @@ public class TheaterRepository {
     }
 
 
+    /**
+     * Generates theaters from database
+     *
+     * @param rs
+     * @return
+     */
     private List<Theater> generateTheaters(SqlRowSet rs) {
         List<Theater> theaters = new ArrayList<>();
 
@@ -108,6 +141,12 @@ public class TheaterRepository {
         return theaters;
     }
 
+    /**
+     * Generates theater from database
+     *
+     * @param rs
+     * @return
+     */
     private Theater generateTheater(SqlRowSet rs) {
         Theater theater = new Theater();
 

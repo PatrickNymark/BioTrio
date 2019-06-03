@@ -21,11 +21,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomAuthSuccessHandler customAuthSuccessHandler;
 
+    /**
+     * Password encoder so that we never saves plain passwords
+     * in our database
+     *
+     * @return BcryptPasswordEncoder
+     */
     public BCryptPasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder;
     }
 
+    /**
+     * The authentication configuration that selects the users and their roles from the database
+     * Role format: ROLE_STAFF
+     *
+     * @param auth
+     * @throws Exception
+     */
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
@@ -36,6 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "select email, role from users where email=?");
     }
 
+    /**
+     * Configures which routes should require login and which should not
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         String[] staticResources  =  {

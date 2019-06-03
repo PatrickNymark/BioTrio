@@ -20,6 +20,12 @@ public class TicketRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    /**
+     * Find tickets by booking code
+     *
+     * @param bookingCode
+     * @return List(Ticket)
+     */
     public List<Ticket> findTicketsByBookingCode(String bookingCode) {
         String sqlQuery = "SELECT * FROM tickets WHERE booking_code = ?";
 
@@ -28,6 +34,12 @@ public class TicketRepository {
         return generateTickets(rs);
     }
 
+    /**
+     * Find tickets by movie play id
+     *
+     * @param id
+     * @return List(Ticket)
+     */
     public List<Ticket> findTicketsByMoviePlayId(int id) {
         String sqlQuery = "SELECT * FROM tickets WHERE movie_play_id = ?";
 
@@ -36,6 +48,11 @@ public class TicketRepository {
         return generateTickets(rs);
     }
 
+    /**
+     * Saves ticket
+     *
+     * @param ticket
+     */
     public void addTicket(Ticket ticket) {
         String sqlQuery = "INSERT INTO tickets(booking_code, seat_nr, seat_row, movie_play_id) VALUES(?, ?, ?, ?)";
 
@@ -55,6 +72,11 @@ public class TicketRepository {
         jdbcTemplate.update(psc);
     }
 
+    /**
+     * Deletes ticket
+     *
+     * @param id
+     */
     public void deleteTicket(int id) {
         String sqlQuery = "DELETE FROM tickets WHERE ticket_id = ?";
 
@@ -71,6 +93,12 @@ public class TicketRepository {
         jdbcTemplate.update(psc);
     }
 
+    /**
+     * Generates tickets from database
+     *
+     * @param rs
+     * @return List(Ticket)
+     */
     private List<Ticket> generateTickets(SqlRowSet rs) {
         List<Ticket> tickets = new ArrayList<>();
 

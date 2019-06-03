@@ -52,6 +52,11 @@ public class Booking {
         this.bookingCode = bookingCode;
     }
 
+    /**
+     * Method to generate random booking code
+     *
+     * @return String
+     */
     public static String generateBookingCode() {
         int n = 20;
 

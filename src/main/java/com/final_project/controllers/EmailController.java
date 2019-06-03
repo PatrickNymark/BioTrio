@@ -25,6 +25,14 @@ public class EmailController {
     @Autowired
     EmailSender emailSender;
 
+    /**
+     * Method takes a email and a booking code, which is uses
+     * to send confirmation email.
+     *
+     * @param bookingCode
+     * @param email
+     * @return String
+     */
     @PostMapping("/booking/send-booking-confirmation")
     public String sendBookingConfirmation(@RequestParam("bookingCode") String bookingCode, @RequestParam("email") String email) {
         Booking booking = bookingRepository.findBookingByBookingCode(bookingCode);

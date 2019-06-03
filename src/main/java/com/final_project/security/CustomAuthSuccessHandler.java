@@ -14,6 +14,15 @@ import java.util.Set;
 @Configuration
 public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
 
+    /**
+     * Method helps where to direct users after login
+     *
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param authentication
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
 
@@ -21,8 +30,6 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
 
         if (roles.contains("ROLE_STAFF")) {
             httpServletResponse.sendRedirect("/manage/admin");
-        } else {
-            httpServletResponse.sendRedirect("/customer/profile");
         }
     }
 

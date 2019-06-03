@@ -20,9 +20,15 @@ public class HomeController {
     @Autowired
     MoviePlayRepository moviePlayRepository;
 
+    /**
+     * Mehtod returns html path to home page.
+     *
+     * @param model
+     * @return String
+     */
     @GetMapping("/")
     public String index(Model model) {
-        List<Movie> topMovies = movieRepository.findAllMovies();
+        List<Movie> topMovies = movieRepository.findTopMovies();
         List<MoviePlay> nextMoviePlays = moviePlayRepository.findNextMoviePlays();
         List<Movie> movieList = movieRepository.findAllMovies();
 

@@ -24,6 +24,14 @@ public class MovieController {
     @Autowired
     MoviePlayRepository moviePlayRepository;
 
+    /**
+     * Method retrieves all movies, and returns the path of the html page to be rendered.
+     * Search value is optional and is only used when using search bar to filter results.
+     *
+     * @param model
+     * @param searchValue
+     * @return String
+     */
     @GetMapping ("/all-movies")
     public String getAllMovie(Model model, @RequestParam(value = "search", required = false) String searchValue){
         List<Movie> movieList = movieRepository.findAllMovies();
@@ -39,12 +47,26 @@ public class MovieController {
         return "movie/all-movies";
     }
 
+    /**
+     * Method retrieves add movie form.
+     *
+     * @param movie
+     * @param model
+     * @return String
+     */
     @GetMapping ("/manage/add-movie")
     public String getAddMovie(@ModelAttribute Movie movie, Model model) {
         model.addAttribute(movie);
         return "movie/add-movie";
     }
 
+    /**
+     * Method takes a valid movie model and saves it to the database
+     *
+     * @param movie
+     * @param errors
+     * @return String
+     */
     @PostMapping("/manage/add-movie")
     public String addMovie(@ModelAttribute @Valid Movie movie, Errors errors) {
 
@@ -57,6 +79,13 @@ public class MovieController {
         return "redirect:/all-movies";
     }
 
+    /**
+     * Method retrieves edit movie form.
+     *
+     * @param id
+     * @param model
+     * @return String
+     */
     @GetMapping("/manage/edit-movie/{id}")
     public String getEditMovie(@PathVariable(name = "id") int id, Model model) {
         Movie movieToEdit = movieRepository.findMovieById(id);
@@ -65,6 +94,14 @@ public class MovieController {
         return "movie/edit-movie";
     }
 
+    /**
+     * Method takes a valid movie model and updates database record.
+     *
+     * @param movie
+     * @param errors
+     * @param model
+     * @return String
+     */
     @PostMapping("/manage/edit-movie")
     public String editMovie(@ModelAttribute @Valid Movie movie, Errors errors, Model model) {
 
@@ -78,12 +115,25 @@ public class MovieController {
         return "redirect:/movie/" + movie.getId();
     }
 
+    /**
+     * Method takes a path variable and then deletes record from database
+     *
+     * @param id
+     * @return  String
+     */
     @PostMapping("/manage/delete-movie/{id}")
     public String deleteMovie(@PathVariable(name = "id") int id) {
         movieRepository.deleteMovie(id);
         return "redirect:/all-movies";
     }
 
+    /**
+     * Method retrieves a movie by id, and then returns the path to the html to be rendered
+     *
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("/movie/{id}")
     public String getMovieById(@PathVariable(name = "id") int id, Model model) {
         Movie movie = movieRepository.findMovieById(id);

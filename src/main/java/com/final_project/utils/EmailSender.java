@@ -23,8 +23,15 @@ public class EmailSender {
     TemplateEngine templateEngine;
 
 
+    /**
+     * Method sends booking confirmation email.
+     *
+     * @param booking
+     * @param tickets
+     * @param toEmail
+     * @throws MessagingException
+     */
     public void sendConfirmationMail(Booking booking, List<Ticket> tickets, String toEmail)  throws MessagingException {
-
         final Context ctx = new Context();
         ctx.setVariable("booking", booking);
         ctx.setVariable("tickets", tickets);

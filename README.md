@@ -1,5 +1,5 @@
 # BioTrio Final project
-The is part of the mandatory task in Computer Science. The focus of this project is to develop a system for booking tickets and handling featured films for the small provincial cinema Bio Trio. This report is a collection of tasks, facts and knowledge gained with the aim of delivering a comprehensive 2nd Semester/1st Year Final Project.  
+This is part of the mandatory task in Computer Science. The focus of this project is to develop a system for booking tickets and handling featured films for the small provincial cinema Bio Trio. This report is a collection of tasks, facts and knowledge gained with the aim of delivering a comprehensive 2nd Semester/1st Year Final Project.  
 # Institution
 KEA - KØBENHAVNS ERHVERVSAKADEMI, Denmark
 # Pre-requisite

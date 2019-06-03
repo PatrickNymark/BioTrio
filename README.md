@@ -12,4 +12,4 @@ The following authors contributed to the success of this project
 2. Aisha Rooble
 3. Sam Eshrati
 4. Shehab Syed
-5, Osilamah Solomon Imhomoh
+5. Osilamah Solomon Imhomoh
